@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="FinancialManagerPhoneProject.Views.UserControls.CategoryItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="480" d:DesignWidth="480">
+
+    <Grid x:Name="LayoutRoot" Height="250"
+          Margin="10,0,0,25" Width="{Binding ScreenWidth}">
+        <Grid.Background>
+            <ImageBrush ImageSource="../../Assets/Patterns/CategoryBackground.jpg" Stretch="Fill" />
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="55*"/>
+            <ColumnDefinition Width="45*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="20*"/>
+        </Grid.RowDefinitions>
+
+        <Image Source="{Binding ImageSource}" 
+               Grid.Row="0" 
+               Grid.Column="0" 
+               Width="100"
+               Height="100"
+               HorizontalAlignment="Left"
+               Stretch="Fill" />
+
+        <TextBlock Text="{Binding Name}"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource PhoneTextLargeStyle}"
+                   Margin="120,0,0,0" />
+
+        <TextBlock Text="Plan: "
+                   Grid.Row="1"
+                   Grid.Column="0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource PhoneTextLargeStyle}"
+                   />
+        <TextBlock Text="{Binding Plan}"
+                   Grid.Row="1"
+                   Grid.Column="1"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource PhoneTextLargeStyle}"
+                   />
+
+        <TextBlock Text="Total Expenses: "
+                   Grid.Row="2"
+                   Grid.Column="0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource PhoneTextLargeStyle}"
+                   />
+        <TextBlock Text="{Binding Total}"
+                   Grid.Row="2"
+                   Grid.Column="1"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource PhoneTextLargeStyle}"
+                   />
+
+
+        <TextBlock Text="Remaining: "
+                   Grid.Row="3"
+                   Grid.Column="0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource PhoneTextLargeStyle}"
+                   />
+        <TextBlock Text="{Binding Remaining}"
+                   Grid.Row="3"
+                   Grid.Column="1"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource PhoneTextLargeStyle}"
+                   />
+
+
+    </Grid>
+</UserControl>
