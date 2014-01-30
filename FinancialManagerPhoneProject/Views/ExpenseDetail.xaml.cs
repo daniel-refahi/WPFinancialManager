@@ -16,64 +16,86 @@ namespace FinancialManagerPhoneProject.Views
 {
     public partial class ExpenseDetail : PhoneApplicationPage
     {
-        ExpenseDetailModel _ExpenseDetailModel;
         string _ID;
         string _Status;
         public ExpenseDetail()
         {
             InitializeComponent();
+            this.Loaded += ExpenseDetail_Loaded;
         }
 
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        void ExpenseDetail_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (_Status == "update")
+            {
+                __liCategoryList.IsEnabled = false;
+                foreach (Category category in __liCategoryList.Items)
+                {
+                    if (category.IsSelected)
+                    {
+                        __liCategoryList.SelectedItem = category;
+                    }
+                }
+                __liCategoryList.ScrollIntoView(__liCategoryList.SelectedItem);
+            }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
             NavigationContext.QueryString.TryGetValue("status", out _Status);
             NavigationContext.QueryString.TryGetValue("ID", out _ID);
+
+            ExpenseDetailModel pageModel = new ExpenseDetailModel();
+            List<Category> categories = StaticValues.DB.GetAllCategories();
+            string selectedCategory = string.Empty;
+
             if (_Status == "update")
             {
                 Uri uri = new Uri("//Image/delete.png",UriKind.Relative);
                 ApplicationBarIconButton deleteIcon = new ApplicationBarIconButton() { Text = "Delete", IconUri = uri };
                 deleteIcon.Click += deleteIcon_Click;
                 ApplicationBar.Buttons.Insert(1,deleteIcon);
+            
+                selectedCategory = StaticValues.DB.GetCategoryName(_ID);
             }
-            __LoadingBar.Opacity = 1;
-            _ExpenseDetailModel = await LoadPageModelAsync();
-            this.DataContext = _ExpenseDetailModel;
-            __LoadingBar.Opacity = 0;
 
+            foreach (Category category in categories)
+            {
+                category.Icon = "../Assets/Icons/" + category.Icon + ".png";
+                category.IsSelected = false;
+                if (_Status == "update")
+                {
+                    if (selectedCategory == category.Name)
+                        category.IsSelected = true;
+                }
+            }
+
+            pageModel.Categories = categories;
+            pageModel.ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40;
+            if (_Status == "update")
+            {
+                Expense expense = StaticValues.DB.GetExpense(_ID);
+                pageModel.Amount = expense.Value;
+                pageModel.Date = expense.Date;
+                pageModel.Description = expense.Description;
+                pageModel.ID = _ID;
+                //pageModel.SelectedCategory = StaticValues.DB.GetCategoryObject(expense.Category);
+            }
+            this.DataContext = pageModel;
         }
 
         void deleteIcon_Click(object sender, EventArgs e)
         {
-            
-        }
+            MessageBoxResult result = MessageBox.Show("Would you like to delete the expense?",
+                                                            "Delete", MessageBoxButton.OKCancel);
 
-        private async Task<ExpenseDetailModel> LoadPageModelAsync()
-        {
-            Task<ExpenseDetailModel> loadTask =
-                 Task.Factory.StartNew(() =>
-                 {
-                     ExpenseDetailModel pageModel = new ExpenseDetailModel();
-                     List<Category> tempCategories = StaticValues.DB.GetAllCategories();
-                     foreach (Category category in tempCategories)
-                     {
-                         category.Icon = "../Assets/Icons/"+ category.Icon + ".png";
-                     }
-                     pageModel.Categories = tempCategories; 
-                     pageModel.ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40;
-                     if (_Status == "Update")
-                     {
-                         Expense expense = StaticValues.DB.GetExpense(_ID);
-                         pageModel.Amount = expense.Value;
-                         pageModel.Date = expense.Date;
-                         pageModel.Description = expense.Description;
-                         pageModel.ID = _ID;
-                         //pageModel.Categories = expense.Category;
-                     }
-                     return pageModel;
-                 });
-            return await loadTask;
+            if (result == MessageBoxResult.OK)
+            {
+                StaticValues.DB.DeleteExpense(_ID);
+                NavigationService.GoBack();
+            }
         }
 
         private void DatePicker_ValueChanged(object sender, DateTimeValueChangedEventArgs e)
@@ -100,13 +122,27 @@ namespace FinancialManagerPhoneProject.Views
                 MessageBox.Show("Please Select a Category!");
             else
             {
-                StaticValues.DB.AddExpense(new Expense()
+                if (_Status == "update")
                 {
-                    Category = ((Category)__liCategoryList.SelectedItem).Name,
-                    Date = (DateTime)__dpDatepicker.Value,
-                    Description = __tbDescription.Text.ToString(),
-                    Value = amount
-                });
+                    StaticValues.DB.UpdateExpense(new Expense()
+                    {
+                        ID = _ID,
+                        Category = ((Category)__liCategoryList.SelectedItem).Name,
+                        Date = (DateTime)__dpDatepicker.Value,
+                        Description = __tbDescription.Text.ToString(),
+                        Value = amount
+                    });
+                }
+                else
+                {
+                    StaticValues.DB.AddExpense(new Expense()
+                    {
+                        Category = ((Category)__liCategoryList.SelectedItem).Name,
+                        Date = (DateTime)__dpDatepicker.Value,
+                        Description = __tbDescription.Text.ToString(),
+                        Value = amount
+                    });
+                }
                 NavigationService.GoBack();
             }
         }
@@ -118,6 +154,7 @@ namespace FinancialManagerPhoneProject.Views
 
         private void __liCategoryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            int a = 4;
         }
     }
 }

@@ -13,5 +13,6 @@ namespace FinancialManagerPhoneProject.DataHandlers
         public double Plan { get; set; }
         public string Icon { get; set; }
         public double TotalExpenses { get; set; }
+        public bool IsSelected { get; set; }
     }
 }

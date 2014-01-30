@@ -12,6 +12,7 @@ namespace FinancialManagerPhoneProject.Models
         public double ScreenWidth { get; set; }
         public string ID { get; set; }
         public List<Category> Categories { get; set; }
+        public Category SelectedCategory { get; set; }
         public double Amount { get; set; }
         public string Description { get; set; }
         public DateTime Date { get; set; }

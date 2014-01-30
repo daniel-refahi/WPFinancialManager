@@ -14,207 +14,207 @@ namespace FinancialManagerPhoneProject.DataHandlers
     {
         public static double DEIVCE_WIDTH;
         public static XDocument FINANCIALMANAGER_XML;
-        
+
         public async Task LoadDefaultXmlAsync()
         {
             Task loadDefaultXml =
                   Task.Factory.StartNew(() =>
                   {
                       XDocument xml = new XDocument
-                      ( 
+                      (
                           new XElement("FinancialManager",
-                          
-                              new XElement("StaticValues", new XAttribute("Income","3600"),
-                                                           new XAttribute("Currency","$")),
-                              new XElement("Expenses", new XElement("Expense",new XAttribute("ID",1),
-                                                                              new XAttribute("Category","Mortgage"),
-                                                                              new XAttribute("Description","Monthly Mortgage"),
-                                                                              new XAttribute("Date","05/12/2013"),
+
+                              new XElement("StaticValues", new XAttribute("Income", "3600"),
+                                                           new XAttribute("Currency", "$")),
+                              new XElement("Expenses", new XElement("Expense", new XAttribute("ID", 1),
+                                                                              new XAttribute("Category", "Mortgage"),
+                                                                              new XAttribute("Description", "Monthly Mortgage"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               1200),
-                                                       new XElement("Expense",new XAttribute("ID",22),
-                                                                              new XAttribute("Category","Bills"),
-                                                                              new XAttribute("Description","Electricity Bill"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 22),
+                                                                              new XAttribute("Category", "Bills"),
+                                                                              new XAttribute("Description", "Electricity Bill"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               180),
-                                                       new XElement("Expense",new XAttribute("ID",23),
-                                                                              new XAttribute("Category","Bills"),
-                                                                              new XAttribute("Description","Gas Bill"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 23),
+                                                                              new XAttribute("Category", "Bills"),
+                                                                              new XAttribute("Description", "Gas Bill"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               100),
-                                                       new XElement("Expense",new XAttribute("ID",24),
-                                                                              new XAttribute("Category","Bills"),
-                                                                              new XAttribute("Description","Water Bill"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 24),
+                                                                              new XAttribute("Category", "Bills"),
+                                                                              new XAttribute("Description", "Water Bill"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               20),
-                                                       new XElement("Expense",new XAttribute("ID",2),
-                                                                              new XAttribute("Category","Car"),
-                                                                              new XAttribute("Description","Changing Motor Oil"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 2),
+                                                                              new XAttribute("Category", "Car"),
+                                                                              new XAttribute("Description", "Changing Motor Oil"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               90),
-                                                       new XElement("Expense",new XAttribute("ID",20),
-                                                                              new XAttribute("Category","Groceries"),
-                                                                              new XAttribute("Description",""),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 20),
+                                                                              new XAttribute("Category", "Groceries"),
+                                                                              new XAttribute("Description", ""),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               89),
-                                                       new XElement("Expense",new XAttribute("ID",21),
-                                                                              new XAttribute("Category","Groceries"),
-                                                                              new XAttribute("Description",""),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 21),
+                                                                              new XAttribute("Category", "Groceries"),
+                                                                              new XAttribute("Description", ""),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               35),
-                                                       new XElement("Expense",new XAttribute("ID",4),
-                                                                              new XAttribute("Category","Groceries"),
-                                                                              new XAttribute("Description",""),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 4),
+                                                                              new XAttribute("Category", "Groceries"),
+                                                                              new XAttribute("Description", ""),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               43),
-                                                       new XElement("Expense",new XAttribute("ID",6),
-                                                                              new XAttribute("Category","Insurances"),
-                                                                              new XAttribute("Description","Car Insurance"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 6),
+                                                                              new XAttribute("Category", "Insurances"),
+                                                                              new XAttribute("Description", "Car Insurance"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               120),
-                                                       new XElement("Expense",new XAttribute("ID",7),
-                                                                              new XAttribute("Category","Commute"),
-                                                                              new XAttribute("Description","My Key Top up"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 7),
+                                                                              new XAttribute("Category", "Commute"),
+                                                                              new XAttribute("Description", "My Key Top up"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               128),
-                                                       new XElement("Expense",new XAttribute("ID",8),
-                                                                              new XAttribute("Category","Children"),
-                                                                              new XAttribute("Description","Monthly pocket money"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 8),
+                                                                              new XAttribute("Category", "Children"),
+                                                                              new XAttribute("Description", "Monthly pocket money"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               70),
-                                                       new XElement("Expense",new XAttribute("ID",9),
-                                                                              new XAttribute("Category","Accessories"),
-                                                                              new XAttribute("Description","A headphone"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 9),
+                                                                              new XAttribute("Category", "Accessories"),
+                                                                              new XAttribute("Description", "A headphone"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               160),
-                                                       new XElement("Expense",new XAttribute("ID",10),
-                                                                              new XAttribute("Category","Car"),
-                                                                              new XAttribute("Description","Gas"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 10),
+                                                                              new XAttribute("Category", "Car"),
+                                                                              new XAttribute("Description", "Gas"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               50),
-                                                       new XElement("Expense",new XAttribute("ID",11),
-                                                                              new XAttribute("Category","Clothes"),
-                                                                              new XAttribute("Description","New Coat"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 11),
+                                                                              new XAttribute("Category", "Clothes"),
+                                                                              new XAttribute("Description", "New Coat"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               138),
-                                                       new XElement("Expense",new XAttribute("ID",12),
-                                                                              new XAttribute("Category","Clothes"),
-                                                                              new XAttribute("Description","New Bag"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 12),
+                                                                              new XAttribute("Category", "Clothes"),
+                                                                              new XAttribute("Description", "New Bag"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               80),
-                                                       new XElement("Expense",new XAttribute("ID",13),
-                                                                              new XAttribute("Category","Clothes"),
-                                                                              new XAttribute("Description","New Sweater"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 13),
+                                                                              new XAttribute("Category", "Clothes"),
+                                                                              new XAttribute("Description", "New Sweater"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               35),
-                                                       new XElement("Expense",new XAttribute("ID",14),
-                                                                              new XAttribute("Category","Game"),
-                                                                              new XAttribute("Description","Call of duty"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 14),
+                                                                              new XAttribute("Category", "Game"),
+                                                                              new XAttribute("Description", "Call of duty"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               88),
-                                                       new XElement("Expense",new XAttribute("ID",15),
-                                                                              new XAttribute("Category","Game"),
-                                                                              new XAttribute("Description","Dishonored"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 15),
+                                                                              new XAttribute("Category", "Game"),
+                                                                              new XAttribute("Description", "Dishonored"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               49),
-                                                       new XElement("Expense",new XAttribute("ID",16),
-                                                                              new XAttribute("Category","Pets"),
-                                                                              new XAttribute("Description","Dog food"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 16),
+                                                                              new XAttribute("Category", "Pets"),
+                                                                              new XAttribute("Description", "Dog food"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               25),
-                                                       new XElement("Expense",new XAttribute("ID",17),
-                                                                              new XAttribute("Category","Pets"),
-                                                                              new XAttribute("Description","Dog Shampoo"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 17),
+                                                                              new XAttribute("Category", "Pets"),
+                                                                              new XAttribute("Description", "Dog Shampoo"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               15),
-                                                       new XElement("Expense",new XAttribute("ID",18),
-                                                                              new XAttribute("Category","Pets"),
-                                                                              new XAttribute("Description","Dog food"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 18),
+                                                                              new XAttribute("Category", "Pets"),
+                                                                              new XAttribute("Description", "Dog food"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               25),
-                                                       new XElement("Expense",new XAttribute("ID",19),
-                                                                              new XAttribute("Category","Liquor"),
-                                                                              new XAttribute("Description","Beer"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 19),
+                                                                              new XAttribute("Category", "Liquor"),
+                                                                              new XAttribute("Description", "Beer"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               30),
-                                                       new XElement("Expense",new XAttribute("ID",5),
-                                                                              new XAttribute("Category","Liquor"),
-                                                                              new XAttribute("Description","Wine"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 5),
+                                                                              new XAttribute("Category", "Liquor"),
+                                                                              new XAttribute("Description", "Wine"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               12),
-                                                       new XElement("Expense",new XAttribute("ID",3),
-                                                                              new XAttribute("Category","Childcare"),
-                                                                              new XAttribute("Description","Weekly Payment"),
-                                                                              new XAttribute("Date","05/12/2013"),
+                                                       new XElement("Expense", new XAttribute("ID", 3),
+                                                                              new XAttribute("Category", "Childcare"),
+                                                                              new XAttribute("Description", "Weekly Payment"),
+                                                                              new XAttribute("Date", "05/12/2013"),
                                                                               150)),
-                              new XElement("Categories", new XElement("Category",new XAttribute("Name","Mortgage"),
-                                                                              new XAttribute("Plan",1200),
+                              new XElement("Categories", new XElement("Category", new XAttribute("Name", "Mortgage"),
+                                                                              new XAttribute("Plan", 1200),
                                                                               new XAttribute("Icon", "Mortgage"),
-                                                                              new XAttribute("TotalExpenses",1200)
+                                                                              new XAttribute("TotalExpenses", 1200)
                                                                               ),
-                                                         new XElement("Category",new XAttribute("Name","Car"),
-                                                                              new XAttribute("Plan",200),
-                                                                              new XAttribute("Icon","auto"),
-                                                                              new XAttribute("TotalExpenses",140)
+                                                         new XElement("Category", new XAttribute("Name", "Car"),
+                                                                              new XAttribute("Plan", 200),
+                                                                              new XAttribute("Icon", "auto"),
+                                                                              new XAttribute("TotalExpenses", 140)
                                                                               ),
-                                                         new XElement("Category",new XAttribute("Name","Childcare"),
-                                                                              new XAttribute("Plan",200),
-                                                                              new XAttribute("Icon","other_31"),
-                                                                              new XAttribute("TotalExpenses",150)
+                                                         new XElement("Category", new XAttribute("Name", "Childcare"),
+                                                                              new XAttribute("Plan", 200),
+                                                                              new XAttribute("Icon", "other_31"),
+                                                                              new XAttribute("TotalExpenses", 150)
                                                                               ),
-                                                         new XElement("Category",new XAttribute("Name","Groceries"),
-                                                                              new XAttribute("Plan",150),
+                                                         new XElement("Category", new XAttribute("Name", "Groceries"),
+                                                                              new XAttribute("Plan", 150),
                                                                               new XAttribute("Icon", "groceris"),
-                                                                              new XAttribute("TotalExpenses",167)
+                                                                              new XAttribute("TotalExpenses", 167)
                                                                               ),
-                                                         new XElement("Category",new XAttribute("Name","Insurances"),
-                                                                              new XAttribute("Plan",150),
+                                                         new XElement("Category", new XAttribute("Name", "Insurances"),
+                                                                              new XAttribute("Plan", 150),
                                                                               new XAttribute("Icon", "installments"),
-                                                                              new XAttribute("TotalExpenses",120)
+                                                                              new XAttribute("TotalExpenses", 120)
                                                                               ),
-                                                         new XElement("Category",new XAttribute("Name","Commute"),
-                                                                              new XAttribute("Plan",128),
+                                                         new XElement("Category", new XAttribute("Name", "Commute"),
+                                                                              new XAttribute("Plan", 128),
                                                                               new XAttribute("Icon", "travel_bus"),
-                                                                              new XAttribute("TotalExpenses",128)
+                                                                              new XAttribute("TotalExpenses", 128)
                                                                               ),
-                                                         new XElement("Category",new XAttribute("Name","Children"),
-                                                                              new XAttribute("Plan",80),
+                                                         new XElement("Category", new XAttribute("Name", "Children"),
+                                                                              new XAttribute("Plan", 80),
                                                                               new XAttribute("Icon", "other_39"),
-                                                                              new XAttribute("TotalExpenses",70)
+                                                                              new XAttribute("TotalExpenses", 70)
                                                                               ),
-                                                         new XElement("Category",new XAttribute("Name","Accessories"),
-                                                                              new XAttribute("Plan",100),
-                                                                              new XAttribute("Icon","accessories"),
-                                                                              new XAttribute("TotalExpenses",160)
+                                                         new XElement("Category", new XAttribute("Name", "Accessories"),
+                                                                              new XAttribute("Plan", 100),
+                                                                              new XAttribute("Icon", "accessories"),
+                                                                              new XAttribute("TotalExpenses", 160)
                                                                               ),
-                                                         new XElement("Category",new XAttribute("Name","Clothes"),
-                                                                              new XAttribute("Plan",180),
+                                                         new XElement("Category", new XAttribute("Name", "Clothes"),
+                                                                              new XAttribute("Plan", 180),
                                                                               new XAttribute("Icon", "clothing"),
-                                                                              new XAttribute("TotalExpenses",253)
+                                                                              new XAttribute("TotalExpenses", 253)
                                                                               ),
-                                                         new XElement("Category",new XAttribute("Name","Gift"),
-                                                                              new XAttribute("Plan",50),
-                                                                              new XAttribute("Icon","gifts"),
-                                                                              new XAttribute("TotalExpenses",0)
+                                                         new XElement("Category", new XAttribute("Name", "Gift"),
+                                                                              new XAttribute("Plan", 50),
+                                                                              new XAttribute("Icon", "gifts"),
+                                                                              new XAttribute("TotalExpenses", 0)
                                                                               ),
-                                                         new XElement("Category",new XAttribute("Name","Game"),
-                                                                              new XAttribute("Plan",100),
+                                                         new XElement("Category", new XAttribute("Name", "Game"),
+                                                                              new XAttribute("Plan", 100),
                                                                               new XAttribute("Icon", "input_gaming"),
-                                                                              new XAttribute("TotalExpenses",137)
+                                                                              new XAttribute("TotalExpenses", 137)
                                                                               ),
-                                                         new XElement("Category",new XAttribute("Name","Pets"),
-                                                                              new XAttribute("Plan",100),
-                                                                              new XAttribute("Icon","pets"),
-                                                                              new XAttribute("TotalExpenses",65)
+                                                         new XElement("Category", new XAttribute("Name", "Pets"),
+                                                                              new XAttribute("Plan", 100),
+                                                                              new XAttribute("Icon", "pets"),
+                                                                              new XAttribute("TotalExpenses", 65)
                                                                               ),
-                                                         new XElement("Category",new XAttribute("Name","Liquor"),
-                                                                              new XAttribute("Plan",50),
+                                                         new XElement("Category", new XAttribute("Name", "Liquor"),
+                                                                              new XAttribute("Plan", 50),
                                                                               new XAttribute("Icon", "wine"),
-                                                                              new XAttribute("TotalExpenses",42)
+                                                                              new XAttribute("TotalExpenses", 42)
                                                                               ),
-                                                         new XElement("Category",new XAttribute("Name","Bills"),
-                                                                              new XAttribute("Plan",250),
+                                                         new XElement("Category", new XAttribute("Name", "Bills"),
+                                                                              new XAttribute("Plan", 250),
                                                                               new XAttribute("Icon", "invoice2"),
-                                                                              new XAttribute("TotalExpenses",300)
+                                                                              new XAttribute("TotalExpenses", 300)
                                                                               ))
 
                           )
@@ -225,12 +225,12 @@ namespace FinancialManagerPhoneProject.DataHandlers
             await loadDefaultXml;
         }
 
-        public async Task SaveXmlToFileAsync() 
+        public async Task SaveXmlToFileAsync()
         {
             Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
             var xmlFile = await localFolder.CreateFileAsync("FinancialManagerXML.xml", CreationCollisionOption.ReplaceExisting);
 
-            using (var stream = await xmlFile.OpenStreamForWriteAsync()) 
+            using (var stream = await xmlFile.OpenStreamForWriteAsync())
             {
                 using (var writer = new StreamWriter(stream))
                 {
@@ -238,7 +238,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                 }
             }
         }
-            
+
         public async Task LoadXmlFromFileAsync()
         {
             bool IsXmlExist = true;
@@ -279,7 +279,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
 
         #region Expense
 
-        public List<Expense> GetAllExpenses() 
+        public List<Expense> GetAllExpenses()
         {
             List<Expense> expenses = new List<Expense>();
 
@@ -293,7 +293,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
             {
                 DateTime date = Convert.ToDateTime(node.Attribute("Date").Value.ToString());
 
-                expenses.Add(new Expense() 
+                expenses.Add(new Expense()
                              {
                                  ID = node.Attribute("ID").Value,
                                  Category = node.Attribute("Category").Value,
@@ -324,7 +324,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
             foreach (var node in expensesXml)
             {
                 DateTime date = Convert.ToDateTime(node.Attribute("Date").Value.ToString());
-                
+
                 expenses.Add(new Expense()
                 {
                     ID = node.Attribute("ID").Value,
@@ -344,20 +344,20 @@ namespace FinancialManagerPhoneProject.DataHandlers
                     select x).Sum(e => Convert.ToDouble(e.Value));
         }
 
-        public double GetTotalExpenses(string CategoryName) 
+        public double GetTotalExpenses(string CategoryName)
         {
             return (from x in FINANCIALMANAGER_XML.Root.Element("Expenses").Elements()
                     where x.Attribute("Category").Value == CategoryName
                     select x).Sum(e => Convert.ToDouble(e.Value));
         }
 
-        public void AddExpense(Expense expense) 
+        public void AddExpense(Expense expense)
         {
-            XElement newExpense = new XElement("Expense", 
+            XElement newExpense = new XElement("Expense",
                                                 new XAttribute("ID", StaticMethods.GenerateID()),
-                                                new XAttribute("Category",expense.Category),
+                                                new XAttribute("Category", expense.Category),
                                                 new XAttribute("Description", expense.Description),
-                                                new XAttribute("Date", expense.Date.ToString()), 
+                                                new XAttribute("Date", expense.Date.ToString()),
                                                 expense.Value);
             FINANCIALMANAGER_XML.Root.Element("Expenses").Add(newExpense);
 
@@ -366,38 +366,39 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                 .Where(c => c.Attribute("Name").Value == expense.Category)
                                 .FirstOrDefault().Attribute("TotalExpenses");
             attribute.Value = (Convert.ToDouble(attribute.Value) + expense.Value).ToString();
-            
+
             SaveXmlToFileAsync();
         }
 
-        public void DeleteExpense(Expense expense) 
+        public void DeleteExpense(string ID)
         {
-            (from x in FINANCIALMANAGER_XML.Root.Element("Expenses").Elements()
-             where x.Attribute("ID").Value == expense.ID
-             select x).FirstOrDefault().Remove();
+            var expenseXML = (from x in FINANCIALMANAGER_XML.Root.Element("Expenses").Elements()
+                              where x.Attribute("ID").Value == ID
+                              select x).FirstOrDefault();
+            expenseXML.Remove();
 
             var xmlCategory = (from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
-                               where x.Attribute("Name").Value == expense.Category
+                               where x.Attribute("Name").Value == expenseXML.Attribute("Category").Value
                                select x).FirstOrDefault();
             double totalExpense = Convert.ToDouble(xmlCategory.Attribute("TotalExpenses").Value);
-            totalExpense -= expense.Value;
+            totalExpense -= Convert.ToDouble(expenseXML.Value);
             xmlCategory.Attribute("TotalExpenses").SetValue(totalExpense);
 
             SaveXmlToFileAsync();
         }
-        
-        public void UpdateExpense(Expense expense) 
+
+        public void UpdateExpense(Expense expense)
         {
             var xmlExpense = (from x in FINANCIALMANAGER_XML.Root.Element("Expenses").Elements()
                               where x.Attribute("ID").Value == expense.ID
                               select x).FirstOrDefault();
-            
+
             if (expense.Value.ToString() != xmlExpense.Value)
             {
                 var xmlCategory = (from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
                                    where x.Attribute("Name").Value == expense.Category
                                    select x).FirstOrDefault();
-                
+
                 double totalExpense = Convert.ToDouble(xmlCategory.Attribute("TotalExpenses").Value);
                 double oldExpense = Convert.ToDouble(xmlExpense.Value);
                 double newExpense = expense.Value;
@@ -420,15 +421,22 @@ namespace FinancialManagerPhoneProject.DataHandlers
             var xmlExpense = (from x in FINANCIALMANAGER_XML.Root.Element("Expenses").Elements()
                               where x.Attribute("ID").Value == ID
                               select x).FirstOrDefault();
-            return new Expense() {
-                                    Category = xmlExpense.Attribute("Category").Value,
-                                    Date = Convert.ToDateTime(xmlExpense.Attribute("Date").Value.ToString()),
-                                    Description = xmlExpense.Attribute("Description").Value,
-                                    Icon = xmlExpense.Attribute("Icon").Value,
-                                    ID = ID,
-                                    Value = Convert.ToDouble(xmlExpense.Value.ToString())
-                                 };
-            
+            return new Expense()
+            {
+                Category = xmlExpense.Attribute("Category").Value,
+                Date = Convert.ToDateTime(xmlExpense.Attribute("Date").Value.ToString()),
+                Description = xmlExpense.Attribute("Description").Value,
+                ID = ID,
+                Value = Convert.ToDouble(xmlExpense.Value.ToString())
+            };
+        }
+
+        public string GetCategoryName(string ExpenseID)
+        {
+            string categoryName = (from x in FINANCIALMANAGER_XML.Root.Element("Expenses").Elements()
+                                   where x.Attribute("ID").Value == ExpenseID
+                                   select x).FirstOrDefault().Attribute("Category").Value;
+            return categoryName;
         }
 
         #endregion
@@ -439,7 +447,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
         {
             List<Category> categories = new List<Category>();
             var categoriesXml = from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
-                              select x;
+                                select x;
 
             foreach (var node in categoriesXml)
             {
@@ -454,10 +462,10 @@ namespace FinancialManagerPhoneProject.DataHandlers
             return categories;
         }
 
-        public double GetTotalPlan() 
+        public double GetTotalPlan()
         {
-            return  (from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
-                     select x).Sum(c=> Convert.ToDouble(c.Attribute("Plan").Value));
+            return (from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
+                    select x).Sum(c => Convert.ToDouble(c.Attribute("Plan").Value));
         }
 
         public bool AddCategory(Category category)
@@ -466,15 +474,15 @@ namespace FinancialManagerPhoneProject.DataHandlers
 
             bool IsExisted = false;
             foreach (var xmlCategory in xmlCategories)
-	        {
+            {
                 if (xmlCategory.Attribute("Name").Value.ToString() == category.Name)
                 {
                     IsExisted = true;
-                }    
-	        }
+                }
+            }
             if (IsExisted)
                 return false;
-            
+
             XElement newCategory = new XElement("Category",
                                                 new XAttribute("Name", category.Name),
                                                 new XAttribute("Plan", category.Plan),
@@ -487,7 +495,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
             return true;
         }
 
-        public void DeleteCategory(Category category) 
+        public void DeleteCategory(Category category)
         {
             (from x in FINANCIALMANAGER_XML.Root.Element("Expenses").Elements()
              where x.Attribute("Category").Value == category.Name
@@ -513,7 +521,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                   select x;
                 foreach (var node in expensesXml)
                 {
-                    node.SetAttributeValue("Category",category.NewName);
+                    node.SetAttributeValue("Category", category.NewName);
                 }
 
                 xmlCategory.SetAttributeValue("Name", category.NewName);
@@ -530,6 +538,19 @@ namespace FinancialManagerPhoneProject.DataHandlers
             }
 
             SaveXmlToFileAsync();
+        }
+
+        public Category GetCategoryObject(string CategoryName)
+        {
+            var xmlCategory = (from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
+                               where x.Attribute("Name").Value == CategoryName
+                               select x).FirstOrDefault();
+            return new Category() { 
+                                    Icon = xmlCategory.Attribute("Icon").Value.ToString(), 
+                                    Name = xmlCategory.Attribute("Name").Value.ToString(),
+                                    Plan = Convert.ToDouble(xmlCategory.Attribute("Plan").Value.ToString()),
+                                    TotalExpenses = Convert.ToDouble(xmlCategory.Attribute("TotalExpenses").Value.ToString())
+                                  };
         }
 
         #endregion
