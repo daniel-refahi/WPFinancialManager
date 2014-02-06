@@ -244,6 +244,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
             bool IsXmlExist = true;
             try
             {
+
                 Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
                 var file = await localFolder.GetFileAsync("FinancialManagerXML.xml");
                 var stream = await file.OpenStreamForReadAsync();
@@ -275,6 +276,104 @@ namespace FinancialManagerPhoneProject.DataHandlers
         public double GetIncome()
         {
             return Convert.ToDouble(FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Income").Value);
+        }
+
+        public List<string> GetIcons(string initPath)
+        {
+            return new List<string>(){
+                                        initPath+"60100_train"+".png",
+                                        initPath+"accessories"+".png",
+                                        initPath+"auto"+".png",
+                                        initPath+"beer_corona"+".png",
+                                        initPath+"borsalino_blanc"+".png",
+                                        initPath+"bra"+".png",
+                                        initPath+"cash_register"+".png",
+                                        initPath+"chips"+".png",
+                                        initPath+"christmas_tree"+".png",
+                                        initPath+"clothing"+".png",
+                                        initPath+"condom"+".png",
+                                        initPath+"credit_cards"+".png",
+                                        initPath+"dice"+".png",
+                                        initPath+"eating_out"+".png",
+                                        initPath+"education"+".png",
+                                        initPath+"engineer_avatar"+".png",
+                                        initPath+"family"+".png",
+                                        initPath+"game"+".png",
+                                        initPath+"garden_shears"+".png",
+                                        initPath+"gas"+".png",
+                                        initPath+"gas_station"+".png",
+                                        initPath+"gas2"+".png",
+                                        initPath+"gifts"+".png",
+                                        initPath+"groceris"+".png",
+                                        initPath+"gucci_glasses"+".png",
+                                        initPath+"hair_dryer"+".png",
+                                        initPath+"home"+".png",
+                                        initPath+"icontexto_green_01"+".png",
+                                        initPath+"input_gaming"+".png",
+                                        initPath+"installments"+".png",
+                                        initPath+"invoice"+".png",
+                                        initPath+"invoice2"+".png",
+                                        initPath+"iphone_off"+".png",
+                                        initPath+"laptop"+".png",
+                                        initPath+"lip_stick_icon"+".png",
+                                        initPath+"medical"+".png",
+                                        initPath+"modem2"+".png",
+                                        initPath+"Mortgage"+".png",
+                                        initPath+"other_1"+".png",
+                                        initPath+"other_10"+".png",
+                                        initPath+"other_11"+".png",
+                                        initPath+"other_12"+".png",
+                                        initPath+"other_13"+".png",
+                                        initPath+"other_14"+".png",
+                                        initPath+"other_15"+".png",
+                                        initPath+"other_16"+".png",
+                                        initPath+"other_17"+".png",
+                                        initPath+"other_18"+".png",
+                                        initPath+"other_19"+".png",
+                                        initPath+"other_2"+".png",
+                                        initPath+"other_20"+".png",
+                                        initPath+"other_21"+".png",
+                                        initPath+"other_22"+".png",
+                                        initPath+"other_23"+".png",
+                                        initPath+"other_24"+".png",
+                                        initPath+"other_25"+".png",
+                                        initPath+"other_26"+".png",
+                                        initPath+"other_27"+".png",
+                                        initPath+"other_28"+".png",
+                                        initPath+"other_29"+".png",
+                                        initPath+"other_3"+".png",
+                                        initPath+"other_30"+".png",
+                                        initPath+"other_31"+".png",
+                                        initPath+"other_32"+".png",
+                                        initPath+"other_33"+".png",
+                                        initPath+"other_34"+".png",
+                                        initPath+"other_35"+".png",
+                                        initPath+"other_36"+".png",
+                                        initPath+"other_37"+".png",
+                                        initPath+"other_38"+".png",
+                                        initPath+"other_39"+".png",
+                                        initPath+"other_40"+".png",
+                                        initPath+"other_5"+".png",
+                                        initPath+"other_6"+".png",
+                                        initPath+"other_7"+".png",
+                                        initPath+"other_8"+".png",
+                                        initPath+"other_9"+".png",
+                                        initPath+"package_games"+".png",
+                                        initPath+"pets"+".png",
+                                        initPath+"phone_bill"+".png",
+                                        initPath+"plasma_tv"+".png",
+                                        initPath+"plug_electricity"+".png",
+                                        initPath+"santa_hat"+".png",
+                                        initPath+"saving"+".png",
+                                        initPath+"tap_water"+".png",
+                                        initPath+"taxi"+".png",
+                                        initPath+"toys"+".png",
+                                        initPath+"tram2"+".png",
+                                        initPath+"travel_bus"+".png",
+                                        initPath+"utilities"+".png",
+                                        initPath+"vacation"+".png",
+                                        initPath+"wine"+".png"
+                                     };
         }
 
         #region Expense

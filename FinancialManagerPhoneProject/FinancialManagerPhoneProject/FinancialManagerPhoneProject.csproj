@@ -118,6 +118,9 @@
     <Compile Include="Views\CategoryDetail.xaml.cs">
       <DependentUpon>CategoryDetail.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CategoryIconSelection.xaml.cs">
+      <DependentUpon>CategoryIconSelection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ExpenseDetail.xaml.cs">
       <DependentUpon>ExpenseDetail.xaml</DependentUpon>
     </Compile>
@@ -137,6 +140,10 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Page Include="Views\CategoryDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CategoryIconSelection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -176,6 +183,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Image\add.png" />
+    <Content Include="Image\check.png" />
     <Content Include="Image\close.png" />
     <Content Include="Image\delete.png" />
     <Content Include="Image\edit.png" />

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using FinancialManagerPhoneProject.Models;
 using FinancialManagerPhoneProject.Views.UserControls;
 using System.Threading;
+using Windows.Storage;
 
 namespace FinancialManagerPhoneProject.Views
 {
@@ -43,6 +44,7 @@ namespace FinancialManagerPhoneProject.Views
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            NavigationService.RemoveBackEntry();
             
             _DeviceWidth = Application.Current.Host.Content.ActualWidth;
             if (XMLHandler.FINANCIALMANAGER_XML == null)

@@ -79,17 +79,10 @@
                    Grid.ColumnSpan="3"
                    Grid.Row="0"/>
 
-        <Image Source="../Assets/Icons/auto.png"
-               Width="125"
-               HorizontalAlignment="Center"
-               Stretch="Fill"
-               Grid.Column="0"
-               Grid.Row="2" Margin="34,0,33,0"/>
-
         <TextBlock Text="Income: " 
                    VerticalAlignment="Center"                   
                    HorizontalAlignment="Stretch"
-                   Grid.Row="3"
+                   Grid.Row="2"
                    Grid.Column="0"
                    Height="72"
                    Style="{StaticResource PhoneTextLargeStyle}"/>
@@ -98,7 +91,7 @@
                    VerticalAlignment="Center"                   
                    HorizontalAlignment="Stretch"
                    Height="72"
-                   Grid.Row="4"
+                   Grid.Row="3"
                    Grid.Column="0"
                    Style="{StaticResource PhoneTextLargeStyle}"/>
 
@@ -106,7 +99,7 @@
                    VerticalAlignment="Center"                   
                    HorizontalAlignment="Stretch"
                    Grid.Column="1"
-                   Grid.Row="3"
+                   Grid.Row="2"
                    Height="72"
                    Style="{StaticResource PhoneTextLargeStyle}"/>
 
@@ -115,8 +108,18 @@
                    HorizontalAlignment="Stretch"
                    Grid.Column="1"
                    Height="72"
-                   Grid.Row="4"
+                   Grid.Row="3"
                    Style="{StaticResource PhoneTextLargeStyle}"/>
+
+        <Image Name="__Icon"
+               Source="{Binding Icon}"
+               Width="125"
+               HorizontalAlignment="Left"
+               Stretch="Fill"
+               Grid.Column="0"
+               Grid.Row="4" 
+               MouseLeftButtonUp="Icon_MouseLeftButtonUp"
+               Margin="20,0,0,0"/>
 
         <TextBlock Text="Name: " 
                    Style="{StaticResource PhoneTextLargeStyle}"

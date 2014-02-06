@@ -268,3 +268,4 @@ C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\Fi
 C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\FinancialManagerPhoneProject_Debug_AnyCPU.xap
 C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Debug\XapCacheFile.xml
 C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Debug\Views\CategoryDetail.g.cs
+C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Debug\Views\CategoryIconSelection.g.cs
