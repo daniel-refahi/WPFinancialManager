@@ -269,3 +269,6 @@ C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\Fi
 C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Debug\XapCacheFile.xml
 C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Debug\Views\CategoryDetail.g.cs
 C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Debug\Views\CategoryIconSelection.g.cs
+C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\SLWpVisifire.Charts.dll
+C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\SLWpVisifire.Gauges.dll
+C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Debug\Views\CategoryChart.g.cs

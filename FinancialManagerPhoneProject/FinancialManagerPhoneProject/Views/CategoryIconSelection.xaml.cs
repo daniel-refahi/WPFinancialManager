@@ -50,11 +50,18 @@ namespace FinancialManagerPhoneProject.Views
                 {
                     image.Opacity = 0.2;
                 }
-
-                image.MouseLeftButtonUp += image_MouseLeftButtonUp;
+                image.Tap += image_Tap;
 
                 __wpIconList.Children.Add(image);
             }
+        }
+
+        void image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            _CurrentIcon.Opacity = 0.2;
+            ((Image)sender).Opacity = 1;
+            _SelectedIconSource = ((BitmapImage)((Image)sender).Source).UriSource.ToString();
+            _CurrentIcon = (Image)sender;  
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -65,23 +72,15 @@ namespace FinancialManagerPhoneProject.Views
 
         }
 
-        void image_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            _CurrentIcon.Opacity = 0.2;            
-            ((Image)sender).Opacity = 1;
-            _SelectedIconSource = ((BitmapImage)((Image)sender).Source).UriSource.ToString();
-            _CurrentIcon = (Image)sender;
-        }
-
         private void ApplicationBarSelectButton_Click(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?source=" +
+            NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?caller=iconselector&source=" +
                                                 ((BitmapImage)_CurrentIcon.Source).UriSource.ToString(), UriKind.Relative));
         }
 
         private void ApplicationBarCancelButton_Click(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?source=" + _OldIconSource, UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?caller=iconselector&source=" + _OldIconSource, UriKind.Relative));
         }        
     }
 }

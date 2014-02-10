@@ -170,8 +170,7 @@
                    Grid.Column="0"
                    Grid.Row="3"/>                                 
         <toolkit:DatePicker Name="__dpDatepicker"
-                            Value="{Binding Date}"
-                            ValueChanged="DatePicker_ValueChanged"
+                            Value="{Binding Date}"                            
                             VerticalAlignment="Center"
                             Grid.Column="1"
                             Grid.Row="3"/>

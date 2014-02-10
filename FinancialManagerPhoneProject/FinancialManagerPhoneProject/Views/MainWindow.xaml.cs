@@ -55,6 +55,15 @@ namespace FinancialManagerPhoneProject.Views
             __LoadingBar.Opacity = 1;
             this.DataContext = await LoadPageModelAsync();
             __LoadingBar.Opacity = 0;
+
+            string caller = string.Empty;
+            NavigationContext.QueryString.TryGetValue("caller", out caller);
+            if(caller == "categorydetail")
+            {
+                __MainPivot.SelectedIndex = 1;
+                __liCategoriesList.ScrollIntoView(__liCategoriesList.Items[__liCategoriesList.Items.Count - 1]);
+            }
+
         }
 
         private async Task<MainPageModel> LoadPageModelAsync()
@@ -112,11 +121,11 @@ namespace FinancialManagerPhoneProject.Views
         {
             if (StaticValues.AppStatus == StaticValues.AppStatusOptions.Expenses)
             {
-                NavigationService.Navigate(new Uri("/Views/ExpenseDetail.xaml?status=add", UriKind.Relative));
+                NavigationService.Navigate(new Uri("/Views/ExpenseDetail.xaml?status=add&caller=mainwindow", UriKind.Relative));
             }
             if (StaticValues.AppStatus == StaticValues.AppStatusOptions.Categories)
             {
-                NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?status=add", UriKind.Relative));
+                NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?status=add&caller=mainwindow", UriKind.Relative));
             }
         }
 
@@ -129,7 +138,7 @@ namespace FinancialManagerPhoneProject.Views
         {
             if(((ListBox)sender).SelectedItem != null)
                 NavigationService.Navigate(
-                    new Uri("/Views/ExpenseDetail.xaml?status=update&ID="+ 
+                    new Uri("/Views/ExpenseDetail.xaml?status=update&caller=mainwindow&ID=" + 
                                 ((ExpenseItemModel)((ListBox)sender).SelectedItem).ID,
                                                                         UriKind.Relative));
         }

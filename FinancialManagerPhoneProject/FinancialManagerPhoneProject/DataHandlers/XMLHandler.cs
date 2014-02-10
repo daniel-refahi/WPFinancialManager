@@ -607,6 +607,19 @@ namespace FinancialManagerPhoneProject.DataHandlers
             SaveXmlToFileAsync();
         }
 
+        public void DeleteCategory(string category)
+        {
+            (from x in FINANCIALMANAGER_XML.Root.Element("Expenses").Elements()
+             where x.Attribute("Category").Value == category
+             select x).Remove();
+
+            (from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
+             where x.Attribute("Name").Value == category
+             select x).FirstOrDefault().Remove();
+
+            SaveXmlToFileAsync();
+        }
+
         public void UpdateCategory(Category category)
         {
             var xmlCategory = (from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()

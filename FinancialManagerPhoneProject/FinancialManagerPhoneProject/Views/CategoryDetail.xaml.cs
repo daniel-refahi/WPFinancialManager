@@ -19,6 +19,8 @@ namespace FinancialManagerPhoneProject.Views
 
         string _Name;
         string _Status;
+        string _IconSource;
+        string _Plan;
         bool SaveState = true;
         CategoryDetailViewModel _PageModel;
 
@@ -47,57 +49,59 @@ namespace FinancialManagerPhoneProject.Views
         {
             base.OnNavigatedTo(e);
 
-            #region getting application status
-
-            bool IsSettingExist = false;
-            string s_name = string.Empty;
-            string s_plan = string.Empty;
-            string iconSource = string.Empty;
-
-            if (IsolatedStorageSettings.ApplicationSettings.Contains("name"))
+            string caller = string.Empty;
+            NavigationContext.QueryString.TryGetValue("caller", out caller);
+            if (caller == "mainwindow")
             {
-                IsSettingExist = true;
-                IsolatedStorageSettings.ApplicationSettings.TryGetValue("name", out s_name);
-                IsolatedStorageSettings.ApplicationSettings.TryGetValue("plan", out s_plan);
-                NavigationContext.QueryString.TryGetValue("source", out iconSource);
+                // navigating from main window
+                NavigationContext.QueryString.TryGetValue("status", out _Status);
+                
+                switch (_Status)
+                {
+                    case "add":
+                        _Plan = string.Empty;
+                        _Name = string.Empty;
+                        _IconSource = "../Assets/Icons/clothing.png";
+                        break;
+                    case "update":
+                        __tbTitle.Text = "Edit Category";
+                        NavigationContext.QueryString.TryGetValue("name", out _Name);
+                        Category category = StaticValues.DB.GetCategoryObject(_Name);
+                        _Plan = category.Plan.ToString();
+                        _IconSource = "../Assets/Icons/" + category.Icon + ".png";
+
+                        // adding delete icon
+                        if (ApplicationBar.Buttons.Count == 2)
+                        {
+                            Uri uri = new Uri("//Image/delete.png", UriKind.Relative);
+                            ApplicationBarIconButton deleteIcon = new ApplicationBarIconButton() { Text = "Delete", IconUri = uri };
+                            deleteIcon.Click += deleteIcon_Click;
+                            ApplicationBar.Buttons.Insert(1, deleteIcon);
+                        }
+                        break;
+                }
             }
+            else 
+            {
+                // navigating from icon selection page
+                NavigationService.RemoveBackEntry();
+                IsolatedStorageSettings.ApplicationSettings.TryGetValue("name", out _Name);
+                IsolatedStorageSettings.ApplicationSettings.TryGetValue("plan", out _Plan);
+                IsolatedStorageSettings.ApplicationSettings.TryGetValue("status", out _Status);
+                NavigationContext.QueryString.TryGetValue("source", out _IconSource);
+                IsolatedStorageSettings.ApplicationSettings.Clear();
 
-            #endregion
-
-            NavigationContext.QueryString.TryGetValue("status", out _Status);
-            NavigationContext.QueryString.TryGetValue("name", out _Name);
+            }
 
             _PageModel = new CategoryDetailViewModel();
+            _PageModel.Name = _Name;
             _PageModel.Income = StaticValues.DB.GetCurrencySymbol() + " " + StaticValues.DB.GetIncome().ToString();
-            if (IsSettingExist)
-            {
-                _PageModel.Icon = iconSource;
-                _PageModel.Name = s_name;
-                __tbPlan.Text = s_plan;
-            }
-            else
-            {
-                _PageModel.Name = string.Empty;
-                _PageModel.Icon = "../Assets/Icons/saving.png";
-            }
-            
+            _PageModel.Icon = _IconSource;
+            _PageModel.Plan = (_Plan == string.Empty) ? 0 : Convert.ToDouble(_Plan);
             _PageModel.TotalPlanned = StaticValues.DB.GetCurrencySymbol() +" "+ StaticValues.DB.GetTotalPlan().ToString();
 
-            if (_Status == "update")
-            {
-                //if (ApplicationBar.Buttons.Count == 2)
-                //{
-                //    Uri uri = new Uri("//Image/delete.png", UriKind.Relative);
-                //    ApplicationBarIconButton deleteIcon = new ApplicationBarIconButton() { Text = "Delete", IconUri = uri };
-                //    deleteIcon.Click += deleteIcon_Click;
-                //    ApplicationBar.Buttons.Insert(1, deleteIcon);
-                //}
-
-                //selectedCategory = StaticValues.DB.GetCategoryName(_ID);
-            }
-
             this.DataContext = _PageModel;
-        }
+        }        
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
@@ -107,6 +111,7 @@ namespace FinancialManagerPhoneProject.Views
                 IsolatedStorageSettings.ApplicationSettings.Clear();
                 IsolatedStorageSettings.ApplicationSettings["name"] = __tbName.Text.ToString();
                 IsolatedStorageSettings.ApplicationSettings["plan"] = __tbPlan.Text.ToString();
+                IsolatedStorageSettings.ApplicationSettings["status"] = _Status;
                 IsolatedStorageSettings.ApplicationSettings.Save();
             }
             else
@@ -122,23 +127,35 @@ namespace FinancialManagerPhoneProject.Views
             else
             {
                 string icon = ((BitmapImage)(__Icon.Source)).UriSource.ToString();
-                icon = icon.Substring(icon.LastIndexOf('/') + 1, icon.LastIndexOf('.') - icon.LastIndexOf('/'));
+                icon = icon.Substring(icon.LastIndexOf('/') + 1, icon.LastIndexOf('.') - icon.LastIndexOf('/') - 1);
                 if (StaticValues.DB.AddCategory(new Category()
                 {
                     Icon = icon,
-                    Name = __tbName.Name,
+                    Name = __tbName.Text.ToString(),
                     Plan = Convert.ToDouble(__tbPlan.Text.ToString()),
                     TotalExpenses = 0
                 }))
                 {
                     SaveState = false;                    
-                    NavigationService.Navigate(new Uri("/Views/MainWindow.xaml", UriKind.Relative));
+                    NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=categorydetail", UriKind.Relative));
                 }
                 else
                     MessageBox.Show("The Category Name Already Exists!");
 
             }
             
+        }
+
+        void deleteIcon_Click(object sender, EventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Would you like to delete the category? Be aware that all expenses in this category will be removed as well!",
+                                                            "Delete", MessageBoxButton.OKCancel);
+
+            if (result == MessageBoxResult.OK)
+            {
+                StaticValues.DB.DeleteCategory(_Name);
+                NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=categorydetail", UriKind.Relative));
+            }
         }
 
         private void ApplicationBarHelpIcon_Click(object sender, EventArgs e)
@@ -167,7 +184,7 @@ namespace FinancialManagerPhoneProject.Views
 
         private void Icon_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Views/CategoryIconSelection.xaml?source=" + 
+            NavigationService.Navigate(new Uri("/Views/CategoryIconSelection.xaml?caller=categorydetail&source=" + 
                                                 ((BitmapImage)((Image)sender).Source).UriSource.ToString(), UriKind.Relative));
         }
     }

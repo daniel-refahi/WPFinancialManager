@@ -19,7 +19,15 @@ namespace FinancialManagerPhoneProject.Views
     {
         string _ID;
         string _Status;
+        string _Amount = string.Empty;
+        string _Description = string.Empty;
+        string _Date = string.Empty;
+        string _Category = string.Empty;
         bool SaveState = true;
+
+        // there is a bug on datepicker that it doesn't update the Uri. this is to overcome that issue. 
+        public static bool IsFromDatePicker = false;
+
         public ExpenseDetail()
         {
             InitializeComponent();
@@ -52,13 +60,17 @@ namespace FinancialManagerPhoneProject.Views
         {
             base.OnNavigatedFrom(e);
 
+            if(e.Uri.ToString().Contains("DatePickerPage"))
+                ExpenseDetail.IsFromDatePicker = true;
+
             if (SaveState)
             {
                 IsolatedStorageSettings.ApplicationSettings.Clear();
                 IsolatedStorageSettings.ApplicationSettings["amount"] = __tbAmount.Text.ToString();
                 IsolatedStorageSettings.ApplicationSettings["description"] = __tbDescription.Text.ToString();
                 IsolatedStorageSettings.ApplicationSettings["date"] = __dpDatepicker.Value.ToString();
-                IsolatedStorageSettings.ApplicationSettings["category"] = ((Category)__liCategoryList.SelectedItem).Name;
+                if(__liCategoryList.SelectedItem != null)
+                    IsolatedStorageSettings.ApplicationSettings["category"] = ((Category)__liCategoryList.SelectedItem).Name;
                 IsolatedStorageSettings.ApplicationSettings.Save();
             }
             else
@@ -69,94 +81,92 @@ namespace FinancialManagerPhoneProject.Views
         {
             base.OnNavigatedTo(e);
 
-            #region getting application status
-
-            bool IsSettingExist = false;
-            string s_amount = string.Empty;
-            string s_description = string.Empty;
-            string s_date = string.Empty;
-            string s_category = string.Empty;
-
-            if (IsolatedStorageSettings.ApplicationSettings.Contains("amount"))
-            {
-                IsSettingExist = true;
-                IsolatedStorageSettings.ApplicationSettings.TryGetValue("amount", out s_amount);
-                IsolatedStorageSettings.ApplicationSettings.TryGetValue("description", out s_description);
-                IsolatedStorageSettings.ApplicationSettings.TryGetValue("date", out s_date);
-                IsolatedStorageSettings.ApplicationSettings.TryGetValue("category", out s_category);
-            }
-
-            #endregion
-
-            NavigationContext.QueryString.TryGetValue("status", out _Status);
-            NavigationContext.QueryString.TryGetValue("ID", out _ID);
-
             ExpenseDetailViewModel pageModel = new ExpenseDetailViewModel();
             List<Category> categories = StaticValues.DB.GetAllCategories();
-            string selectedCategory = string.Empty;
 
-            if (_Status == "update")
+            string caller = string.Empty;
+            NavigationContext.QueryString.TryGetValue("caller", out caller);
+
+            if (ExpenseDetail.IsFromDatePicker)
             {
-                if (ApplicationBar.Buttons.Count == 2)
-                {
-                    Uri uri = new Uri("//Image/delete.png", UriKind.Relative);
-                    ApplicationBarIconButton deleteIcon = new ApplicationBarIconButton() { Text = "Delete", IconUri = uri };
-                    deleteIcon.Click += deleteIcon_Click;
-                    ApplicationBar.Buttons.Insert(1, deleteIcon);
-                }
+                // navigating from date picker
+                NavigationService.RemoveBackEntry();
+                IsolatedStorageSettings.ApplicationSettings.TryGetValue("amount", out _Amount);
+                IsolatedStorageSettings.ApplicationSettings.TryGetValue("description", out _Description);
+                IsolatedStorageSettings.ApplicationSettings.TryGetValue("date", out _Date);
+                IsolatedStorageSettings.ApplicationSettings.TryGetValue("category", out _Category);
+                ExpenseDetail.IsFromDatePicker = false;
+            }
+            else if (caller == "mainwindow")
+            {
+                // navigating from main window
+                NavigationContext.QueryString.TryGetValue("status", out _Status);
 
-                if (IsSettingExist)
-                    selectedCategory = s_category;
-                else 
-                    selectedCategory = StaticValues.DB.GetCategoryName(_ID);
+                switch (_Status)
+                {
+                    case "add":
+                        _Amount = string.Empty;
+                        _Description = string.Empty;
+                        _Date = DateTime.Today.ToShortDateString();
+                        _Category = string.Empty;
+                        break;
+                    case "update":
+                        __tbTitle.Text = "Edit Expense";
+                        NavigationContext.QueryString.TryGetValue("ID", out _ID);
+
+                        Expense expense = StaticValues.DB.GetExpense(_ID);
+                        _Amount = expense.Value.ToString();
+                        _Description = expense.Description;
+                        _Date = expense.Date.ToShortDateString();
+
+                        _Category = StaticValues.DB.GetCategoryName(_ID);
+
+                        // adding delete icon
+                        if (ApplicationBar.Buttons.Count == 2)
+                        {
+                            Uri uri = new Uri("//Image/delete.png", UriKind.Relative);
+                            ApplicationBarIconButton deleteIcon = new ApplicationBarIconButton() { Text = "Delete", IconUri = uri };
+                            deleteIcon.Click += deleteIcon_Click;
+                            ApplicationBar.Buttons.Insert(1, deleteIcon);
+                        }
+                        break;
+                }
+            }
+            else if (caller == "help")
+            {
+                // navigating from help page
             }
 
             foreach (Category c in categories)
             {
                 c.Icon = "../Assets/Icons/" + c.Icon + ".png";
                 c.IsSelected = false;
-                if (s_category == c.Name)
+                if (_Category == c.Name)
                     c.IsSelected = true;
-                else if (_Status == "update")
-                {
-                    if (selectedCategory == c.Name)
-                        c.IsSelected = true;
-                }
             }
 
             pageModel.Categories = categories;
             pageModel.ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40;
-            if (_Status == "update")
+
+            try
             {
-                Expense expense = StaticValues.DB.GetExpense(_ID);
-                if (IsSettingExist)
-                {
-                    pageModel.Amount = Convert.ToDouble(s_amount);
-                    pageModel.Date = Convert.ToDateTime(s_date);
-                    pageModel.Description = s_description;
-                }
-                else 
-                {
-                    pageModel.Amount = expense.Value;
-                    pageModel.Date = expense.Date;
-                    pageModel.Description = expense.Description;
-                }
-                pageModel.ID = _ID;
-                __tbTitle.Text = "Edit Expense";
+                pageModel.Amount = Convert.ToDouble(_Amount);
             }
-            else
+            catch 
             {
-                if (IsSettingExist)
-                {
-                    pageModel.Amount = Convert.ToDouble(s_amount);
-                    pageModel.Date = Convert.ToDateTime(s_date);
-                    pageModel.Description = s_description;
-                }
-                else {
+                pageModel.Amount = 0;
+            }
+            try
+            {
+                pageModel.Date = Convert.ToDateTime(_Date);
+            }
+            catch 
+            {
                 pageModel.Date = DateTime.Today;
-                pageModel.Description = string.Empty;
-                    }
             }
+            pageModel.Description = _Description;
+            pageModel.ID = _ID;
+
             this.DataContext = pageModel;
         }
 
@@ -171,17 +181,7 @@ namespace FinancialManagerPhoneProject.Views
                 NavigationService.GoBack();
             }
         }
-
-        private void DatePicker_ValueChanged(object sender, DateTimeValueChangedEventArgs e)
-        {
-
-        }
-
-        private void TimePicker_ValueChanged(object sender, DateTimeValueChangedEventArgs e)
-        {
-
-        }
-
+        
         private void ApplicationBarSaveIcon_Click(object sender, EventArgs e)
         {
             
@@ -219,7 +219,7 @@ namespace FinancialManagerPhoneProject.Views
                     });
                 }
                 SaveState = false;
-                NavigationService.Navigate(new Uri("/Views/MainWindow.xaml", UriKind.Relative));
+                NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=expensedetail", UriKind.Relative));
             }
         }
 
