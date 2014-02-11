@@ -142,5 +142,14 @@ namespace FinancialManagerPhoneProject.Views
                                 ((ExpenseItemModel)((ListBox)sender).SelectedItem).ID,
                                                                         UriKind.Relative));
         }
+
+        private void __liCategoriesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (((ListBox)sender).SelectedItem != null)
+                NavigationService.Navigate(
+                    new Uri("/Views/CategoryChart.xaml?categoryname=" +
+                                ((CategoryItemModel)((ListBox)sender).SelectedItem).Name,
+                                                                        UriKind.Relative));
+        }
     }
 }

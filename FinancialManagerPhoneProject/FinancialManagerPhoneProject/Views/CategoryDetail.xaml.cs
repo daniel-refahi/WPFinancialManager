@@ -64,26 +64,34 @@ namespace FinancialManagerPhoneProject.Views
                         _IconSource = "../Assets/Icons/clothing.png";
                         break;
                     case "update":
-                        __tbTitle.Text = "Edit Category";
-                        NavigationContext.QueryString.TryGetValue("name", out _Name);
-                        Category category = StaticValues.DB.GetCategoryObject(_Name);
-                        _Plan = category.Plan.ToString();
-                        _IconSource = "../Assets/Icons/" + category.Icon + ".png";
-
-                        // adding delete icon
-                        if (ApplicationBar.Buttons.Count == 2)
-                        {
-                            Uri uri = new Uri("//Image/delete.png", UriKind.Relative);
-                            ApplicationBarIconButton deleteIcon = new ApplicationBarIconButton() { Text = "Delete", IconUri = uri };
-                            deleteIcon.Click += deleteIcon_Click;
-                            ApplicationBar.Buttons.Insert(1, deleteIcon);
-                        }
+                        
                         break;
+                }
+            }
+            else if (caller == "categorychart")
+            {
+                // navigating from category chart
+                NavigationService.RemoveBackEntry();
+                _Status = "edit";
+                __tbTitle.Text = "Edit Category";
+                NavigationContext.QueryString.TryGetValue("category", out _Name);
+                Category category = StaticValues.DB.GetCategoryObject(_Name);
+                _Plan = category.Plan.ToString();
+                _IconSource = "../Assets/Icons/" + category.Icon + ".png";
+
+                // adding delete icon
+                if (ApplicationBar.Buttons.Count == 2)
+                {
+                    Uri uri = new Uri("//Image/delete.png", UriKind.Relative);
+                    ApplicationBarIconButton deleteIcon = new ApplicationBarIconButton() { Text = "Delete", IconUri = uri };
+                    deleteIcon.Click += deleteIcon_Click;
+                    ApplicationBar.Buttons.Insert(1, deleteIcon);
                 }
             }
             else 
             {
                 // navigating from icon selection page
+                NavigationService.RemoveBackEntry();
                 NavigationService.RemoveBackEntry();
                 IsolatedStorageSettings.ApplicationSettings.TryGetValue("name", out _Name);
                 IsolatedStorageSettings.ApplicationSettings.TryGetValue("plan", out _Plan);

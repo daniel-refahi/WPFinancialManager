@@ -84,13 +84,11 @@
                    HorizontalAlignment="Stretch"
                    Grid.Row="2"
                    Grid.Column="0"
-                   Height="72"
                    Style="{StaticResource PhoneTextLargeStyle}"/>
 
         <TextBlock Text="Total Planned: " 
                    VerticalAlignment="Center"                   
                    HorizontalAlignment="Stretch"
-                   Height="72"
                    Grid.Row="3"
                    Grid.Column="0"
                    Style="{StaticResource PhoneTextLargeStyle}"/>
@@ -100,14 +98,12 @@
                    HorizontalAlignment="Stretch"
                    Grid.Column="1"
                    Grid.Row="2"
-                   Height="72"
                    Style="{StaticResource PhoneTextLargeStyle}"/>
 
         <TextBlock Text="{Binding TotalPlanned}" 
                    VerticalAlignment="Center"                   
                    HorizontalAlignment="Stretch"
                    Grid.Column="1"
-                   Height="72"
                    Grid.Row="3"
                    Style="{StaticResource PhoneTextLargeStyle}"/>
 

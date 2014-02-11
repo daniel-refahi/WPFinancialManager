@@ -24,6 +24,10 @@ Processing file: C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManag
 File C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\Microsoft.Phone.Controls.Maps.dll is not in the compile filter. Skipping.
 Processing file: C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\Microsoft.Phone.Controls.Toolkit.dll
 File C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\Microsoft.Phone.Controls.Toolkit.dll is not in the compile filter. Skipping.
+Processing file: C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\SLWpVisifire.Charts.dll
+File C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\SLWpVisifire.Charts.dll is not in the compile filter. Skipping.
+Processing file: C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\SLWpVisifire.Gauges.dll
+File C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\SLWpVisifire.Gauges.dll is not in the compile filter. Skipping.
 Processing file: C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\System.Windows.Interactivity.dll
 File C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\System.Windows.Interactivity.dll is not in the compile filter. Skipping.
 Processing file: C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\WMAppManifest.xml

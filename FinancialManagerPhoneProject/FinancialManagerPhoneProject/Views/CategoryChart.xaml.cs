@@ -7,42 +7,55 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using FinancialManagerPhoneProject.DataHandlers;
+using FinancialManagerPhoneProject.Models;
 
 namespace FinancialManagerPhoneProject.Views
 {
     public partial class CategoryChart : PhoneApplicationPage
     {
+        string _CategoryName;
+
         public CategoryChart()
         {
             InitializeComponent();
+            this.Loaded += CategoryChart_Loaded;
         }
 
-        private void ApplicationBarSaveIcon_Click(object sender, EventArgs e)
+        void CategoryChart_Loaded(object sender, RoutedEventArgs e)
         {
-            //double plan = 0;
-            //bool isNum = double.TryParse(__tbPlan.Text.ToString(), out plan);
-            //if (!isNum)
-            //    MessageBox.Show("Please Enter a Valid Plan!");
-            //else
-            //{
-            //    string icon = ((BitmapImage)(__Icon.Source)).UriSource.ToString();
-            //    icon = icon.Substring(icon.LastIndexOf('/') + 1, icon.LastIndexOf('.') - icon.LastIndexOf('/') - 1);
-            //    if (StaticValues.DB.AddCategory(new Category()
-            //    {
-            //        Icon = icon,
-            //        Name = __tbName.Text.ToString(),
-            //        Plan = Convert.ToDouble(__tbPlan.Text.ToString()),
-            //        TotalExpenses = 0
-            //    }))
-            //    {
-            //        SaveState = false;
-            //        NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=categorydetail", UriKind.Relative));
-            //    }
-            //    else
-            //        MessageBox.Show("The Category Name Already Exists!");
+            Category category = StaticValues.DB.GetCategoryObject(_CategoryName);
+            CategoryChartModel model = new CategoryChartModel();
+            model.CategoryName = _CategoryName;
+            model.Icon = "../Assets/Icons/" + category.Icon + ".png";
+            model.TotalCategoryText = StaticValues.DB.GetCurrencySymbol() + category.TotalExpenses;
+            model.TotalCategory = category.TotalExpenses;
+            model.TotalAll = StaticValues.DB.GetTotalExpenses() - category.TotalExpenses;
+            model.ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40;
+            List<Expense> expenses = StaticValues.DB.GetAllExpenses(_CategoryName);
+            
+            foreach (Expense expense in expenses)
+            {
+                CategoryChartExpenseModel expenseModel = new CategoryChartExpenseModel();
+                expenseModel.Amount = StaticValues.DB.GetCurrencySymbol() + expense.Value.ToString();
+                expenseModel.Description = expense.Description;
+                expenseModel.Date = expense.Date.ToString("MMM") + "/" + expense.Date.Day;
+                model.Expenses.Add(expenseModel);
+            }
 
-            //}
+            this.DataContext = model;
+        }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            NavigationContext.QueryString.TryGetValue("categoryname", out _CategoryName);
+        }
+
+        private void ApplicationBarEditIcon_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?caller=categorychart&category="+ _CategoryName, UriKind.Relative));
         }
 
         void deleteIcon_Click(object sender, EventArgs e)

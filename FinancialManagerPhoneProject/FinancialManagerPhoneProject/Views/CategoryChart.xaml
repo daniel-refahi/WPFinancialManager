@@ -11,8 +11,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait" Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    SupportedOrientations="Portrait" Orientation="Portrait">
 
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
@@ -39,8 +38,8 @@
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" Mode="Default" 
                               ForegroundColor="WhiteSmoke"
                               BackgroundColor="#FF2E2E2E" >
-            <shell:ApplicationBarIconButton Text="Save"  IconUri="/Image/save.png"
-                                            Click="ApplicationBarSaveIcon_Click"/>
+            <shell:ApplicationBarIconButton Text="Edit"  IconUri="/Image/edit.png"
+                                            Click="ApplicationBarEditIcon_Click"/>
             <shell:ApplicationBarIconButton Text="Help" IconUri="/Image/help.png"
                                             Click="ApplicationBarHelpIcon_Click"/>
             <shell:ApplicationBar.MenuItems>
@@ -64,6 +63,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1"/>
             <RowDefinition Height="*"/>           
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -90,36 +90,36 @@
                Grid.RowSpan="4"
                Margin="20,11,0,11" Grid.ColumnSpan="2" />
 
-        <TextBlock Text="Category: " 
+        <TextBlock Text="Category" 
                    VerticalAlignment="Center"                   
                    HorizontalAlignment="Left"
-                   Margin="0,0,0,0" 
+                   Margin="0,5,0,5" 
                    Grid.Row="2"
                    Grid.Column="2"
                    Style="{StaticResource PhoneTextLargeStyle}"/>
 
         <TextBlock Text="{Binding CategoryName}"
-                   VerticalAlignment="Center"                   
+                   VerticalAlignment="Top"                   
                    HorizontalAlignment="Left"
                    Grid.Column="2"
                    Grid.Row="3"
-                   Margin="20,0,0,0" 
+                   Margin="0,-10,0,5" 
                    Style="{StaticResource PhoneTextLargeStyle}"/>
 
-        <TextBlock Text="Category Expenses:" 
+        <TextBlock Text="Expenses" 
                    VerticalAlignment="Center"                   
                    HorizontalAlignment="Left"
                    Grid.Row="4"
-                   Margin="0,0,0,0" 
+                   Margin="0,5,0,5" 
                    Grid.Column="2"
                    Style="{StaticResource PhoneTextLargeStyle}"/>
 
         <TextBlock Text="{Binding TotalCategoryText}"
-                   VerticalAlignment="Center"                   
+                   VerticalAlignment="Top"                   
                    HorizontalAlignment="Left"
                    Grid.Column="2"
                    Grid.Row="5"
-                   Margin="20,0,0,0" 
+                   Margin="0,-10,0,5" 
                    Style="{StaticResource PhoneTextLargeStyle}"/>
 
         <vc:Chart 
@@ -141,7 +141,8 @@
                                IncludePercentageInLegend="False">
                     <vc:DataSeries.DataPoints>
                         <vc:DataPoint AxisXLabel="Total" YValue="{Binding TotalAll}" Color="Maroon"/>
-                        <vc:DataPoint AxisXLabel="name" YValue="{Binding TotalCategory}" Exploded="True" Color="Wheat"/>
+                        <vc:DataPoint AxisXLabel="{Binding CategoryName}" YValue="{Binding TotalCategory}"
+                                      Exploded="True" Color="Wheat"/>
                     </vc:DataSeries.DataPoints>
                 </vc:DataSeries>
             </vc:Chart.Series>
@@ -170,15 +171,26 @@
                    Grid.Row="7"
                    Style="{StaticResource PhoneTextSmallStyle}"/>
 
-        <ScrollViewer VerticalAlignment="Center"                   
-                      HorizontalAlignment="Center"
+        <Rectangle Grid.Column="0"
+                   Grid.ColumnSpan="3"
+                   Grid.Row="8"
+                   Margin="5,0,5,0"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   Fill="Maroon"/>
+        
+        <ScrollViewer VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch"
                       Margin="0"
-                      Grid.Column="1"
-                      Grid.Row="8">
-            <ItemsControl>
+                      Grid.Column="0"
+                      Grid.ColumnSpan="3"
+                      Grid.Row="9">
+            <ItemsControl ItemsSource="{Binding Expenses}"
+                          VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
+                        <Grid Width="{Binding ScreenWidth}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
@@ -188,24 +200,27 @@
                                 <ColumnDefinition Width="46*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock
+                                HorizontalAlignment="Center"
                                 Grid.Column="0"
                                 Grid.Row="0"
                                 Text="{Binding Date}"
-                                Style="{StaticResource PhoneTextSmallStyle}"/>
+                                Style="{StaticResource PhoneTextLargeStyle}"/>
                             <TextBlock 
+                                HorizontalAlignment="Center"
                                 Grid.Column="1"
                                 Grid.Row="0"
                                 Text="{Binding Amount}"
-                                Style="{StaticResource PhoneTextSmallStyle}"/>
+                                Style="{StaticResource PhoneTextLargeStyle}"/>
                             <TextBlock 
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
                                 Grid.Column="2"
                                 Grid.Row="0"
                                 Text="{Binding Description}"
-                                Style="{StaticResource PhoneTextSmallStyle}"/>
+                                Style="{StaticResource PhoneTextNormalStyle}"/>
                         </Grid>
                     </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                
+                </ItemsControl.ItemTemplate>                
             </ItemsControl>
         </ScrollViewer>
     </Grid>

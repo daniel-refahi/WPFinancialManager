@@ -104,6 +104,7 @@
     <Compile Include="DataHandlers\StaticValues.cs" />
     <Compile Include="DataHandlers\XMLHandler.cs" />
     <Compile Include="LocalizedStrings.cs" />
+    <Compile Include="Models\CategoryChartModel.cs" />
     <Compile Include="Models\CategoryDetailViewModel.cs" />
     <Compile Include="Models\CategoryItemModel.cs" />
     <Compile Include="Models\ExpenseDetailViewModel.cs" />

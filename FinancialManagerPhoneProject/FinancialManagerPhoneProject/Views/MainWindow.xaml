@@ -116,6 +116,7 @@
                              ItemsSource="{Binding CategoryListModel}"
                              Grid.Column="0"
                              Margin="0,0,0,5"
+                             SelectionChanged="__liCategoriesList_SelectionChanged"
                              Grid.Row="1">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
