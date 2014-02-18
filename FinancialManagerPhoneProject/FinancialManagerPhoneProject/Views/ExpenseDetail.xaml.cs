@@ -45,23 +45,35 @@ namespace FinancialManagerPhoneProject.Views
             if (_Status == "update")
             {
                 __liCategoryList.IsEnabled = false;
-                foreach (Category category in __liCategoryList.Items)
-                {
-                    if (category.IsSelected)
-                    {
-                        __liCategoryList.SelectedItem = category;
-                    }
-                }
-                __liCategoryList.ScrollIntoView(__liCategoryList.SelectedItem);
+                HighlightCategory();
             }
+            else if (ExpenseDetail.IsFromDatePicker)
+            {
+                HighlightCategory();
+                ExpenseDetail.IsFromDatePicker = false;
+            }
+        }
+
+        private void HighlightCategory()
+        {
+            foreach (Category category in __liCategoryList.Items)
+            {
+                if (category.IsSelected)
+                {
+                    __liCategoryList.SelectedItem = category;
+                }
+            }
+            __liCategoryList.ScrollIntoView(__liCategoryList.SelectedItem);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
 
-            if(e.Uri.ToString().Contains("DatePickerPage"))
+            if (e.Uri.ToString().Contains("DatePickerPage"))
                 ExpenseDetail.IsFromDatePicker = true;
+            else
+                NavigationService.RemoveBackEntry();
 
             if (SaveState)
             {
@@ -89,13 +101,12 @@ namespace FinancialManagerPhoneProject.Views
 
             if (ExpenseDetail.IsFromDatePicker)
             {
-                // navigating from date picker
-                NavigationService.RemoveBackEntry();
+                // navigating from date picker                
                 IsolatedStorageSettings.ApplicationSettings.TryGetValue("amount", out _Amount);
                 IsolatedStorageSettings.ApplicationSettings.TryGetValue("description", out _Description);
                 IsolatedStorageSettings.ApplicationSettings.TryGetValue("date", out _Date);
                 IsolatedStorageSettings.ApplicationSettings.TryGetValue("category", out _Category);
-                ExpenseDetail.IsFromDatePicker = false;
+                
             }
             else if (caller == "mainwindow")
             {
@@ -168,6 +179,13 @@ namespace FinancialManagerPhoneProject.Views
             pageModel.ID = _ID;
 
             this.DataContext = pageModel;
+        }
+
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            //base.OnBackKeyPress(e);
+            SaveState = false;
+            NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=expensedetail", UriKind.Relative));
         }
 
         void deleteIcon_Click(object sender, EventArgs e)

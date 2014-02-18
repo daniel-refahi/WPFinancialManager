@@ -18,6 +18,7 @@ namespace FinancialManagerPhoneProject.Views
     {
 
         string _Name;
+        string _OldName;
         string _Status;
         string _IconSource;
         string _Plan;
@@ -28,11 +29,12 @@ namespace FinancialManagerPhoneProject.Views
         {
             InitializeComponent();
             this.Loaded += CategoryDetail_Loaded;
-            this.BackKeyPress += CategoryDetail_BackKeyPress;
         }
 
-        void CategoryDetail_BackKeyPress(object sender, System.ComponentModel.CancelEventArgs e)
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
+            //base.OnBackKeyPress(e);
+            IsolatedStorageSettings.ApplicationSettings.Clear();
             SaveState = false;
         }
 
@@ -75,6 +77,7 @@ namespace FinancialManagerPhoneProject.Views
                 _Status = "edit";
                 __tbTitle.Text = "Edit Category";
                 NavigationContext.QueryString.TryGetValue("category", out _Name);
+                NavigationContext.QueryString.TryGetValue("category", out _OldName);
                 Category category = StaticValues.DB.GetCategoryObject(_Name);
                 _Plan = category.Plan.ToString();
                 _IconSource = "../Assets/Icons/" + category.Icon + ".png";
@@ -88,17 +91,20 @@ namespace FinancialManagerPhoneProject.Views
                     ApplicationBar.Buttons.Insert(1, deleteIcon);
                 }
             }
+            else if (caller == "help")
+            {
+                // navigating from category chart
+                
+            }
             else 
             {
                 // navigating from icon selection page
-                NavigationService.RemoveBackEntry();
                 NavigationService.RemoveBackEntry();
                 IsolatedStorageSettings.ApplicationSettings.TryGetValue("name", out _Name);
                 IsolatedStorageSettings.ApplicationSettings.TryGetValue("plan", out _Plan);
                 IsolatedStorageSettings.ApplicationSettings.TryGetValue("status", out _Status);
                 NavigationContext.QueryString.TryGetValue("source", out _IconSource);
                 IsolatedStorageSettings.ApplicationSettings.Clear();
-
             }
 
             _PageModel = new CategoryDetailViewModel();
@@ -136,20 +142,36 @@ namespace FinancialManagerPhoneProject.Views
             {
                 string icon = ((BitmapImage)(__Icon.Source)).UriSource.ToString();
                 icon = icon.Substring(icon.LastIndexOf('/') + 1, icon.LastIndexOf('.') - icon.LastIndexOf('/') - 1);
-                if (StaticValues.DB.AddCategory(new Category()
+                
+                if(_Status == "add")
                 {
-                    Icon = icon,
-                    Name = __tbName.Text.ToString(),
-                    Plan = Convert.ToDouble(__tbPlan.Text.ToString()),
-                    TotalExpenses = 0
-                }))
+                    if (StaticValues.DB.AddCategory(new Category()
+                    {
+                        Icon = icon,
+                        Name = __tbName.Text.ToString(),
+                        Plan = Convert.ToDouble(__tbPlan.Text.ToString()),
+                        TotalExpenses = 0
+                    }))
+                    {
+                        SaveState = false;                    
+                        NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=categorydetail", UriKind.Relative));
+                    }
+                    else
+                        MessageBox.Show("The Category Name Already Exists!");
+                }
+                if (_Status == "edit")
                 {
-                    SaveState = false;                    
+                    StaticValues.DB.UpdateCategory(new Category()
+                    {
+                        Icon = icon,
+                        Name = _OldName,
+                        NewName = __tbName.Text.ToString(),
+                        Plan = Convert.ToDouble(__tbPlan.Text.ToString()),
+                        TotalExpenses = 0
+                    });
+                    SaveState = false;
                     NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=categorydetail", UriKind.Relative));
                 }
-                else
-                    MessageBox.Show("The Category Name Already Exists!");
-
             }
             
         }

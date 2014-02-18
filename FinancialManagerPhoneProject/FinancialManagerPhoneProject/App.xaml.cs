@@ -9,6 +9,7 @@ using Microsoft.Phone.Shell;
 using FinancialManagerPhoneProject.Resources;
 using FinancialManagerPhoneProject.DataHandlers;
 using FinancialManagerPhoneProject.Views;
+using System.Threading;
 
 namespace FinancialManagerPhoneProject
 {
@@ -65,6 +66,8 @@ namespace FinancialManagerPhoneProject
         {
             XMLHandler.DEIVCE_WIDTH = Application.Current.Host.Content.ActualWidth;
             StaticValues.DB = new XMLHandler();
+
+            Thread.Sleep(2000);
         }
 
         // Code to execute when the application is activated (brought to foreground)

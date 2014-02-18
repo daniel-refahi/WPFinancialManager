@@ -23,8 +23,7 @@ namespace FinancialManagerPhoneProject.Views
         public CategoryIconSelection()
         {
             InitializeComponent();
-            this.Loaded += CategoryIconSelection_Loaded;
-            
+            this.Loaded += CategoryIconSelection_Loaded;            
         }
 
         void CategoryIconSelection_Loaded(object sender, RoutedEventArgs e)
@@ -70,6 +69,12 @@ namespace FinancialManagerPhoneProject.Views
 
             NavigationContext.QueryString.TryGetValue("source", out _OldIconSource);
 
+        }
+
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            //base.OnBackKeyPress(e);
+            NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?caller=iconselector&source=" + _OldIconSource, UriKind.Relative));
         }
 
         private void ApplicationBarSelectButton_Click(object sender, EventArgs e)
