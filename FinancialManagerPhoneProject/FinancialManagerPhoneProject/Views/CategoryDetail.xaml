@@ -14,6 +14,10 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d">
 
+    <phone:PhoneApplicationPage.Resources>
+        <SolidColorBrush x:Key="FirstForeground" Color="#FF2E2E2E"/>
+        <SolidColorBrush x:Key="SecondForeground" Color="#FF838383"/>
+    </phone:PhoneApplicationPage.Resources>
 
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
@@ -77,6 +81,7 @@
                    Style="{StaticResource PhoneTextTitle1Style}"
                    Grid.Column="0"
                    Grid.ColumnSpan="3"
+                   Foreground="{StaticResource FirstForeground}"
                    Grid.Row="0"/>
 
         <TextBlock Text="Income: " 
@@ -84,6 +89,7 @@
                    HorizontalAlignment="Stretch"
                    Grid.Row="2"
                    Grid.Column="0"
+                   Foreground="{StaticResource FirstForeground}"
                    Style="{StaticResource PhoneTextLargeStyle}"/>
 
         <TextBlock Text="Total Planned: " 
@@ -91,6 +97,7 @@
                    HorizontalAlignment="Stretch"
                    Grid.Row="3"
                    Grid.Column="0"
+                   Foreground="{StaticResource FirstForeground}"
                    Style="{StaticResource PhoneTextLargeStyle}"/>
 
         <TextBlock Text="{Binding Income}"
@@ -98,6 +105,7 @@
                    HorizontalAlignment="Stretch"
                    Grid.Column="1"
                    Grid.Row="2"
+                   Foreground="{StaticResource SecondForeground}"
                    Style="{StaticResource PhoneTextLargeStyle}"/>
 
         <TextBlock Text="{Binding TotalPlanned}" 
@@ -105,6 +113,7 @@
                    HorizontalAlignment="Stretch"
                    Grid.Column="1"
                    Grid.Row="3"
+                   Foreground="{StaticResource SecondForeground}"
                    Style="{StaticResource PhoneTextLargeStyle}"/>
 
         <Image Name="__Icon"
@@ -122,6 +131,7 @@
                    VerticalAlignment="Center"
                    Grid.Column="0"
                    Grid.Row="5" 
+                   Foreground="{StaticResource FirstForeground}"
                    Height="43"/>
         <TextBox Name="__tbName" 
                  HorizontalAlignment="Stretch"
@@ -130,6 +140,7 @@
                  Margin="100,0,0,0"
                  Grid.ColumnSpan="2"
                  Text="{Binding Name}"
+                 Foreground="{StaticResource FirstForeground}"
                  TextWrapping="Wrap"
                  Grid.Row="5" />
 
@@ -137,7 +148,8 @@
                    Style="{StaticResource PhoneTextLargeStyle}"
                    VerticalAlignment="Center"
                    Grid.Column="0"
-                   Grid.Row="6" 
+                   Grid.Row="6"
+                   Foreground="{StaticResource FirstForeground}"
                    Height="43"/>
         <TextBox Name="__tbPlan" 
                  HorizontalAlignment="Stretch"
@@ -148,6 +160,7 @@
                  Text="{Binding Plan}"
                  TextWrapping="Wrap"
                  InputScope="Number"
+                 Foreground="{StaticResource FirstForeground}"
                  TextChanged="__tbPlan_TextChanged"
                  Grid.Row="6" />
 

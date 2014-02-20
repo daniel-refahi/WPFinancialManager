@@ -13,6 +13,7 @@ using FinancialManagerPhoneProject.Models;
 using FinancialManagerPhoneProject.Views.UserControls;
 using System.Threading;
 using Windows.Storage;
+using System.Windows.Media;
 
 namespace FinancialManagerPhoneProject.Views
 {
@@ -44,8 +45,7 @@ namespace FinancialManagerPhoneProject.Views
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            NavigationService.RemoveBackEntry();
-            
+                        
             _DeviceWidth = Application.Current.Host.Content.ActualWidth;
             if (XMLHandler.FINANCIALMANAGER_XML == null)
             {
@@ -63,7 +63,31 @@ namespace FinancialManagerPhoneProject.Views
                 __MainPivot.SelectedIndex = 1;
                 __liCategoriesList.ScrollIntoView(__liCategoriesList.Items[__liCategoriesList.Items.Count - 1]);
             }
+            else if (caller == "help")
+            {
+                string objectString = string.Empty;
+                NavigationContext.QueryString.TryGetValue("object", out objectString);
+                switch (objectString)
+                {
+                    case "expense":
+                        __MainPivot.SelectedIndex = 0;
+                        break;
+                    case "category":
+                        __MainPivot.SelectedIndex = 1;
+                        break;
+                    case "report":
+                        __MainPivot.SelectedIndex = 2;
+                        break;
+                }                
+            }
 
+
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            NavigationService.RemoveBackEntry();
         }
 
         private async Task<MainPageModel> LoadPageModelAsync()
@@ -123,7 +147,7 @@ namespace FinancialManagerPhoneProject.Views
             {
                 NavigationService.Navigate(new Uri("/Views/ExpenseDetail.xaml?status=add&caller=mainwindow", UriKind.Relative));
             }
-            if (StaticValues.AppStatus == StaticValues.AppStatusOptions.Categories)
+            else if (StaticValues.AppStatus == StaticValues.AppStatusOptions.Categories)
             {
                 NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?status=add&caller=mainwindow", UriKind.Relative));
             }
@@ -131,7 +155,18 @@ namespace FinancialManagerPhoneProject.Views
 
         private void ApplicationBarHelpIcon_Click(object sender, EventArgs e)
         {
-
+            switch (StaticValues.AppStatus)
+            {
+                case StaticValues.AppStatusOptions.Expenses:
+                    NavigationService.Navigate(new Uri("/Views/help.xaml?caller=mainwindow&object=expense", UriKind.Relative));
+                    break;
+                case StaticValues.AppStatusOptions.Categories:
+                    NavigationService.Navigate(new Uri("/Views/help.xaml?caller=mainwindow&object=category", UriKind.Relative));
+                    break;
+                case StaticValues.AppStatusOptions.Report:
+                    NavigationService.Navigate(new Uri("/Views/help.xaml?caller=mainwindow&object=report", UriKind.Relative));
+                    break;
+            }            
         }
 
         private void __liExpensesList_SelectionChanged(object sender, SelectionChangedEventArgs e)

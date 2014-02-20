@@ -63,6 +63,12 @@ namespace FinancialManagerPhoneProject.Views
             _CurrentIcon = (Image)sender;  
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            NavigationService.RemoveBackEntry();
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);

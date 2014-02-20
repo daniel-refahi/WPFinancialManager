@@ -13,6 +13,11 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait">
 
+    <phone:PhoneApplicationPage.Resources>
+        <SolidColorBrush x:Key="FirstForeground" Color="#FF2E2E2E"/>
+        <SolidColorBrush x:Key="SecondForeground" Color="#FF838383"/>
+    </phone:PhoneApplicationPage.Resources>
+
     <toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
             <toolkit:NavigationInTransition.Backward>
@@ -75,6 +80,7 @@
         <TextBlock Name="__tbTitle"
                    Text="Category Detail"
                    Style="{StaticResource PhoneTextTitle1Style}"
+                   Foreground="{StaticResource FirstForeground}"
                    FontSize="65"
                    Grid.Column="0"
                    Grid.ColumnSpan="3"
@@ -97,6 +103,7 @@
                    Margin="0,5,0,5" 
                    Grid.Row="2"
                    Grid.Column="2"
+                   Foreground="{StaticResource FirstForeground}"
                    Style="{StaticResource PhoneTextLargeStyle}"/>
 
         <TextBlock Text="{Binding CategoryName}"
@@ -105,6 +112,7 @@
                    Grid.Column="2"
                    Grid.Row="3"
                    Margin="0,-10,0,5" 
+                   Foreground="{StaticResource SecondForeground}"
                    Style="{StaticResource PhoneTextLargeStyle}"/>
 
         <TextBlock Text="Expenses" 
@@ -113,6 +121,7 @@
                    Grid.Row="4"
                    Margin="0,5,0,5" 
                    Grid.Column="2"
+                   Foreground="{StaticResource FirstForeground}"
                    Style="{StaticResource PhoneTextLargeStyle}"/>
 
         <TextBlock Text="{Binding TotalCategoryText}"
@@ -121,6 +130,7 @@
                    Grid.Column="2"
                    Grid.Row="5"
                    Margin="0,-10,0,5" 
+                   Foreground="{StaticResource SecondForeground}"
                    Style="{StaticResource PhoneTextLargeStyle}"/>
 
         <vc:Chart 
@@ -155,7 +165,8 @@
                    HorizontalAlignment="Center"
                    Margin="0"
                    Grid.Column="0"
-                   Grid.Row="7"                    
+                   Grid.Row="7"  
+                   Foreground="{StaticResource SecondForeground}"
                    Style="{StaticResource PhoneTextSmallStyle}"/>
         <TextBlock Text="Amount"
                    VerticalAlignment="Center"                   
@@ -163,6 +174,7 @@
                    Margin="0"
                    Grid.Column="1"
                    Grid.Row="7"
+                   Foreground="{StaticResource SecondForeground}"
                    Style="{StaticResource PhoneTextSmallStyle}"/>
         <TextBlock Text="Description"
                    VerticalAlignment="Center"                   
@@ -170,6 +182,7 @@
                    Margin="0"                    
                    Grid.Column="3"
                    Grid.Row="7"
+                   Foreground="{StaticResource SecondForeground}"
                    Style="{StaticResource PhoneTextSmallStyle}"/>
 
         <Rectangle Grid.Column="0"
@@ -207,6 +220,7 @@
                                 Grid.Row="0"
                                 Text="{Binding Date}"
                                 FontSize="26"
+                                Foreground="{StaticResource FirstForeground}"
                                 Style="{StaticResource PhoneTextLargeStyle}"/>
                             <TextBlock 
                                 HorizontalAlignment="Center"
@@ -214,6 +228,7 @@
                                 Grid.Row="0"
                                 FontSize="26"
                                 Text="{Binding Amount}"
+                                Foreground="{StaticResource FirstForeground}"
                                 Style="{StaticResource PhoneTextLargeStyle}"/>
                             <TextBlock 
                                 HorizontalAlignment="Center"
@@ -222,6 +237,7 @@
                                 Grid.Row="0"
                                 TextWrapping="Wrap"
                                 Text="{Binding Description}"
+                                Foreground="{StaticResource SecondForeground}"
                                 Style="{StaticResource PhoneTextNormalStyle}"/>
                         </Grid>
                     </DataTemplate>

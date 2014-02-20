@@ -122,30 +122,23 @@ namespace FinancialManagerPhoneProject.Views
                         _Category = string.Empty;
                         break;
                     case "update":
-                        __tbTitle.Text = "Edit Expense";
                         NavigationContext.QueryString.TryGetValue("ID", out _ID);
-
-                        Expense expense = StaticValues.DB.GetExpense(_ID);
-                        _Amount = expense.Value.ToString();
-                        _Description = expense.Description;
-                        _Date = expense.Date.ToShortDateString();
-
-                        _Category = StaticValues.DB.GetCategoryName(_ID);
-
-                        // adding delete icon
-                        if (ApplicationBar.Buttons.Count == 2)
-                        {
-                            Uri uri = new Uri("//Image/delete.png", UriKind.Relative);
-                            ApplicationBarIconButton deleteIcon = new ApplicationBarIconButton() { Text = "Delete", IconUri = uri };
-                            deleteIcon.Click += deleteIcon_Click;
-                            ApplicationBar.Buttons.Insert(1, deleteIcon);
-                        }
+                        LoadPageForEditStatus();
                         break;
                 }
             }
             else if (caller == "help")
             {
                 // navigating from help page
+                NavigationContext.QueryString.TryGetValue("object", out _ID);
+                if (_ID != string.Empty)
+                {
+                    _Status = "update";
+                    LoadPageForEditStatus();
+                }
+                else
+                    _Status = "add";
+                
             }
 
             foreach (Category c in categories)
@@ -181,9 +174,32 @@ namespace FinancialManagerPhoneProject.Views
             this.DataContext = pageModel;
         }
 
+        private void LoadPageForEditStatus()
+        {
+            __tbTitle.Text = "Edit Expense";
+            
+
+            Expense expense = StaticValues.DB.GetExpense(_ID);
+            _Amount = expense.Value.ToString();
+            _Description = expense.Description;
+            _Date = expense.Date.ToShortDateString();
+
+            _Category = StaticValues.DB.GetCategoryName(_ID);
+
+            // adding delete icon
+            if (ApplicationBar.Buttons.Count == 2)
+            {
+                Uri uri = new Uri("//Image/delete.png", UriKind.Relative);
+                ApplicationBarIconButton deleteIcon = new ApplicationBarIconButton() { Text = "Delete", IconUri = uri };
+                deleteIcon.Click += deleteIcon_Click;
+                ApplicationBar.Buttons.Insert(1, deleteIcon);
+            }
+        }
+
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
             //base.OnBackKeyPress(e);
+            ExpenseDetail.IsFromDatePicker = false;
             SaveState = false;
             NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=expensedetail", UriKind.Relative));
         }
@@ -196,7 +212,8 @@ namespace FinancialManagerPhoneProject.Views
             if (result == MessageBoxResult.OK)
             {
                 StaticValues.DB.DeleteExpense(_ID);
-                NavigationService.GoBack();
+                SaveState = false;
+                NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=expensedetail", UriKind.Relative));
             }
         }
         
@@ -237,6 +254,7 @@ namespace FinancialManagerPhoneProject.Views
                     });
                 }
                 SaveState = false;
+                ExpenseDetail.IsFromDatePicker = false;
                 NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=expensedetail", UriKind.Relative));
             }
         }
@@ -244,6 +262,8 @@ namespace FinancialManagerPhoneProject.Views
         private void ApplicationBarHelpIcon_Click(object sender, EventArgs e)
         {
             SaveState = false;
+            ExpenseDetail.IsFromDatePicker = false;
+            NavigationService.Navigate(new Uri("/Views/help.xaml?caller=expensedetail&object="+_ID, UriKind.Relative));
         }
 
         private void __liCategoryList_SelectionChanged(object sender, SelectionChangedEventArgs e)

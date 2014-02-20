@@ -272,3 +272,6 @@ C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\Fi
 C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\SLWpVisifire.Charts.dll
 C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\SLWpVisifire.Gauges.dll
 C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Debug\Views\CategoryChart.g.cs
+C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\JeffWilcox.PhoneThemeManager.dll
+C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\JeffWilcox.PhoneThemeManager.pdb
+C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Debug\Views\Help.g.cs

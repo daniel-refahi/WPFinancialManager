@@ -53,6 +53,11 @@ namespace FinancialManagerPhoneProject.Views
             NavigationContext.QueryString.TryGetValue("categoryname", out _CategoryName);
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+        }
+
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
             //base.OnBackKeyPress(e);
@@ -78,7 +83,7 @@ namespace FinancialManagerPhoneProject.Views
 
         private void ApplicationBarHelpIcon_Click(object sender, EventArgs e)
         {
-            //SaveState = false;
+            NavigationService.Navigate(new Uri("/Views/Help.xaml?caller=categorychart&object="+_CategoryName, UriKind.Relative));
         }
 
 

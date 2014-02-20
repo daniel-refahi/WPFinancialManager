@@ -9,6 +9,11 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
 
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="FirstForeground" Color="#FF2E2E2E"/>
+        <SolidColorBrush x:Key="SecondForeground" Color="#FF838383"/>
+    </UserControl.Resources>    
+
     <Grid x:Name="LayoutRoot" Height="250"
           Margin="10,0,0,25" Width="{Binding ScreenWidth}">
         <Grid.Background>
@@ -39,6 +44,7 @@
                    Grid.ColumnSpan="2"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
+                   Foreground="{StaticResource FirstForeground}"
                    Style="{StaticResource PhoneTextLargeStyle}"
                    Margin="120,0,0,0" />
 
@@ -47,6 +53,7 @@
                    Grid.Column="0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
+                   Foreground="{StaticResource FirstForeground}"
                    Style="{StaticResource PhoneTextLargeStyle}"
                    />
         <TextBlock Text="{Binding Plan}"
@@ -54,6 +61,7 @@
                    Grid.Column="1"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
+                   Foreground="{StaticResource SecondForeground}"
                    Style="{StaticResource PhoneTextLargeStyle}"
                    />
 
@@ -62,6 +70,7 @@
                    Grid.Column="0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
+                   Foreground="{StaticResource FirstForeground}"
                    Style="{StaticResource PhoneTextLargeStyle}"
                    />
         <TextBlock Text="{Binding Total}"
@@ -69,6 +78,7 @@
                    Grid.Column="1"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
+                   Foreground="{StaticResource SecondForeground}"
                    Style="{StaticResource PhoneTextLargeStyle}"
                    />
 
@@ -78,6 +88,7 @@
                    Grid.Column="0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
+                   Foreground="{StaticResource FirstForeground}"
                    Style="{StaticResource PhoneTextLargeStyle}"
                    />
         <TextBlock Text="{Binding Remaining}"
@@ -85,6 +96,7 @@
                    Grid.Column="1"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
+                   Foreground="{StaticResource SecondForeground}"
                    Style="{StaticResource PhoneTextLargeStyle}"
                    />
 

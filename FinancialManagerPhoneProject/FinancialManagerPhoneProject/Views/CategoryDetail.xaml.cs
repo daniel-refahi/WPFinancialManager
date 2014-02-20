@@ -36,6 +36,7 @@ namespace FinancialManagerPhoneProject.Views
             //base.OnBackKeyPress(e);
             IsolatedStorageSettings.ApplicationSettings.Clear();
             SaveState = false;
+            NavigationService.Navigate(new Uri("/Views/CategoryChart.xaml?caller=categorydetail&categoryname=" +_OldName, UriKind.Relative));
         }
 
         void CategoryDetail_Loaded(object sender, RoutedEventArgs e)
@@ -61,9 +62,7 @@ namespace FinancialManagerPhoneProject.Views
                 switch (_Status)
                 {
                     case "add":
-                        _Plan = string.Empty;
-                        _Name = string.Empty;
-                        _IconSource = "../Assets/Icons/clothing.png";
+                        LoadPageFromAdd();
                         break;
                     case "update":
                         
@@ -73,34 +72,28 @@ namespace FinancialManagerPhoneProject.Views
             else if (caller == "categorychart")
             {
                 // navigating from category chart
-                NavigationService.RemoveBackEntry();
-                _Status = "edit";
-                __tbTitle.Text = "Edit Category";
+                
                 NavigationContext.QueryString.TryGetValue("category", out _Name);
                 NavigationContext.QueryString.TryGetValue("category", out _OldName);
-                Category category = StaticValues.DB.GetCategoryObject(_Name);
-                _Plan = category.Plan.ToString();
-                _IconSource = "../Assets/Icons/" + category.Icon + ".png";
-
-                // adding delete icon
-                if (ApplicationBar.Buttons.Count == 2)
-                {
-                    Uri uri = new Uri("//Image/delete.png", UriKind.Relative);
-                    ApplicationBarIconButton deleteIcon = new ApplicationBarIconButton() { Text = "Delete", IconUri = uri };
-                    deleteIcon.Click += deleteIcon_Click;
-                    ApplicationBar.Buttons.Insert(1, deleteIcon);
-                }
+                LoadPageFromEdit();
             }
             else if (caller == "help")
             {
                 // navigating from category chart
-                
+                NavigationContext.QueryString.TryGetValue("object", out _Name);
+                if (_Name == string.Empty)
+                    LoadPageFromAdd();
+                else                
+                {
+                    _OldName = _Name;
+                    LoadPageFromEdit();
+                }
             }
             else 
             {
                 // navigating from icon selection page
-                NavigationService.RemoveBackEntry();
                 IsolatedStorageSettings.ApplicationSettings.TryGetValue("name", out _Name);
+                IsolatedStorageSettings.ApplicationSettings.TryGetValue("oldname", out _OldName);
                 IsolatedStorageSettings.ApplicationSettings.TryGetValue("plan", out _Plan);
                 IsolatedStorageSettings.ApplicationSettings.TryGetValue("status", out _Status);
                 NavigationContext.QueryString.TryGetValue("source", out _IconSource);
@@ -115,6 +108,31 @@ namespace FinancialManagerPhoneProject.Views
             _PageModel.TotalPlanned = StaticValues.DB.GetCurrencySymbol() +" "+ StaticValues.DB.GetTotalPlan().ToString();
 
             this.DataContext = _PageModel;
+        }
+
+        private void LoadPageFromEdit()
+        {
+            _Status = "edit";
+            __tbTitle.Text = "Edit Category";
+            Category category = StaticValues.DB.GetCategoryObject(_Name);
+            _Plan = category.Plan.ToString();
+            _IconSource = "../Assets/Icons/" + category.Icon + ".png";
+
+            // adding delete icon
+            if (ApplicationBar.Buttons.Count == 2)
+            {
+                Uri uri = new Uri("//Image/delete.png", UriKind.Relative);
+                ApplicationBarIconButton deleteIcon = new ApplicationBarIconButton() { Text = "Delete", IconUri = uri };
+                deleteIcon.Click += deleteIcon_Click;
+                ApplicationBar.Buttons.Insert(1, deleteIcon);
+            }
+        }
+
+        private void LoadPageFromAdd()
+        {
+            _Plan = string.Empty;
+            _Name = string.Empty;
+            _IconSource = "../Assets/Icons/clothing.png";
         }        
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -124,12 +142,14 @@ namespace FinancialManagerPhoneProject.Views
             {
                 IsolatedStorageSettings.ApplicationSettings.Clear();
                 IsolatedStorageSettings.ApplicationSettings["name"] = __tbName.Text.ToString();
+                IsolatedStorageSettings.ApplicationSettings["oldname"] = _OldName;
                 IsolatedStorageSettings.ApplicationSettings["plan"] = __tbPlan.Text.ToString();
                 IsolatedStorageSettings.ApplicationSettings["status"] = _Status;
                 IsolatedStorageSettings.ApplicationSettings.Save();
             }
             else
                 IsolatedStorageSettings.ApplicationSettings.Clear();
+            NavigationService.RemoveBackEntry();
         }
 
         private void ApplicationBarSaveIcon_Click(object sender, EventArgs e)
@@ -154,7 +174,7 @@ namespace FinancialManagerPhoneProject.Views
                     }))
                     {
                         SaveState = false;                    
-                        NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=categorydetail", UriKind.Relative));
+                        NavigationService.Navigate(new Uri("/Views/CategoryChart.xaml?caller=categorydetail&categoryname="+__tbName.Text.ToString(), UriKind.Relative));
                     }
                     else
                         MessageBox.Show("The Category Name Already Exists!");
@@ -170,7 +190,7 @@ namespace FinancialManagerPhoneProject.Views
                         TotalExpenses = 0
                     });
                     SaveState = false;
-                    NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=categorydetail", UriKind.Relative));
+                    NavigationService.Navigate(new Uri("/Views/CategoryChart.xaml?caller=categorydetail&categoryname="+__tbName.Text.ToString(), UriKind.Relative));
                 }
             }
             
@@ -191,6 +211,7 @@ namespace FinancialManagerPhoneProject.Views
         private void ApplicationBarHelpIcon_Click(object sender, EventArgs e)
         {
             SaveState = false;
+            NavigationService.Navigate(new Uri("/Views/help.xaml?caller=categorydetail&object=" + _Name, UriKind.Relative));
         }
 
         private void __tbPlan_TextChanged(object sender, TextChangedEventArgs e)

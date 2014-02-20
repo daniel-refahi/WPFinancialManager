@@ -11,13 +11,13 @@
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
-    Foreground="{StaticResource PhoneForegroundBrush}"
+    Foreground="{StaticResource PhoneForegroundBrush}"    
     Loaded="PhoneApplicationPage_Loaded"
     SupportedOrientations="Portrait"  Orientation="Portrait" Background="Black">
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" Mode="Default" 
-                              ForegroundColor="WhiteSmoke"
+                              ForegroundColor="WhiteSmoke" 
                               BackgroundColor="#FF2E2E2E" >
             <shell:ApplicationBarIconButton Text="Add"  IconUri="/Image/add.png"
                                             Click="ApplicationBarAddIcon_Click"/>
@@ -29,11 +29,10 @@
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
-
     <phone:PhoneApplicationPage.Resources>
-        <DataTemplate x:Key="ExpenseListItemTemplate">
-
-        </DataTemplate>
+        <DataTemplate x:Key="ExpenseListItemTemplate"/>
+        <SolidColorBrush x:Key="FirstForeground" Color="#FF2E2E2E"/>
+        <SolidColorBrush x:Key="SecondForeground" Color="#FF838383"/>
     </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -52,10 +51,11 @@
 
         <!--Pivot Control-->
         <phone:Pivot Name="__MainPivot"
+                     Foreground="{StaticResource FirstForeground}"
                      Background="Transparent" 
                      Margin="0,2,0,0"
                      SelectionChanged="__MainPivot_SelectionChanged">
-            <phone:PivotItem Header="Expenses">
+            <phone:PivotItem Header="Expenses" >
                 <Grid Name="__GrExpenses" 
                     HorizontalAlignment="Stretch" >
                     <Grid.ColumnDefinitions>
@@ -69,7 +69,8 @@
 
                     <TextBlock Text="Income: "
                                Grid.Row="0"
-                               Grid.Column="0"                        
+                               Grid.Column="0"  
+                               Foreground="{StaticResource FirstForeground}"
                                Style="{StaticResource PhoneTextLargeStyle}"
                                Margin="10,5,0,20"/>
 
@@ -78,6 +79,7 @@
                                Grid.Row="0"
                                Grid.Column="0"
                                Style="{StaticResource PhoneTextSmallStyle}"
+                               Foreground="{StaticResource SecondForeground}"
                                FontSize="30"
                                Margin="130,10,0,20"/>
 
@@ -97,13 +99,15 @@
 
                     <TextBlock Text="Balance: "
                                Grid.Row="2"
-                               Grid.Column="0"                        
+                               Grid.Column="0" 
+                               Foreground="{StaticResource FirstForeground}"
                                Style="{StaticResource PhoneTextLargeStyle}"
                                Margin="10,5,0,20"/>
                     <TextBlock Name="__tbBalance"
                                Text="{Binding Balance}"
                                Grid.Row="2"
                                Grid.Column="0"
+                               Foreground="{StaticResource SecondForeground}"
                                Style="{StaticResource PhoneTextSmallStyle}"
                                FontSize="30"
                                Margin="130,10,0,20"/>

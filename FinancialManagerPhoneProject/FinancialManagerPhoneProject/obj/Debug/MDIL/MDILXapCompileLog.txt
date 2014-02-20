@@ -8,6 +8,8 @@ MDIL image C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhon
 
 
 File C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\FinancialManagerPhoneProject.dll output C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Debug\MDIL\FinancialManagerPhoneProject.dll
+Processing file: C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\JeffWilcox.PhoneThemeManager.dll
+File C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\JeffWilcox.PhoneThemeManager.dll is not in the compile filter. Skipping.
 Processing file: C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\Microsoft.Advertising.Mobile.dll
 File C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\Microsoft.Advertising.Mobile.dll is not in the compile filter. Skipping.
 Processing file: C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\Microsoft.Advertising.Mobile.UI.dll

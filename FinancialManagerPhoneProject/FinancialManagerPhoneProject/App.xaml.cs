@@ -10,6 +10,7 @@ using FinancialManagerPhoneProject.Resources;
 using FinancialManagerPhoneProject.DataHandlers;
 using FinancialManagerPhoneProject.Views;
 using System.Threading;
+using System.Windows.Media;
 
 namespace FinancialManagerPhoneProject
 {
@@ -37,6 +38,8 @@ namespace FinancialManagerPhoneProject
 
             // Language display initialization
             InitializeLanguage();
+
+            
 
             // Show graphics profiling information while debugging.
             if (Debugger.IsAttached)
