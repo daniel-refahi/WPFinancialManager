@@ -8,13 +8,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:UserControls ="clr-namespace:FinancialManagerPhoneProject.Views.UserControls"
     xmlns:animations="clr-namespace:FinancialManagerPhoneProject.AnimationClasses"
+    xmlns:vc="clr-namespace:Visifire.Charts;assembly=SLWpVisifire.Charts"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"    
     Loaded="PhoneApplicationPage_Loaded"
     SupportedOrientations="Portrait"  Orientation="Portrait" Background="Black">
-
+    
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" Mode="Default" 
                               ForegroundColor="WhiteSmoke" 
@@ -131,7 +132,24 @@
             </phone:PivotItem>
 
             <phone:PivotItem Header="Report">
-
+                <Grid Name="__GrReport" 
+                    HorizontalAlignment="Stretch" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40*"/>
+                        <ColumnDefinition Width="60*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="40*"/>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="10*"/>
+                    </Grid.RowDefinitions>
+                
+                    
+                </Grid>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>

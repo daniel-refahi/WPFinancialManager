@@ -60,17 +60,24 @@ namespace FinancialManagerPhoneProject
                 // and consume battery power when the user is not using the phone.
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
-
         }
 
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated
-        private void Application_Launching(object sender, LaunchingEventArgs e)
+        private async void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            DateTime beginTime = DateTime.Now;
             XMLHandler.DEIVCE_WIDTH = Application.Current.Host.Content.ActualWidth;
             StaticValues.DB = new XMLHandler();
 
-            Thread.Sleep(2000);
+            while (XMLHandler.FINANCIALMANAGER_XML == null)
+            {
+                await StaticValues.DB.LoadXmlFromFileAsync();
+            }
+
+            TimeSpan diffrenceTime = DateTime.Now - beginTime;
+            if(diffrenceTime< new TimeSpan(0,0,2))
+                Thread.Sleep( new TimeSpan(0,0,2) - diffrenceTime);
         }
 
         // Code to execute when the application is activated (brought to foreground)

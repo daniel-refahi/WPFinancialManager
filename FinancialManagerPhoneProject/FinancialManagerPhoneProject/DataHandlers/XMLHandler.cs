@@ -561,6 +561,25 @@ namespace FinancialManagerPhoneProject.DataHandlers
             return categories;
         }
 
+        public List<Category> GetTopCategories()
+        {
+            List<Category> categories = new List<Category>();
+            var categoriesXml = from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
+                                select x;
+
+            foreach (var node in categoriesXml)
+            {
+                categories.Add(new Category()
+                {
+                    Icon = node.Attribute("Icon").Value.ToString(),
+                    Name = node.Attribute("Name").Value.ToString(),
+                    Plan = Convert.ToDouble(node.Attribute("Plan").Value.ToString()),
+                    TotalExpenses = Convert.ToDouble(node.Attribute("TotalExpenses").Value.ToString())
+                });
+            }
+            return categories.OrderByDescending(c=>c.TotalExpenses).Take(5).ToList();
+        }
+
         public double GetTotalPlan()
         {
             return (from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()

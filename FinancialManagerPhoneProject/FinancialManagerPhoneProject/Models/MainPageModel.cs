@@ -23,5 +23,16 @@ namespace FinancialManagerPhoneProject.Models
         
         public string Balance { get; set; }
 
+        public string CategoryName1 { get; set; }
+        public double TotalCategory1 { get; set; }
+        public string CategoryName2 { get; set; }
+        public double TotalCategory2 { get; set; }
+        public string CategoryName3 { get; set; }
+        public double TotalCategory3 { get; set; }
+        public string CategoryName4 { get; set; }
+        public double TotalCategory4 { get; set; }
+        public string CategoryName5 { get; set; }
+        public double TotalCategory5 { get; set; }
+
     }
 }

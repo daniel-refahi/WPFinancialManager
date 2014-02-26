@@ -213,6 +213,7 @@ namespace FinancialManagerPhoneProject.Views
             {
                 StaticValues.DB.DeleteExpense(_ID);
                 SaveState = false;
+                ExpenseDetail.IsFromDatePicker = false;
                 NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=expensedetail", UriKind.Relative));
             }
         }

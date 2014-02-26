@@ -14,6 +14,7 @@ using FinancialManagerPhoneProject.Views.UserControls;
 using System.Threading;
 using Windows.Storage;
 using System.Windows.Media;
+using Visifire.Charts;
 
 namespace FinancialManagerPhoneProject.Views
 {
@@ -21,9 +22,33 @@ namespace FinancialManagerPhoneProject.Views
     {
         
         private double _DeviceWidth;
+        private MainPageModel _MainPageModel;
+        bool IsChartAdded = false;
+
         public MainWindow()
         {
             InitializeComponent();
+            this.Loaded += MainWindow_Loaded;
+
+        }
+
+        void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            _DeviceWidth = Application.Current.Host.Content.ActualWidth;
+
+            __LoadingBar.Opacity = 1;
+            Task t_LoadPageModel = Task.Factory.StartNew(() =>
+            {
+                _MainPageModel = LoadPageModel();
+            });
+
+            Task UpdateUI = t_LoadPageModel.ContinueWith((t) =>
+            {
+                if (_MainPageModel == null)
+                    MessageBox.Show("Main Page Model is null");
+                this.DataContext = _MainPageModel;
+                __LoadingBar.Opacity = 0;
+            }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         void __MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -32,33 +57,92 @@ namespace FinancialManagerPhoneProject.Views
             {
                 case "Expenses":
                     StaticValues.AppStatus = StaticValues.AppStatusOptions.Expenses;
+                    
+                    if (ApplicationBar.Buttons.Count == 1)
+                    {
+                        Uri uri = new Uri("//Image/add.png", UriKind.Relative);
+                        ApplicationBarIconButton addIcon = new ApplicationBarIconButton() { Text = "add", IconUri = uri };
+                        addIcon.Click += ApplicationBarAddIcon_Click;
+                        ApplicationBar.Buttons.Insert(0, addIcon);
+                    }
                     break;
                 case "Categories":
                     StaticValues.AppStatus = StaticValues.AppStatusOptions.Categories;
+                    if (ApplicationBar.Buttons.Count == 1)
+                    {
+                        Uri uri = new Uri("//Image/add.png", UriKind.Relative);
+                        ApplicationBarIconButton addIcon = new ApplicationBarIconButton() { Text = "add", IconUri = uri };
+                        addIcon.Click += ApplicationBarAddIcon_Click;
+                        ApplicationBar.Buttons.Insert(0, addIcon);
+                    }
                     break;
                 case "Report":
                     StaticValues.AppStatus = StaticValues.AppStatusOptions.Report;
+                    ApplicationBar.Buttons.RemoveAt(0);
+
+                    if (!IsChartAdded)
+                    {
+
+                        Chart topCategoryChart = new Chart();
+                        topCategoryChart.Height = 250;
+                        topCategoryChart.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
+                        topCategoryChart.Background = new SolidColorBrush(Colors.Transparent);
+                        topCategoryChart.LightingEnabled = false;
+                        topCategoryChart.View3D = true;
+                        topCategoryChart.BorderThickness = new Thickness(0);
+
+                        DataSeries ds = new DataSeries();
+                        ds.LabelEnabled = true;
+                        ds.ShowInLegend = false;
+                        ds.IncludeDataPointsInLegend = false;
+                        ds.RenderAs = RenderAs.Column;
+                        ds.DataPoints.Add(new DataPoint()
+                        {
+                            AxisXLabel = _MainPageModel.CategoryName1,
+                            YValue = _MainPageModel.TotalCategory1
+                        });
+                        ds.DataPoints.Add(new DataPoint()
+                        {
+                            AxisXLabel = _MainPageModel.CategoryName2,
+                            YValue = _MainPageModel.TotalCategory2
+                        });
+                        ds.DataPoints.Add(new DataPoint()
+                        {
+                            AxisXLabel = _MainPageModel.CategoryName3,
+                            YValue = _MainPageModel.TotalCategory3
+                        });
+                        ds.DataPoints.Add(new DataPoint()
+                        {
+                            AxisXLabel = _MainPageModel.CategoryName4,
+                            YValue = _MainPageModel.TotalCategory4
+                        });
+                        ds.DataPoints.Add(new DataPoint()
+                        {
+                            AxisXLabel = _MainPageModel.CategoryName5,
+                            YValue = _MainPageModel.TotalCategory5
+                        });
+                        topCategoryChart.Series.Add(ds);
+
+                        Grid.SetColumn(topCategoryChart, 0);
+                        Grid.SetColumnSpan(topCategoryChart, 2);
+                        Grid.SetRow(topCategoryChart, 1);
+                        __GrReport.Children.Add(topCategoryChart);
+
+                        IsChartAdded = true;
+                    }
                     break;
             }
         }
 
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-                        
-            _DeviceWidth = Application.Current.Host.Content.ActualWidth;
-            if (XMLHandler.FINANCIALMANAGER_XML == null)
-            {
-                await StaticValues.DB.LoadXmlFromFileAsync();
-            }
-
-            __LoadingBar.Opacity = 1;
-            this.DataContext = await LoadPageModelAsync();
-            __LoadingBar.Opacity = 0;
 
             string caller = string.Empty;
             NavigationContext.QueryString.TryGetValue("caller", out caller);
-            if(caller == "categorydetail")
+            if (caller == "categorydetail")
             {
                 __MainPivot.SelectedIndex = 1;
                 __liCategoriesList.ScrollIntoView(__liCategoriesList.Items[__liCategoriesList.Items.Count - 1]);
@@ -78,10 +162,8 @@ namespace FinancialManagerPhoneProject.Views
                     case "report":
                         __MainPivot.SelectedIndex = 2;
                         break;
-                }                
+                }
             }
-
-
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -90,50 +172,73 @@ namespace FinancialManagerPhoneProject.Views
             NavigationService.RemoveBackEntry();
         }
 
-        private async Task<MainPageModel> LoadPageModelAsync()
-        {
-            Task<MainPageModel> loadTask =
-                 Task.Factory.StartNew(() =>
-                 {
-                     MainPageModel mainPageModel = new MainPageModel();
-                     string symbol = StaticValues.DB.GetCurrencySymbol();
-                     foreach (Expense expense in StaticValues.DB.GetAllExpenses())
-                     {
-                         mainPageModel.ExpenseListModel.Add(new ExpenseItemModel()
-                                                         {
-                                                             Amount = symbol +" "+ expense.Value,
-                                                             ID = expense.ID,
-                                                             Category = expense.Category,
-                                                             Date = expense.Date.ToString("dd/MMM"),
-                                                             Description = expense.Description,
-                                                             ImageSource = "../../Assets/Icons/" + expense.Icon+".png",
-                                                             ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40
-                                                         });
-                         
-                     }
+        private MainPageModel LoadPageModel()
+        {            
+            MainPageModel mainPageModel = new MainPageModel();
+            string symbol = StaticValues.DB.GetCurrencySymbol();
+            foreach (Expense expense in StaticValues.DB.GetAllExpenses())
+            {
+                mainPageModel.ExpenseListModel.Add(new ExpenseItemModel()
+                {
+                    Amount = symbol + " " + expense.Value,
+                    ID = expense.ID,
+                    Category = expense.Category,
+                    Date = expense.Date.ToString("dd/MMM"),
+                    Description = expense.Description,
+                    ImageSource = "../../Assets/Icons/" + expense.Icon + ".png",
+                    ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40
+                });
+            }
 
-                     foreach (Category category in StaticValues.DB.GetAllCategories())
-                     {
-                         mainPageModel.CategoryListModel.Add(new CategoryItemModel()
-                         {
-                             Name = category.Name,
-                             Plan = symbol + " " + category.Plan,
-                             Remaining = symbol + " " + (category.Plan - category.TotalExpenses),
-                             Total = symbol + " " + category.TotalExpenses,
-                             ImageSource = "../../Assets/Icons/" + category.Icon + ".png",
-                             ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40
-                         });
+            foreach (Category category in StaticValues.DB.GetAllCategories())
+            {
+                mainPageModel.CategoryListModel.Add(new CategoryItemModel()
+                {
+                    Name = category.Name,
+                    Plan = symbol + " " + category.Plan,
+                    Remaining = symbol + " " + (category.Plan - category.TotalExpenses),
+                    Total = symbol + " " + category.TotalExpenses,
+                    ImageSource = "../../Assets/Icons/" + category.Icon + ".png",
+                    ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40
+                });
+            }
 
-                     }
+            int topCategoriesCounter = 1;            
+            foreach (Category category in StaticValues.DB.GetTopCategories())
+            {
+                switch (topCategoriesCounter)
+                {
+                    case 1:
+                        mainPageModel.CategoryName1 = category.Name;
+                        mainPageModel.TotalCategory1 = category.TotalExpenses;
+                        break;
+                    case 2:
+                        mainPageModel.CategoryName2 = category.Name;
+                        mainPageModel.TotalCategory2 = category.TotalExpenses;
+                        break;
+                    case 3:
+                        mainPageModel.CategoryName3 = category.Name;
+                        mainPageModel.TotalCategory3 = category.TotalExpenses;
+                        break;
+                    case 4:
+                        mainPageModel.CategoryName4 = category.Name;
+                        mainPageModel.TotalCategory4 = category.TotalExpenses;
+                        break;
+                    case 5:
+                        mainPageModel.CategoryName5 = category.Name;
+                        mainPageModel.TotalCategory5 = category.TotalExpenses;
+                        break;
+                }
+                topCategoriesCounter++;
+            }
 
-                     double income = StaticValues.DB.GetIncome();
-                     double totalExpense = StaticValues.DB.GetTotalExpenses();
-                     double balance = income - totalExpense;
-                     mainPageModel.Income = symbol + " " + income;
-                     mainPageModel.Balance = symbol + " " + balance;
-                     return mainPageModel;
-                 });
-            return await loadTask;
+            double income = StaticValues.DB.GetIncome();
+            double totalExpense = StaticValues.DB.GetTotalExpenses();
+            double balance = income - totalExpense;
+            mainPageModel.Income = symbol + " " + income;
+            mainPageModel.Balance = symbol + " " + balance;            
+
+            return mainPageModel;
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
