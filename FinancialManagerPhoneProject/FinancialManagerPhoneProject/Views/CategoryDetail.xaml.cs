@@ -36,7 +36,10 @@ namespace FinancialManagerPhoneProject.Views
             //base.OnBackKeyPress(e);
             IsolatedStorageSettings.ApplicationSettings.Clear();
             SaveState = false;
-            NavigationService.Navigate(new Uri("/Views/CategoryChart.xaml?caller=categorydetail&categoryname=" +_OldName, UriKind.Relative));
+            if(_Status == "add")
+                NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=categorydetail", UriKind.Relative));
+            else 
+                NavigationService.Navigate(new Uri("/Views/CategoryChart.xaml?caller=categorydetail&categoryname=" +_OldName, UriKind.Relative));
         }
 
         void CategoryDetail_Loaded(object sender, RoutedEventArgs e)
@@ -72,9 +75,9 @@ namespace FinancialManagerPhoneProject.Views
             else if (caller == "categorychart")
             {
                 // navigating from category chart
-                
-                NavigationContext.QueryString.TryGetValue("category", out _Name);
-                NavigationContext.QueryString.TryGetValue("category", out _OldName);
+
+                NavigationContext.QueryString.TryGetValue("categoryname", out _Name);
+                NavigationContext.QueryString.TryGetValue("categoryname", out _OldName);
                 LoadPageFromEdit();
             }
             else if (caller == "help")
@@ -174,7 +177,7 @@ namespace FinancialManagerPhoneProject.Views
                     }))
                     {
                         SaveState = false;                    
-                        NavigationService.Navigate(new Uri("/Views/CategoryChart.xaml?caller=categorydetail&categoryname="+__tbName.Text.ToString(), UriKind.Relative));
+                        NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=categorydetail&categoryname="+__tbName.Text.ToString(), UriKind.Relative));
                     }
                     else
                         MessageBox.Show("The Category Name Already Exists!");

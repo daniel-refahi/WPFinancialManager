@@ -23,7 +23,9 @@ namespace FinancialManagerPhoneProject.Views
         
         private double _DeviceWidth;
         private MainPageModel _MainPageModel;
-        bool IsChartAdded = false;
+        private string _Caller = string.Empty;
+        private string _PassedCategoryName = string.Empty;        
+        private bool IsChartAdded = false;
 
         public MainWindow()
         {
@@ -45,9 +47,37 @@ namespace FinancialManagerPhoneProject.Views
             Task UpdateUI = t_LoadPageModel.ContinueWith((t) =>
             {
                 if (_MainPageModel == null)
-                    MessageBox.Show("Main Page Model is null");
+                {
+                    MessageBox.Show("The Database connection failed! \nPlease restart the app.");                    
+                }
                 this.DataContext = _MainPageModel;
                 __LoadingBar.Opacity = 0;
+
+                if (_Caller == "categorydetail" || _Caller == "categorychart")
+                {
+                    __MainPivot.SelectedIndex = 1;
+                }
+                if (_Caller == "report")
+                {
+                    __MainPivot.SelectedIndex = 2;
+                }
+                else if (_Caller == "help")
+                {
+                    string objectString = string.Empty;
+                    NavigationContext.QueryString.TryGetValue("object", out objectString);
+                    switch (objectString)
+                    {
+                        case "expense":
+                            __MainPivot.SelectedIndex = 0;
+                            break;
+                        case "category":
+                            __MainPivot.SelectedIndex = 1;
+                            break;
+                        case "report":
+                            __MainPivot.SelectedIndex = 2;
+                            break;
+                    }
+                }
             }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
@@ -67,7 +97,7 @@ namespace FinancialManagerPhoneProject.Views
                     }
                     break;
                 case "Categories":
-                    StaticValues.AppStatus = StaticValues.AppStatusOptions.Categories;
+                    StaticValues.AppStatus = StaticValues.AppStatusOptions.Categories;                    
                     if (ApplicationBar.Buttons.Count == 1)
                     {
                         Uri uri = new Uri("//Image/add.png", UriKind.Relative);
@@ -80,7 +110,7 @@ namespace FinancialManagerPhoneProject.Views
                     StaticValues.AppStatus = StaticValues.AppStatusOptions.Report;
                     ApplicationBar.Buttons.RemoveAt(0);
 
-                    if (!IsChartAdded)
+                    if (! IsChartAdded)
                     {
 
                         Chart topCategoryChart = new Chart();
@@ -88,8 +118,21 @@ namespace FinancialManagerPhoneProject.Views
                         topCategoryChart.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
                         topCategoryChart.Background = new SolidColorBrush(Colors.Transparent);
                         topCategoryChart.LightingEnabled = false;
-                        topCategoryChart.View3D = true;
+                        topCategoryChart.View3D = true;                        
                         topCategoryChart.BorderThickness = new Thickness(0);
+
+                        Axis yaxis = new Axis();
+                        yaxis.Enabled = false;
+                        ChartGrid grids = new ChartGrid();
+                        grids.Enabled = false;
+                        yaxis.Grids.Add(grids);
+                        topCategoryChart.AxesY.Add(yaxis);
+
+                        Axis xaxis = new Axis();
+                        xaxis.Enabled = true;
+                        grids.Enabled = false;
+                        xaxis.Grids.Add(grids);
+                        topCategoryChart.AxesX.Add(xaxis);
 
                         DataSeries ds = new DataSeries();
                         ds.LabelEnabled = true;
@@ -121,8 +164,7 @@ namespace FinancialManagerPhoneProject.Views
                             AxisXLabel = _MainPageModel.CategoryName5,
                             YValue = _MainPageModel.TotalCategory5
                         });
-                        topCategoryChart.Series.Add(ds);
-
+                        topCategoryChart.Series.Add(ds);                        
                         Grid.SetColumn(topCategoryChart, 0);
                         Grid.SetColumnSpan(topCategoryChart, 2);
                         Grid.SetRow(topCategoryChart, 1);
@@ -134,36 +176,13 @@ namespace FinancialManagerPhoneProject.Views
             }
         }
 
-
-
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
-            string caller = string.Empty;
-            NavigationContext.QueryString.TryGetValue("caller", out caller);
-            if (caller == "categorydetail")
-            {
-                __MainPivot.SelectedIndex = 1;
-                __liCategoriesList.ScrollIntoView(__liCategoriesList.Items[__liCategoriesList.Items.Count - 1]);
-            }
-            else if (caller == "help")
-            {
-                string objectString = string.Empty;
-                NavigationContext.QueryString.TryGetValue("object", out objectString);
-                switch (objectString)
-                {
-                    case "expense":
-                        __MainPivot.SelectedIndex = 0;
-                        break;
-                    case "category":
-                        __MainPivot.SelectedIndex = 1;
-                        break;
-                    case "report":
-                        __MainPivot.SelectedIndex = 2;
-                        break;
-                }
-            }
+            
+            NavigationContext.QueryString.TryGetValue("caller", out _Caller);
+            NavigationContext.QueryString.TryGetValue("categoryname", out _PassedCategoryName);
+            
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -175,7 +194,7 @@ namespace FinancialManagerPhoneProject.Views
         private MainPageModel LoadPageModel()
         {            
             MainPageModel mainPageModel = new MainPageModel();
-            string symbol = StaticValues.DB.GetCurrencySymbol();
+            string symbol = StaticValues.DB.GetCurrencySymbol();            
             foreach (Expense expense in StaticValues.DB.GetAllExpenses())
             {
                 mainPageModel.ExpenseListModel.Add(new ExpenseItemModel()
@@ -236,7 +255,9 @@ namespace FinancialManagerPhoneProject.Views
             double totalExpense = StaticValues.DB.GetTotalExpenses();
             double balance = income - totalExpense;
             mainPageModel.Income = symbol + " " + income;
-            mainPageModel.Balance = symbol + " " + balance;            
+            mainPageModel.Balance = symbol + " " + balance;
+            mainPageModel.TotalExpenses = StaticValues.DB.GetCurrencySymbol()+ " " + totalExpense;
+            mainPageModel.Saving = StaticValues.DB.GetCurrencySymbol() + " " + balance;
 
             return mainPageModel;
         }
@@ -290,6 +311,11 @@ namespace FinancialManagerPhoneProject.Views
                     new Uri("/Views/CategoryChart.xaml?categoryname=" +
                                 ((CategoryItemModel)((ListBox)sender).SelectedItem).Name,
                                                                         UriKind.Relative));
+        }
+
+        private void __btReportDetail_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Views/ReportDetail.xaml?",UriKind.Relative));
         }
     }
 }

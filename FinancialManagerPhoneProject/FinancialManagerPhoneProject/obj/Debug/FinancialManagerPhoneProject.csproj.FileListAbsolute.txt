@@ -275,3 +275,5 @@ C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\Fi
 C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\JeffWilcox.PhoneThemeManager.dll
 C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\JeffWilcox.PhoneThemeManager.pdb
 C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Debug\Views\Help.g.cs
+C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Debug\Views\ReportDetail.g.cs
+C:\Users\Abtin Refahi\Desktop\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Debug\Views\UserControls\ReportDetaiItem.g.cs

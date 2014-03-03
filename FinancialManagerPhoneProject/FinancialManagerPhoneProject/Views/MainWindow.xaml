@@ -132,24 +132,84 @@
             </phone:PivotItem>
 
             <phone:PivotItem Header="Report">
+                <ScrollViewer Width="Auto" Height="Auto">
                 <Grid Name="__GrReport" 
                     HorizontalAlignment="Stretch" >
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="40*"/>
                         <ColumnDefinition Width="60*"/>
+                        <ColumnDefinition Width="40*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="60*"/>
+                        <RowDefinition Height="250"/>
                         <RowDefinition Height="10*"/>
-                        <RowDefinition Height="40*"/>
-                        <RowDefinition Height="10*"/>
-                        <RowDefinition Height="10*"/>
-                        <RowDefinition Height="10*"/>
-                        <RowDefinition Height="10*"/>
-                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="50*"/>
+                        <RowDefinition Height="50*"/>
+                        <RowDefinition Height="50*"/>
+                        <RowDefinition Height="80*"/>
                     </Grid.RowDefinitions>
-                
+
+                    <TextBlock Text="Top Categories: "
+                               Grid.Row="0"
+                               Grid.Column="0" 
+                               Grid.ColumnSpan="2"
+                               FontSize="30"
+                               Foreground="{StaticResource FirstForeground}"
+                               Style="{StaticResource PhoneTextLargeStyle}"/>
                     
+                    <TextBlock Text="Total Expenses: "
+                               Grid.Row="3"
+                               Grid.Column="0"                                
+                               Foreground="{StaticResource FirstForeground}"
+                               Style="{StaticResource PhoneTextLargeStyle}"/>
+
+                    <TextBlock Text="{Binding TotalExpenses}"
+                               Grid.Row="3"
+                               Grid.Column="1"
+                               Style="{StaticResource PhoneTextSmallStyle}"
+                               Foreground="{StaticResource SecondForeground}"
+                               FontSize="30"/>
+
+                    <TextBlock Text="Income: "
+                               Grid.Row="4"
+                               Grid.Column="0"  
+                               Foreground="{StaticResource FirstForeground}"
+                               Style="{StaticResource PhoneTextLargeStyle}"/>
+
+                    <TextBlock Text="{Binding Income}"
+                               Grid.Row="4"
+                               Grid.Column="1"
+                               Style="{StaticResource PhoneTextSmallStyle}"
+                               Foreground="{StaticResource SecondForeground}"
+                               FontSize="30"/>
+
+                    <TextBlock Text="Saving: "
+                               Grid.Row="5"
+                               Grid.Column="0"  
+                               Foreground="{StaticResource FirstForeground}"
+                               Style="{StaticResource PhoneTextLargeStyle}"/>
+
+                    <TextBlock Text="{Binding Saving}"
+                               Grid.Row="5"
+                               Grid.Column="1"
+                               Style="{StaticResource PhoneTextSmallStyle}"
+                               Foreground="{StaticResource SecondForeground}"
+                               FontSize="30"/>
+                    
+                    <Button Name="__btReportDetail"
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Foreground="{StaticResource FirstForeground}"
+                            BorderBrush="Black"
+                            Background="Transparent"
+                            Content="Report Detail"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Margin="10,5,10,5"
+                            Click="__btReportDetail_Click"/>
                 </Grid>
+                </ScrollViewer>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>

@@ -61,12 +61,12 @@ namespace FinancialManagerPhoneProject.Views
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
             //base.OnBackKeyPress(e);
-            NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=categorychart&category=" + _CategoryName, UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=categorychart&categoryname=" + _CategoryName, UriKind.Relative));
         }
 
         private void ApplicationBarEditIcon_Click(object sender, EventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?caller=categorychart&category="+ _CategoryName, UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?caller=categorychart&categoryname="+ _CategoryName, UriKind.Relative));
         }
 
         void deleteIcon_Click(object sender, EventArgs e)

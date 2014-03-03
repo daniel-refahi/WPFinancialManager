@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="FinancialManagerPhoneProject.Views.UserControls.ReportDetaiItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:vc="clr-namespace:Visifire.Charts;assembly=SLWpVisifire.Charts"
+    xmlns:vg="clr-namespace:Visifire.Gauges;assembly=SLWpVisifire.Gauges"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="480" >
+
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="FirstForeground" Color="#FF2E2E2E"/>
+        <SolidColorBrush x:Key="SecondForeground" Color="#FF838383"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Height="200" Width="{Binding ScreenWidth}">
+        <Grid.Background>
+            <ImageBrush ImageSource="../../Assets/Patterns/CategoryBackground.jpg" Stretch="Fill" />
+        </Grid.Background>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30*"/>
+            <ColumnDefinition Width="70*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30*"/>            
+            <RowDefinition Height="70*"/>            
+        </Grid.RowDefinitions>
+
+
+        <!--{Binding CategoryName}-->
+        <TextBlock Text="{Binding CategoryName}"
+                   TextTrimming="WordEllipsis"
+                   Grid.Row="0"
+                   Grid.Column="1"
+                   Grid.ColumnSpan="2"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Center"
+                   TextAlignment="Left"
+                   Foreground="{StaticResource FirstForeground}"
+                   Style="{StaticResource PhoneTextNormalStyle}"
+                   Margin="10,0,0,0"  />
+
+        <!--<vc:Chart 
+            Grid.Row="2"
+            Grid.Column="0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="Transparent"
+            LightingEnabled="False" 
+            AnimationEnabled="False"
+            View3D="True" BorderThickness="0" Margin="0" >
+
+            <vc:Chart.Legends>
+                <vc:Legend LightingEnabled="False"/>
+            </vc:Chart.Legends>
+
+            <vc:Chart.Series>
+                <vc:DataSeries RenderAs="Pie" LabelEnabled="true" ShowInLegend="false"
+                               IncludePercentageInLegend="False">
+                    <vc:DataSeries.DataPoints>
+                        <vc:DataPoint LabelEnabled="false" YValue="{Binding TotalExpenses}" Color="Maroon"/>
+                        <vc:DataPoint LabelEnabled="false" YValue="{Binding CategoryExpenses}"
+                                      Exploded="True" Color="Wheat"/>
+                    </vc:DataSeries.DataPoints>
+                </vc:DataSeries>
+            </vc:Chart.Series>
+        </vc:Chart>-->
+
+        <vg:Gauge 
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            AnimationEnabled="False"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            BorderThickness="0" 
+            Margin="0,10,0,10" Type="Circular" >
+            <vg:Gauge.CircularScales>
+                <vg:CircularScale Maximum="{Binding Plan}" Minimum="0"/>
+            </vg:Gauge.CircularScales>
+            <vg:Gauge.Indicators>
+                <vg:BarIndicator Value="{Binding GaugeCategoryExpenses}" Background="Wheat" BorderBrush="White"/>
+                <vg:MarkerIndicator Value="20" Opacity="0"/>
+                <vg:NeedleIndicator Value="{Binding GaugeCategoryExpenses}" Background="Maroon" BorderBrush="#FF3B3B"/>
+            </vg:Gauge.Indicators>
+        </vg:Gauge>
+
+        <!--<Image Source="../../Assets/Icons/auto.png" />-->
+
+        <Image Source="{Binding ImageSource}" 
+               Grid.Row="0" 
+               Grid.Column="0" 
+               Width="50"
+               Height="50"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Stretch="Fill" Margin="10,5,0,0"/>
+    </Grid>
+</UserControl>
