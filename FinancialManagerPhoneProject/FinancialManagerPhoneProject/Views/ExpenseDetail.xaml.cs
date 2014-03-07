@@ -37,8 +37,8 @@ namespace FinancialManagerPhoneProject.Views
 
         string _HelperPage = string.Empty;
 
-        // there is a bug on datepicker that it doesn't update the Uri. this is to overcome that issue. 
-        public static bool IsFromDatePicker = false;
+        //// there is a bug on datepicker that it doesn't update the Uri. this is to overcome that issue. 
+        //public static bool IsFromDatePicker = false;
 
         public ExpenseDetail()
         {
@@ -56,10 +56,11 @@ namespace FinancialManagerPhoneProject.Views
                 __liCategoryList.IsEnabled = false;
                 HighlightCategory();
             }
-            else if (ExpenseDetail.IsFromDatePicker)
+            else if (_HelperPage == "DatePickerPage" ||
+                     _HelperPage == "CameraPage")
             {
                 HighlightCategory();
-                ExpenseDetail.IsFromDatePicker = false;
+                //ExpenseDetail.IsFromDatePicker = false;
             }
         }
 
@@ -102,8 +103,6 @@ namespace FinancialManagerPhoneProject.Views
             _Categories = StaticValues.DB.GetAllCategories();
             _PageModel = new ExpenseDetailViewModel();
             _PageModel.ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40;
-
-            
 
             string caller = string.Empty;
             NavigationContext.QueryString.TryGetValue("caller", out caller);
@@ -153,6 +152,7 @@ namespace FinancialManagerPhoneProject.Views
             
             _PageModel.Categories = _Categories;
 
+            this.DataContext = null;
             this.DataContext = _PageModel;
         }
        
@@ -242,7 +242,7 @@ namespace FinancialManagerPhoneProject.Views
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
             //base.OnBackKeyPress(e);
-            ExpenseDetail.IsFromDatePicker = false;
+            //ExpenseDetail.IsFromDatePicker = false;
             SaveState = false;
             NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=expensedetail", UriKind.Relative));
         }        
@@ -278,7 +278,7 @@ namespace FinancialManagerPhoneProject.Views
             {
                 StaticValues.DB.DeleteExpense(_ID);
                 SaveState = false;
-                ExpenseDetail.IsFromDatePicker = false;
+                //ExpenseDetail.IsFromDatePicker = false;
                 NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=expensedetail", UriKind.Relative));
             }
         }
@@ -321,7 +321,7 @@ namespace FinancialManagerPhoneProject.Views
                     });
                 }
                 SaveState = false;
-                ExpenseDetail.IsFromDatePicker = false;
+                //ExpenseDetail.IsFromDatePicker = false;
                 if(!string.IsNullOrEmpty(_Receipt))
                     StaticValues.DB.SaveImageAsync(_ImageAsByte, _Receipt);
 
@@ -331,7 +331,7 @@ namespace FinancialManagerPhoneProject.Views
         private void ApplicationBarHelpIcon_Click(object sender, EventArgs e)
         {
             SaveState = false;
-            ExpenseDetail.IsFromDatePicker = false;
+            //ExpenseDetail.IsFromDatePicker = false;
             NavigationService.Navigate(new Uri("/Views/help.xaml?caller=expensedetail&object=" + _ID, UriKind.Relative));
         }
 
