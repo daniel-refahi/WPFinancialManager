@@ -14,6 +14,7 @@ namespace FinancialManagerPhoneProject.Models
         public List<Category> Categories { get; set; }
         public Category SelectedCategory { get; set; }
         public double Amount { get; set; }
+        public string RecieptName { get; set; }
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public string IconSource { get; set; }

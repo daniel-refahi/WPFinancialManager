@@ -98,6 +98,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="common.cs" />
     <Compile Include="DataHandlers\Category.cs" />
     <Compile Include="DataHandlers\Expense.cs" />
     <Compile Include="DataHandlers\StaticMethods.cs" />
@@ -134,6 +135,9 @@
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RecieptCamera.xaml.cs">
+      <DependentUpon>RecieptCamera.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ReportDetail.xaml.cs">
       <DependentUpon>ReportDetail.xaml</DependentUpon>
@@ -177,6 +181,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\RecieptCamera.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ReportDetail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -212,6 +220,7 @@
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Assets\loader.gif" />
     <Content Include="Image\add.png" />
     <Content Include="Image\check.png" />
     <Content Include="Image\close.png" />
