@@ -14,6 +14,7 @@ using System.Threading;
 using System.IO.IsolatedStorage;
 using Microsoft.Phone.Tasks;
 using System.IO;
+using System.Windows.Media;
 
 namespace FinancialManagerPhoneProject.Views
 {
@@ -32,13 +33,8 @@ namespace FinancialManagerPhoneProject.Views
         string _Date = string.Empty;
         string _Category = string.Empty;
         string _Receipt = string.Empty;
-        bool IsFromCamera = false;
-        bool SaveState = true;
-
         string _HelperPage = string.Empty;
-
-        //// there is a bug on datepicker that it doesn't update the Uri. this is to overcome that issue. 
-        //public static bool IsFromDatePicker = false;
+        string _Caller = string.Empty;
 
         public ExpenseDetail()
         {
@@ -56,17 +52,14 @@ namespace FinancialManagerPhoneProject.Views
                 __liCategoryList.IsEnabled = false;
                 HighlightCategory();
             }
-            else if (_HelperPage == "DatePickerPage" ||
-                     _HelperPage == "CameraPage")
+            else if (_HelperPage == "DatePickerPage")
             {
-                HighlightCategory();
-                //ExpenseDetail.IsFromDatePicker = false;
+                HighlightCategory();               
             }
         }
 
         void cameraTask_Completed(object sender, PhotoResult e)
         {
-            IsFromCamera = true;
             if (e.TaskResult == TaskResult.OK)
             {
                 _Receipt = StaticMethods.GenerateID() + ".jpg";
@@ -104,15 +97,15 @@ namespace FinancialManagerPhoneProject.Views
             _PageModel = new ExpenseDetailViewModel();
             _PageModel.ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40;
 
-            string caller = string.Empty;
-            NavigationContext.QueryString.TryGetValue("caller", out caller);
+            NavigationContext.QueryString.TryGetValue("caller", out _Caller);
             
             if (_HelperPage == "DatePickerPage" ||
-                _HelperPage == "CameraPage")
+                _HelperPage == "CameraPage"     ||
+                _Caller == "recieptcamera")
             {
                 LoadPageForHelperStatus();
-            }            
-            else if (caller == "mainwindow")
+            }                      
+            else if (_Caller == "mainwindow")
             {
                 // navigating from main window
                 NavigationContext.QueryString.TryGetValue("status", out _Status);
@@ -128,7 +121,7 @@ namespace FinancialManagerPhoneProject.Views
                         break;
                 }
             }
-            else if (caller == "help")
+            else if (_Caller == "help")
             {
                 // navigating from help page
                 NavigationContext.QueryString.TryGetValue("object", out _ID);
@@ -148,12 +141,19 @@ namespace FinancialManagerPhoneProject.Views
                 if (_Category == c.Name)
                     c.IsSelected = true;
             }
-
             
             _PageModel.Categories = _Categories;
 
             this.DataContext = null;
             this.DataContext = _PageModel;
+
+            if (_HelperPage == "CameraPage" ||
+                _HelperPage == "ReceiptPage")
+            {
+                HighlightCategory();
+            }
+            
+            
         }
        
         private void LoadPageForEditStatus()
@@ -209,8 +209,17 @@ namespace FinancialManagerPhoneProject.Views
             _PageModel.Description = _Description;
             _PageModel.ID = _ID;
 
-            //if (!string.IsNullOrEmpty(_Receipt))
-            //    __btReceiptPic.Content = "Receipt";
+            if (_Caller == "recieptcamera")
+            {
+                __btReceiptPic.Content = "Receipt";
+            }
+            else if (_HelperPage == "CameraPage" && !string.IsNullOrEmpty(_Receipt))            
+            {
+                __btReceiptPic.Content = "Receipt Attached";
+                __btReceiptPic.IsEnabled = false;                                
+            }
+            UpdateApplicationBar();
+
         }
 
         private void UpdateApplicationBar()
@@ -242,8 +251,6 @@ namespace FinancialManagerPhoneProject.Views
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
             //base.OnBackKeyPress(e);
-            //ExpenseDetail.IsFromDatePicker = false;
-            SaveState = false;
             NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=expensedetail", UriKind.Relative));
         }        
 
@@ -277,8 +284,6 @@ namespace FinancialManagerPhoneProject.Views
             if (result == MessageBoxResult.OK)
             {
                 StaticValues.DB.DeleteExpense(_ID);
-                SaveState = false;
-                //ExpenseDetail.IsFromDatePicker = false;
                 NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=expensedetail", UriKind.Relative));
             }
         }
@@ -320,8 +325,6 @@ namespace FinancialManagerPhoneProject.Views
                         Value = amount
                     });
                 }
-                SaveState = false;
-                //ExpenseDetail.IsFromDatePicker = false;
                 if(!string.IsNullOrEmpty(_Receipt))
                     StaticValues.DB.SaveImageAsync(_ImageAsByte, _Receipt);
 
@@ -330,8 +333,6 @@ namespace FinancialManagerPhoneProject.Views
         }
         private void ApplicationBarHelpIcon_Click(object sender, EventArgs e)
         {
-            SaveState = false;
-            //ExpenseDetail.IsFromDatePicker = false;
             NavigationService.Navigate(new Uri("/Views/help.xaml?caller=expensedetail&object=" + _ID, UriKind.Relative));
         }
 

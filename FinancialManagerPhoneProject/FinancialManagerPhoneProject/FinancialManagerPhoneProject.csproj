@@ -220,7 +220,8 @@
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Assets\loader.gif" />
+    <Content Include="Assets\contacts.png" />
+    <Content Include="Assets\receipt.png" />
     <Content Include="Image\add.png" />
     <Content Include="Image\check.png" />
     <Content Include="Image\close.png" />

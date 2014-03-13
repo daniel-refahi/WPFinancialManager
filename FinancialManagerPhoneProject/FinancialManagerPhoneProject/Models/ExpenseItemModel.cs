@@ -16,5 +16,7 @@ namespace FinancialManagerPhoneProject.Models
         public string Category { get; set; }
         public string Date { get; set; }
         public double ScreenWidth { get; set; }
+        public string ReceiptVisibility { get; set; }
+        public string MapVisibility { get; set; }
     }
 }

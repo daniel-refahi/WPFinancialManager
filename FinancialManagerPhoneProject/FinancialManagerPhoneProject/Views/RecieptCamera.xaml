@@ -18,27 +18,26 @@
         <SolidColorBrush x:Key="SecondForeground" Color="#FF838383"/>
     </phone:PhoneApplicationPage.Resources>
 
-    <!--<phone:PhoneApplicationPage.Resources>
-        <local:ConverterClass x:Key="ConverterClass" />
-    </phone:PhoneApplicationPage.Resources>-->
-
     <Grid x:Name="LayoutRoot" >
-        
         <Grid.Background>
             <ImageBrush ImageSource="../Assets/Patterns/White.jpg"/>
-        </Grid.Background>
-        
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-      
-        <Image Name="__Image"
-               Grid.Column="0"
-               Grid.Row="0"
-               Margin="20"               
-               HorizontalAlignment="Stretch"   
-               VerticalAlignment="Stretch"
-               Stretch="Fill"/>       
+        </Grid.Background>                
+
+        <Grid x:Name="ContentPanel"
+              Margin="10,50,10,50">
+            <ViewportControl x:Name="viewport"  
+                ManipulationStarted="OnManipulationStarted" ManipulationDelta="OnManipulationDelta"  
+                             ManipulationCompleted="OnManipulationCompleted" ViewportChanged="viewport_ViewportChanged">
+                <Canvas x:Name="canvas">
+                    <Image Name="__Image" 
+                           RenderTransformOrigin="0,0" CacheMode="BitmapCache">
+                        <Image.RenderTransform>
+                            <ScaleTransform x:Name="xform"/>
+                        </Image.RenderTransform>
+                    </Image>
+                </Canvas>
+            </ViewportControl>
+        </Grid>
     </Grid>
 
 </phone:PhoneApplicationPage>

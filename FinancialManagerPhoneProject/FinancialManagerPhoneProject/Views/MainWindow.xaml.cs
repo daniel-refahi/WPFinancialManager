@@ -204,6 +204,7 @@ namespace FinancialManagerPhoneProject.Views
                     Category = expense.Category,
                     Date = expense.Date.ToString("dd/MMM"),
                     Description = expense.Description,
+                    ReceiptVisibility = string.IsNullOrEmpty(expense.RecieptName) ? "Collapsed" : "Visible",
                     ImageSource = "../../Assets/Icons/" + expense.Icon + ".png",
                     ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40
                 });

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.Storage;
 using System.IO.IsolatedStorage;
+using System.Windows;
 
 namespace FinancialManagerPhoneProject.DataHandlers
 {
@@ -527,6 +528,25 @@ namespace FinancialManagerPhoneProject.DataHandlers
             double totalExpense = Convert.ToDouble(xmlCategory.Attribute("TotalExpenses").Value);
             totalExpense -= Convert.ToDouble(expenseXML.Value);
             xmlCategory.Attribute("TotalExpenses").SetValue(totalExpense);
+
+            // deleting reciept if exists
+            try
+            {
+                string recieptImage = expenseXML.Attribute("RecieptName").Value;
+                if (!string.IsNullOrEmpty(recieptImage))
+                {
+                    int a = 4;
+                    using (IsolatedStorageFile iso = IsolatedStorageFile.GetUserStoreForApplication())
+                    {
+                        iso.DeleteFile(recieptImage);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.InnerException.Message);
+                /* It means there is no image. ignore it */
+            }
 
             SaveXmlToFileAsync();
         }
