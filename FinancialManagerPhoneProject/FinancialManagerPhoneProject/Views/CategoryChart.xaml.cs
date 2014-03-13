@@ -69,18 +69,6 @@ namespace FinancialManagerPhoneProject.Views
             NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?caller=categorychart&categoryname="+ _CategoryName, UriKind.Relative));
         }
 
-        void deleteIcon_Click(object sender, EventArgs e)
-        {
-            //MessageBoxResult result = MessageBox.Show("Would you like to delete the category? Be aware that all expenses in this category will be removed as well!",
-            //                                                "Delete", MessageBoxButton.OKCancel);
-
-            //if (result == MessageBoxResult.OK)
-            //{
-            //    StaticValues.DB.DeleteCategory(_Name);
-            //    NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=categorydetail", UriKind.Relative));
-            //}
-        }
-
         private void ApplicationBarHelpIcon_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/Views/Help.xaml?caller=categorychart&object="+_CategoryName, UriKind.Relative));

@@ -16,11 +16,13 @@ namespace FinancialManagerPhoneProject.Views
 {
     public partial class CategoryDetail : PhoneApplicationPage
     {
-        string _Name;
-        string _OldName;
-        string _Status;
-        string _IconSource;
-        string _Plan;
+        string _Name = string.Empty;
+        string _OldName = string.Empty;
+        string _Status = string.Empty;
+        string _IconSource = string.Empty;
+        string _Plan = string.Empty;
+        string _TotalPlanned = string.Empty;
+
         CategoryDetailViewModel _PageModel;
 
         public CategoryDetail()
@@ -58,21 +60,22 @@ namespace FinancialManagerPhoneProject.Views
             else if (caller == "help")
             {
                 NavigationContext.QueryString.TryGetValue("object", out _Name);
-                if (_Name == string.Empty)
-                {
-                    LoadPageFromAdd();
-                }
-                else
-                {
-                    _OldName = _Name;
-                    LoadPageFromEdit();
-                }
-                LoadAppSettings();
+                //if (_Name == string.Empty)
+                //{
+                //    LoadPageFromAdd();
+                //}
+                //else
+                //{
+                //    _OldName = _Name;
+                //    LoadPageFromEdit();
+                //}
+                LoadAppSettings(false);
             }
             else 
             {
                 // navigating from icon selection page
-                LoadAppSettings();
+                NavigationContext.QueryString.TryGetValue("source", out _IconSource);
+                LoadAppSettings(true);
             }
 
             _PageModel = new CategoryDetailViewModel();
@@ -80,7 +83,11 @@ namespace FinancialManagerPhoneProject.Views
             _PageModel.Income = StaticValues.DB.GetCurrencySymbol() + " " + StaticValues.DB.GetIncome().ToString();
             _PageModel.Icon = _IconSource;
             _PageModel.Plan = (_Plan == string.Empty) ? 0 : Convert.ToDouble(_Plan);
-            _PageModel.TotalPlanned = StaticValues.DB.GetCurrencySymbol() +" "+ StaticValues.DB.GetTotalPlan().ToString();
+            if (string.IsNullOrEmpty(_TotalPlanned))
+            {
+                _TotalPlanned = StaticValues.DB.GetCurrencySymbol() + " " + StaticValues.DB.GetTotalPlan().ToString();                
+            }
+            _PageModel.TotalPlanned = _TotalPlanned;
 
             this.DataContext = _PageModel;
         }
@@ -113,7 +120,6 @@ namespace FinancialManagerPhoneProject.Views
         {
             //base.OnBackKeyPress(e);
             IsolatedStorageSettings.ApplicationSettings.Clear();
-            SaveState = false;
             if (_Status == "add")
                 NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=categorydetail", UriKind.Relative));
             else
@@ -157,7 +163,6 @@ namespace FinancialManagerPhoneProject.Views
                         TotalExpenses = 0
                     }))
                     {
-                        SaveState = false;
                         NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=categorydetail&categoryname=" + __tbName.Text.ToString(), UriKind.Relative));
                     }
                     else
@@ -173,7 +178,6 @@ namespace FinancialManagerPhoneProject.Views
                         Plan = Convert.ToDouble(__tbPlan.Text.ToString()),
                         TotalExpenses = 0
                     });
-                    SaveState = false;
                     NavigationService.Navigate(new Uri("/Views/CategoryChart.xaml?caller=categorydetail&categoryname=" + __tbName.Text.ToString(), UriKind.Relative));
                 }
             }
@@ -189,15 +193,19 @@ namespace FinancialManagerPhoneProject.Views
             IsolatedStorageSettings.ApplicationSettings["oldname"] = _OldName;
             IsolatedStorageSettings.ApplicationSettings["plan"] = __tbPlan.Text.ToString();
             IsolatedStorageSettings.ApplicationSettings["status"] = _Status;
+            IsolatedStorageSettings.ApplicationSettings["totalplanned"] = _TotalPlanned;
+            IsolatedStorageSettings.ApplicationSettings["iconsource"] = _IconSource;
             IsolatedStorageSettings.ApplicationSettings.Save();
         }
-        private void LoadAppSettings()
+        private void LoadAppSettings(bool IsFromIconSelection)
         {
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("name", out _Name);
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("oldname", out _OldName);
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("plan", out _Plan);
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("status", out _Status);
-            NavigationContext.QueryString.TryGetValue("source", out _IconSource);
+            IsolatedStorageSettings.ApplicationSettings.TryGetValue("totalplanned", out _TotalPlanned);
+            if(!IsFromIconSelection)
+                IsolatedStorageSettings.ApplicationSettings.TryGetValue("iconsource", out _IconSource);
             IsolatedStorageSettings.ApplicationSettings.Clear();
         }
         private void UpdatingAppBar()
@@ -226,7 +234,8 @@ namespace FinancialManagerPhoneProject.Views
             }
             else
             {
-                _PageModel.TotalPlanned = StaticValues.DB.GetCurrencySymbol() + " " + (plan + StaticValues.DB.GetTotalPlan()).ToString();
+                _TotalPlanned = StaticValues.DB.GetCurrencySymbol() + " " + (plan + StaticValues.DB.GetTotalPlan()).ToString();
+                _PageModel.TotalPlanned = _TotalPlanned;
             }
         }
         private void Icon_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)

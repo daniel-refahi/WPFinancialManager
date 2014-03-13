@@ -34,7 +34,7 @@ namespace FinancialManagerPhoneProject.Views
                     NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?caller=help&object=" + _Object, UriKind.Relative));
                     break;
                 case "categorychart":
-                    NavigationService.Navigate(new Uri("/Views/CategoryChart.xaml?caller=help&object=" + _Object, UriKind.Relative));
+                    NavigationService.Navigate(new Uri("/Views/CategoryChart.xaml?caller=help&categoryname=" + _Object, UriKind.Relative));
                     break;
             }
         }
