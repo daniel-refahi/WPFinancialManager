@@ -15,6 +15,8 @@ using System.IO.IsolatedStorage;
 using Microsoft.Phone.Tasks;
 using System.IO;
 using System.Windows.Media;
+using Windows.Devices.Geolocation;
+using System.Device.Location;
 
 namespace FinancialManagerPhoneProject.Views
 {
@@ -35,6 +37,8 @@ namespace FinancialManagerPhoneProject.Views
         string _Receipt = string.Empty;
         string _HelperPage = string.Empty;
         string _Caller = string.Empty;
+        string _Latitude = string.Empty;
+        string _Longtitude = string.Empty;
 
         public ExpenseDetail()
         {
@@ -95,7 +99,7 @@ namespace FinancialManagerPhoneProject.Views
                 _HelperPage == "CameraPage"     ||
                 _Caller == "recieptcamera")
             {
-                LoadPageForHelperStatus();
+                LoadPageFromHelpers();
             }                      
             else if (_Caller == "mainwindow")
             {
@@ -105,11 +109,11 @@ namespace FinancialManagerPhoneProject.Views
                 switch (_Status)
                 {
                     case "add":
-                        LoadPageForAddStatus();
+                        LoadPageForAdd();
                         break;
                     case "update":
                         NavigationContext.QueryString.TryGetValue("ID", out _ID);
-                        LoadPageForEditStatus();
+                        LoadPageForEdit();
                         break;
                 }
             }
@@ -120,12 +124,12 @@ namespace FinancialManagerPhoneProject.Views
                 if (_ID != string.Empty)
                 {
                     _Status = "update";
-                    LoadPageForHelperStatus();
+                    LoadPageFromHelpPage();
                 }
                 else
                 {
                     _Status = "add";
-                    LoadPageForHelperStatus();
+                    LoadPageFromHelpPage();
                 }
             }
 
@@ -144,14 +148,15 @@ namespace FinancialManagerPhoneProject.Views
 
             if (_HelperPage == "CameraPage"  ||
                 _HelperPage == "ReceiptPage" ||
-                _HelperPage == "DatePickerPage")
+                _HelperPage == "DatePickerPage" ||
+                _Caller == "help")
             {
                 HighlightCategory();
             }
   
         }
        
-        private void LoadPageForEditStatus()
+        private void LoadPageForEdit()
         {
             __tbTitle.Text = "Edit Expense";
             
@@ -169,10 +174,15 @@ namespace FinancialManagerPhoneProject.Views
 
             if (!string.IsNullOrEmpty(_Receipt))
                 __btReceiptPic.Content = "Receipt";
+            else
+            {
+                __btReceiptPic.Content = "No Receipt";
+                __btReceiptPic.IsEnabled = false;                      
+            }
 
             UpdateApplicationBar();
         }
-        private void LoadPageForAddStatus()
+        private void LoadPageForAdd()
         {
             __tbTitle.Text = "Add Expense";
 
@@ -187,7 +197,7 @@ namespace FinancialManagerPhoneProject.Views
             _PageModel.Description = _Description;
             _PageModel.ID = _ID;
         }
-        private void LoadPageForHelperStatus()
+        private void LoadPageFromHelpers()
         {
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("amount", out _Amount);
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("description", out _Description);
@@ -204,22 +214,83 @@ namespace FinancialManagerPhoneProject.Views
             _PageModel.Description = _Description;
             _PageModel.ID = _ID;
 
-            if (_Caller == "recieptcamera")
+            if (_Status == "update")
             {
-                __btReceiptPic.Content = "Receipt";
-            }
-            else if (_HelperPage == "CameraPage" && !string.IsNullOrEmpty(_Receipt))            
-            {
-                __btReceiptPic.Content = "Receipt Attached";
-                __btReceiptPic.IsEnabled = false;                                
-            }
-
-            if (_Status == "add")
-                __tbTitle.Text = "Add Expense";
-            else if (_Status == "update")
                 __tbTitle.Text = "Edit Expense";
+                if (string.IsNullOrEmpty(_Receipt))
+                {
+                    __btReceiptPic.Content = "No Receipt";
+                    __btReceiptPic.IsEnabled = false;
+                }
+                else
+                {
+                    __btReceiptPic.Content = "Receipt";
+                    __btReceiptPic.IsEnabled = true;
+                }
+            }
+            else if (_Status == "add")
+            {
+                __tbTitle.Text = "Add Expense";
+                if (string.IsNullOrEmpty(_Receipt))
+                {
+                    __btReceiptPic.Content = "Attach Receipt";
+                    __btReceiptPic.IsEnabled = true;
+                }
+                else
+                {
+                    __btReceiptPic.Content = "Receipt Attached";
+                    __btReceiptPic.IsEnabled = false;
+                }
+            }            
+         
             UpdateApplicationBar();
 
+        }
+        private void LoadPageFromHelpPage() 
+        {
+            IsolatedStorageSettings.ApplicationSettings.TryGetValue("amount", out _Amount);
+            IsolatedStorageSettings.ApplicationSettings.TryGetValue("description", out _Description);
+            IsolatedStorageSettings.ApplicationSettings.TryGetValue("date", out _Date);
+            IsolatedStorageSettings.ApplicationSettings.TryGetValue("status", out _Status);
+            IsolatedStorageSettings.ApplicationSettings.TryGetValue("category", out _Category);
+            IsolatedStorageSettings.ApplicationSettings.TryGetValue("id", out _ID);            
+            IsolatedStorageSettings.ApplicationSettings.TryGetValue("receipt", out _Receipt);
+
+            _PageModel.Amount = Convert.ToDouble(_Amount);
+            _PageModel.Date = Convert.ToDateTime(_Date);
+            _PageModel.Description = _Description;
+            _PageModel.ID = _ID;
+
+            if (_Status == "update")
+            {
+                __tbTitle.Text = "Edit Expense";
+                if (string.IsNullOrEmpty(_Receipt))
+                {
+                    __btReceiptPic.Content = "No Receipt";
+                    __btReceiptPic.IsEnabled = false;
+                }
+                else
+                {
+                    __btReceiptPic.Content = "Receipt";
+                    __btReceiptPic.IsEnabled = true;
+                }
+            }
+            else if (_Status == "add")
+            {
+                __tbTitle.Text = "Add Expense";
+                if (string.IsNullOrEmpty(_Receipt))
+                {
+                    __btReceiptPic.Content = "Attach Receipt";
+                    __btReceiptPic.IsEnabled = true;
+                }
+                else
+                {
+                    __btReceiptPic.Content = "Receipt Attached";
+                    __btReceiptPic.IsEnabled = false;
+                }
+            }     
+
+            UpdateApplicationBar();
         }
 
         private void SaveAppSettings()
@@ -279,8 +350,7 @@ namespace FinancialManagerPhoneProject.Views
         }
 
         private void __btReceiptPic_Click(object sender, RoutedEventArgs e)
-        {
-            SaveAppSettings();
+        {          
             if (string.IsNullOrEmpty(_Receipt))
             {                
                 _HelperPage = "CameraPage";
@@ -293,25 +363,81 @@ namespace FinancialManagerPhoneProject.Views
                     "&image=" + _Receipt,
                     UriKind.Relative));
             }
+            SaveAppSettings();
         }
-        private void __btLocation_Click(object sender, RoutedEventArgs e)
+        private async void __btLocation_Click(object sender, RoutedEventArgs e)
         {
+            __LoadingBar.Opacity = 1;
 
-            NavigationService.Navigate(new Uri("/Views/MapView.xaml?caller=expensedetail&longitude=10&latitude=50",UriKind.Relative));
+            try
+            {
+                Geolocator geolocator = new Geolocator();
+                geolocator.DesiredAccuracyInMeters = 50;
 
-            //SaveAppSettings();
-            //if (string.IsNullOrEmpty(_Receipt))
+                Geoposition geoposition = await geolocator.GetGeopositionAsync(
+                    maximumAge: TimeSpan.FromMinutes(5),
+                    timeout: TimeSpan.FromSeconds(10)
+                    );
+                _Latitude = geoposition.Coordinate.Latitude.ToString("0.00");
+                _Longtitude = geoposition.Coordinate.Longitude.ToString("0.00");
+
+                //GeoCoordinate myLocation = new GeoCoordinate(geoposition.Coordinate.Latitude, geoposition.Coordinate.Longitude);                    
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Couldn't get you location info!");
+            }
+            finally 
+            {
+                __LoadingBar.Opacity = 0;
+            }
+
+
+
+
+
+            //bool IsLocationOk = true;
+            
+            //Task t_GetMyLocation = Task.Factory.StartNew(() =>
             //{
-            //    _HelperPage = "CameraPage";
-            //    _CameraTask.Show();
-            //}
-            //else
+            //    try
+            //    {
+            //        Geolocator geolocator = new Geolocator();
+            //        geolocator.DesiredAccuracyInMeters = 50;
+
+            //        Geoposition geoposition = await geolocator.GetGeopositionAsync(
+            //            maximumAge: TimeSpan.FromMinutes(5),
+            //            timeout: TimeSpan.FromSeconds(10)
+            //            );
+            //        _Latitude = geoposition.Coordinate.Latitude.ToString("0.00");
+            //        _Longtitude = geoposition.Coordinate.Longitude.ToString("0.00");
+
+            //        //GeoCoordinate myLocation = new GeoCoordinate(geoposition.Coordinate.Latitude, geoposition.Coordinate.Longitude);                    
+
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        IsLocationOk = false;
+            //    }
+            //});
+
+            //Task UpdateUI = t_GetMyLocation.ContinueWith((t) =>
             //{
-            //    _HelperPage = "ReceiptPage";
-            //    NavigationService.Navigate(new Uri("/Views/RecieptCamera.xaml?caller=expensedetail&object=" + _ID +
-            //        "&image=" + _Receipt,
-            //        UriKind.Relative));
-            //}
+            //    if (IsLocationOk)
+            //    {
+            //        MessageBox.Show(_Longtitude +" - "+_Latitude);
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("Couldn't get you location info!");
+            //    }
+            //    __LoadingBar.Opacity = 0;
+                
+            //}, TaskScheduler.FromCurrentSynchronizationContext());
+            //NavigationService.Navigate(new Uri("/Views/MapView.xaml?caller=expensedetail&longitude=10&latitude=50",UriKind.Relative));
+
+            
         }
 
         void deleteIcon_Click(object sender, EventArgs e)
@@ -370,7 +496,7 @@ namespace FinancialManagerPhoneProject.Views
             }
         }
         private void ApplicationBarHelpIcon_Click(object sender, EventArgs e)
-        {
+        {            
             SaveAppSettings();
             NavigationService.Navigate(new Uri("/Views/help.xaml?caller=expensedetail&object=" + _ID, UriKind.Relative));
         }

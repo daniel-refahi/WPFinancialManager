@@ -172,16 +172,7 @@
             <ColumnDefinition Width="70*"/>
         </Grid.ColumnDefinitions>
 
-        <ProgressBar Name="__LoadingBar" 
-                     IsEnabled="True"
-                     Opacity="0"
-                     Grid.Column="0"
-                     Grid.ColumnSpan="2"
-                     Grid.Row="0"
-                     IsIndeterminate="True"
-                     VerticalAlignment="Top" 
-                     HorizontalAlignment="Stretch" 
-                     Height="10" Margin="0"/>
+        
 
         <TextBlock Name="__tbTitle"
                    Text="Add Expense"
@@ -296,7 +287,21 @@
                 Content="Add My Location"                
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Click="__btLocation_Click"/>
+                Click="__btLocation_Click">
+                <Button.Content>
+                    <
+                </Button.Content>
+                <ProgressBar Name="__LoadingBar" 
+                     IsEnabled="True"
+                     Opacity="0"
+                     Grid.Column="0"
+                     Grid.ColumnSpan="2"
+                     Grid.Row="0"
+                     IsIndeterminate="True"
+                     VerticalAlignment="Top" 
+                     HorizontalAlignment="Stretch" 
+                     Height="10" Margin="0"/>
+            </Button>
         </Grid>
     </Grid>
 

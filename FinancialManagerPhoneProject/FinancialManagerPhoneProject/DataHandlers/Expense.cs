@@ -14,6 +14,8 @@ namespace FinancialManagerPhoneProject.DataHandlers
         public DateTime Date { get; set; }
         public double Value { get; set; }
         public string RecieptName { get; set; }
+        public string Latitude { get; set; }
+        public string Longtitude { get; set; }
         public string Icon { get; set; }
     }
 }

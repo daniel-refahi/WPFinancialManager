@@ -12,6 +12,8 @@ namespace FinancialManagerPhoneProject.Models
         public string ID { get; set; }
         public string Amount { get; set; }
         public string RecieptName { get; set; }
+        public string Latitude { get; set; }
+        public string Longtitude { get; set; }
         public string Description { get; set; }
         public string Category { get; set; }
         public string Date { get; set; }

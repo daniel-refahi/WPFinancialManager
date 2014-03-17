@@ -212,6 +212,7 @@ namespace FinancialManagerPhoneProject.Views
                     Date = expense.Date.ToString("dd/MMM"),
                     Description = expense.Description,
                     ReceiptVisibility = string.IsNullOrEmpty(expense.RecieptName) ? "Collapsed" : "Visible",
+                    MapVisibility = string.IsNullOrEmpty(expense.Latitude) ? "Collapsed" : "Visible",
                     ImageSource = "../../Assets/Icons/" + expense.Icon + ".png",
                     ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40
                 });
