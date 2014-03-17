@@ -74,20 +74,12 @@ namespace FinancialManagerPhoneProject.Views
             base.OnNavigatedFrom(e);
 
             if (e.Uri.ToString().Contains("DatePickerPage"))
+            {
                 _HelperPage = "DatePickerPage";
+                SaveAppSettings();
+            }
             else
                 NavigationService.RemoveBackEntry();
-
-            IsolatedStorageSettings.ApplicationSettings.Clear();
-            IsolatedStorageSettings.ApplicationSettings["helperpage"] = _HelperPage;
-            IsolatedStorageSettings.ApplicationSettings["amount"] = __tbAmount.Text.ToString();
-            IsolatedStorageSettings.ApplicationSettings["description"] = __tbDescription.Text.ToString();
-            IsolatedStorageSettings.ApplicationSettings["date"] = __dpDatepicker.Value.ToString();
-            IsolatedStorageSettings.ApplicationSettings["receipt"] = _Receipt;
-            IsolatedStorageSettings.ApplicationSettings["category"] = _Category;
-            IsolatedStorageSettings.ApplicationSettings["status"] = _Status;
-            IsolatedStorageSettings.ApplicationSettings["id"] = _ID;
-            IsolatedStorageSettings.ApplicationSettings.Save();
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -128,10 +120,13 @@ namespace FinancialManagerPhoneProject.Views
                 if (_ID != string.Empty)
                 {
                     _Status = "update";
-                    LoadPageForEditStatus();
+                    LoadPageForHelperStatus();
                 }
                 else
+                {
                     _Status = "add";
+                    LoadPageForHelperStatus();
+                }
             }
 
             foreach (Category c in _Categories)
@@ -147,13 +142,13 @@ namespace FinancialManagerPhoneProject.Views
             this.DataContext = null;
             this.DataContext = _PageModel;
 
-            if (_HelperPage == "CameraPage" ||
-                _HelperPage == "ReceiptPage")
+            if (_HelperPage == "CameraPage"  ||
+                _HelperPage == "ReceiptPage" ||
+                _HelperPage == "DatePickerPage")
             {
                 HighlightCategory();
             }
-            
-            
+  
         }
        
         private void LoadPageForEditStatus()
@@ -218,19 +213,42 @@ namespace FinancialManagerPhoneProject.Views
                 __btReceiptPic.Content = "Receipt Attached";
                 __btReceiptPic.IsEnabled = false;                                
             }
+
+            if (_Status == "add")
+                __tbTitle.Text = "Add Expense";
+            else if (_Status == "update")
+                __tbTitle.Text = "Edit Expense";
             UpdateApplicationBar();
 
+        }
+
+        private void SaveAppSettings()
+        {
+            IsolatedStorageSettings.ApplicationSettings.Clear();
+            IsolatedStorageSettings.ApplicationSettings["helperpage"] = _HelperPage;
+            IsolatedStorageSettings.ApplicationSettings["amount"] = __tbAmount.Text.ToString();
+            IsolatedStorageSettings.ApplicationSettings["description"] = __tbDescription.Text.ToString();
+            IsolatedStorageSettings.ApplicationSettings["date"] = __dpDatepicker.Value.ToString();
+            IsolatedStorageSettings.ApplicationSettings["receipt"] = _Receipt;
+            IsolatedStorageSettings.ApplicationSettings["category"] = _Category;
+            IsolatedStorageSettings.ApplicationSettings["status"] = _Status;
+            IsolatedStorageSettings.ApplicationSettings["id"] = _ID;
+            IsolatedStorageSettings.ApplicationSettings.Save();
         }
 
         private void UpdateApplicationBar()
         {
             // adding delete icon
-            if (ApplicationBar.Buttons.Count == 2)
+            if (ApplicationBar.Buttons.Count == 2 && _Status == "update")
             {
                 Uri uri = new Uri("//Image/delete.png", UriKind.Relative);
                 ApplicationBarIconButton deleteIcon = new ApplicationBarIconButton() { Text = "Delete", IconUri = uri };
                 deleteIcon.Click += deleteIcon_Click;
                 ApplicationBar.Buttons.Insert(1, deleteIcon);
+            }
+            else if( ApplicationBar.Buttons.Count == 3 && _Status == "add")
+            {
+                ApplicationBar.Buttons.RemoveAt(1);
             }
         }
 
@@ -262,8 +280,9 @@ namespace FinancialManagerPhoneProject.Views
 
         private void __btReceiptPic_Click(object sender, RoutedEventArgs e)
         {
+            SaveAppSettings();
             if (string.IsNullOrEmpty(_Receipt))
-            {
+            {                
                 _HelperPage = "CameraPage";
                 _CameraTask.Show();
             }
@@ -274,6 +293,25 @@ namespace FinancialManagerPhoneProject.Views
                     "&image=" + _Receipt,
                     UriKind.Relative));
             }
+        }
+        private void __btLocation_Click(object sender, RoutedEventArgs e)
+        {
+
+            NavigationService.Navigate(new Uri("/Views/MapView.xaml?caller=expensedetail&longitude=10&latitude=50",UriKind.Relative));
+
+            //SaveAppSettings();
+            //if (string.IsNullOrEmpty(_Receipt))
+            //{
+            //    _HelperPage = "CameraPage";
+            //    _CameraTask.Show();
+            //}
+            //else
+            //{
+            //    _HelperPage = "ReceiptPage";
+            //    NavigationService.Navigate(new Uri("/Views/RecieptCamera.xaml?caller=expensedetail&object=" + _ID +
+            //        "&image=" + _Receipt,
+            //        UriKind.Relative));
+            //}
         }
 
         void deleteIcon_Click(object sender, EventArgs e)
@@ -333,6 +371,7 @@ namespace FinancialManagerPhoneProject.Views
         }
         private void ApplicationBarHelpIcon_Click(object sender, EventArgs e)
         {
+            SaveAppSettings();
             NavigationService.Navigate(new Uri("/Views/help.xaml?caller=expensedetail&object=" + _ID, UriKind.Relative));
         }
 

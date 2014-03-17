@@ -179,7 +179,8 @@ namespace FinancialManagerPhoneProject.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            
+            while(NavigationService.BackStack.Count() >0)
+                NavigationService.RemoveBackEntry();
             NavigationContext.QueryString.TryGetValue("caller", out _Caller);
             NavigationContext.QueryString.TryGetValue("categoryname", out _PassedCategoryName);
             
@@ -189,6 +190,12 @@ namespace FinancialManagerPhoneProject.Views
         {
             base.OnNavigatedFrom(e);
             NavigationService.RemoveBackEntry();
+        }
+
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            
+            base.OnBackKeyPress(e);            
         }
 
         private MainPageModel LoadPageModel()

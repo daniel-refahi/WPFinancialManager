@@ -233,43 +233,7 @@
                             VerticalAlignment="Center"
                             Grid.Column="1"
                             Grid.Row="3"/>
-        
-        <Grid    Grid.Column="0"
-                 HorizontalAlignment="Stretch"
-                 Grid.Row="6"
-                 Grid.ColumnSpan="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>                
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50*"/>
-                <ColumnDefinition Width="50*"/>
-            </Grid.ColumnDefinitions>
-            <Button Name="__btReceiptPic"
-                Foreground="{StaticResource FirstForeground}"
-                BorderBrush="Black"
-                Background="Transparent"
-                Grid.Column="0"
-                Grid.Row="0"
-                FontSize="20"
-                Content="Attach Receipt"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Click="__btReceiptPic_Click" Style="{StaticResource ExpenseButtonsStyle}">
-            </Button>
-            <Button Name="__btLocation"
-                Foreground="{StaticResource FirstForeground}"
-                BorderBrush="Black"
-                Grid.Column="1"
-                Grid.Row="0"
-                Background="Transparent"
-                FontSize="20" 
-                Content="Add My Location"                
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"/>
-        </Grid>
 
-        
         <ListBox Name="__liCategoryList"
                 SelectionChanged="__liCategoryList_SelectionChanged"
                 animations:TiltEffect.IsTiltEnabled="True"
@@ -297,6 +261,43 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
+        <Grid    Grid.Column="0"
+                 HorizontalAlignment="Stretch"
+                 Grid.Row="6"
+                 Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="50*"/>
+            </Grid.ColumnDefinitions>
+            <Button Name="__btReceiptPic"
+                Foreground="{StaticResource FirstForeground}"
+                BorderBrush="Black"
+                Background="Transparent"
+                Grid.Column="0"
+                Grid.Row="0"
+                FontSize="20"
+                Content="Attach Receipt"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Click="__btReceiptPic_Click" 
+                Style="{StaticResource ExpenseButtonsStyle}">
+            </Button>
+            <Button Name="__btLocation"
+                Foreground="{StaticResource FirstForeground}"
+                BorderBrush="Black"
+                Grid.Column="1"
+                Grid.Row="0"
+                Background="Transparent"
+                FontSize="20" 
+                Content="Add My Location"                
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Click="__btLocation_Click"/>
+        </Grid>
     </Grid>
 
 </phone:PhoneApplicationPage>

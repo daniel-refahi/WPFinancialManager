@@ -60,15 +60,6 @@ namespace FinancialManagerPhoneProject.Views
             else if (caller == "help")
             {
                 NavigationContext.QueryString.TryGetValue("object", out _Name);
-                //if (_Name == string.Empty)
-                //{
-                //    LoadPageFromAdd();
-                //}
-                //else
-                //{
-                //    _OldName = _Name;
-                //    LoadPageFromEdit();
-                //}
                 LoadAppSettings(false);
             }
             else 
@@ -119,7 +110,7 @@ namespace FinancialManagerPhoneProject.Views
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
             //base.OnBackKeyPress(e);
-            IsolatedStorageSettings.ApplicationSettings.Clear();
+            
             if (_Status == "add")
                 NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=categorydetail", UriKind.Relative));
             else
@@ -207,6 +198,10 @@ namespace FinancialManagerPhoneProject.Views
             if(!IsFromIconSelection)
                 IsolatedStorageSettings.ApplicationSettings.TryGetValue("iconsource", out _IconSource);
             IsolatedStorageSettings.ApplicationSettings.Clear();
+
+            if(_Status == "edit")
+                __tbTitle.Text = "Edit Category";
+            UpdatingAppBar();
         }
         private void UpdatingAppBar()
         {

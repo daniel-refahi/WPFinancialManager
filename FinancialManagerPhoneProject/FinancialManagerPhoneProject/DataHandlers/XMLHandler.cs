@@ -534,8 +534,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
             {
                 string recieptImage = expenseXML.Attribute("RecieptName").Value;
                 if (!string.IsNullOrEmpty(recieptImage))
-                {
-                    int a = 4;
+                {                    
                     using (IsolatedStorageFile iso = IsolatedStorageFile.GetUserStoreForApplication())
                     {
                         iso.DeleteFile(recieptImage);
