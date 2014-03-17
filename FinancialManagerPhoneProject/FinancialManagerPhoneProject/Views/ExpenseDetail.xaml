@@ -116,7 +116,7 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
+        </Style>        
     </phone:PhoneApplicationPage.Resources>
 
     <toolkit:TransitionService.NavigationInTransition>
@@ -278,29 +278,34 @@
                 Style="{StaticResource ExpenseButtonsStyle}">
             </Button>
             <Button Name="__btLocation"
-                Foreground="{StaticResource FirstForeground}"
+                Style="{StaticResource ExpenseButtonsStyle}"
                 BorderBrush="Black"
                 Grid.Column="1"
                 Grid.Row="0"
                 Background="Transparent"
-                FontSize="20" 
-                Content="Add My Location"                
+                FontSize="20"                
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Click="__btLocation_Click">
                 <Button.Content>
-                    <
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Stretch"
+                                Margin="0">
+                        <TextBlock Name="__btLocationContent"
+                                   Text="Add My Location"
+                                   Foreground="{StaticResource FirstForeground}"/>
+                        <ProgressBar Name="__LoadingBar" 
+                                     IsEnabled="True"                                     
+                                     Foreground="{StaticResource FirstForeground}"
+                                     IsIndeterminate="True"
+                                     VerticalAlignment="Center" 
+                                     HorizontalAlignment="Stretch" 
+                                     Height="10" Width="120"
+                                     Visibility="Collapsed"/>
+                    </StackPanel>
                 </Button.Content>
-                <ProgressBar Name="__LoadingBar" 
-                     IsEnabled="True"
-                     Opacity="0"
-                     Grid.Column="0"
-                     Grid.ColumnSpan="2"
-                     Grid.Row="0"
-                     IsIndeterminate="True"
-                     VerticalAlignment="Top" 
-                     HorizontalAlignment="Stretch" 
-                     Height="10" Margin="0"/>
+                
             </Button>
         </Grid>
     </Grid>

@@ -164,8 +164,11 @@ namespace FinancialManagerPhoneProject.Views
             _Amount = expense.Value.ToString();
             _Description = expense.Description;
             _Receipt = expense.RecieptName;
+            _Latitude = expense.Latitude;
+            _Longtitude = expense.Longtitude;
             _Date = expense.Date.ToShortDateString();
             _Category = StaticValues.DB.GetCategoryName(_ID);
+            
 
             _PageModel.Amount = Convert.ToDouble(_Amount);
             _PageModel.Date = Convert.ToDateTime(_Date);
@@ -180,6 +183,11 @@ namespace FinancialManagerPhoneProject.Views
                 __btReceiptPic.IsEnabled = false;                      
             }
 
+            if (string.IsNullOrEmpty(_Latitude))
+                HandleLocationBt(false);
+            else
+                HandleLocationBt(true);
+
             UpdateApplicationBar();
         }
         private void LoadPageForAdd()
@@ -191,6 +199,8 @@ namespace FinancialManagerPhoneProject.Views
             _Date = DateTime.Today.ToShortDateString();
             _Category = string.Empty;
             _ID = string.Empty;
+            _Latitude = string.Empty;
+            _Longtitude = string.Empty;
 
             _PageModel.Date = DateTime.Today;
             _PageModel.Amount = 0;
@@ -208,6 +218,8 @@ namespace FinancialManagerPhoneProject.Views
             if(string.IsNullOrEmpty(_Receipt))
                 IsolatedStorageSettings.ApplicationSettings.TryGetValue("receipt", out _Receipt);
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("helperpage", out _HelperPage);
+            IsolatedStorageSettings.ApplicationSettings.TryGetValue("longtitude", out _Longtitude);
+            IsolatedStorageSettings.ApplicationSettings.TryGetValue("latitude", out _Latitude);
 
             _PageModel.Amount = Convert.ToDouble(_Amount);
             _PageModel.Date = Convert.ToDateTime(_Date);
@@ -241,7 +253,12 @@ namespace FinancialManagerPhoneProject.Views
                     __btReceiptPic.Content = "Receipt Attached";
                     __btReceiptPic.IsEnabled = false;
                 }
-            }            
+            }
+
+            if (string.IsNullOrEmpty(_Latitude))
+                HandleLocationBt(false);
+            else
+                HandleLocationBt(true);
          
             UpdateApplicationBar();
 
@@ -255,6 +272,8 @@ namespace FinancialManagerPhoneProject.Views
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("category", out _Category);
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("id", out _ID);            
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("receipt", out _Receipt);
+            IsolatedStorageSettings.ApplicationSettings.TryGetValue("latitude", out _Latitude);
+            IsolatedStorageSettings.ApplicationSettings.TryGetValue("longtitude", out _Longtitude);
 
             _PageModel.Amount = Convert.ToDouble(_Amount);
             _PageModel.Date = Convert.ToDateTime(_Date);
@@ -288,9 +307,28 @@ namespace FinancialManagerPhoneProject.Views
                     __btReceiptPic.Content = "Receipt Attached";
                     __btReceiptPic.IsEnabled = false;
                 }
-            }     
+            }
+
+            if (string.IsNullOrEmpty(_Latitude))
+                HandleLocationBt(false);
+            else
+                HandleLocationBt(true);
 
             UpdateApplicationBar();
+        }
+        private void HandleLocationBt(bool IsLocaionAvailable) 
+        {
+            if (IsLocaionAvailable)
+            {
+                __btLocationContent.Text = "See Location";                
+                __btLocation.IsEnabled = true;
+            }
+            else
+            {
+                __btLocationContent.Foreground = new SolidColorBrush(Color.FromArgb(255, 102, 99, 98));
+                __btLocationContent.Text = "No Location";
+                __btLocation.IsEnabled = false;
+            }
         }
 
         private void SaveAppSettings()
@@ -304,6 +342,8 @@ namespace FinancialManagerPhoneProject.Views
             IsolatedStorageSettings.ApplicationSettings["category"] = _Category;
             IsolatedStorageSettings.ApplicationSettings["status"] = _Status;
             IsolatedStorageSettings.ApplicationSettings["id"] = _ID;
+            IsolatedStorageSettings.ApplicationSettings["latitude"] = _Latitude;
+            IsolatedStorageSettings.ApplicationSettings["longtitude"] = _Longtitude;
             IsolatedStorageSettings.ApplicationSettings.Save();
         }
 
@@ -367,75 +407,41 @@ namespace FinancialManagerPhoneProject.Views
         }
         private async void __btLocation_Click(object sender, RoutedEventArgs e)
         {
-            __LoadingBar.Opacity = 1;
-
-            try
+            if (_Status == "add")
             {
-                Geolocator geolocator = new Geolocator();
-                geolocator.DesiredAccuracyInMeters = 50;
+                __LoadingBar.Visibility = System.Windows.Visibility.Visible;
+                __btLocationContent.Text = "Loading";
+                __btLocation.IsEnabled = false;
 
-                Geoposition geoposition = await geolocator.GetGeopositionAsync(
-                    maximumAge: TimeSpan.FromMinutes(5),
-                    timeout: TimeSpan.FromSeconds(10)
-                    );
-                _Latitude = geoposition.Coordinate.Latitude.ToString("0.00");
-                _Longtitude = geoposition.Coordinate.Longitude.ToString("0.00");
+                try
+                {
+                    Geolocator geolocator = new Geolocator();
+                    geolocator.DesiredAccuracyInMeters = 50;
 
-                //GeoCoordinate myLocation = new GeoCoordinate(geoposition.Coordinate.Latitude, geoposition.Coordinate.Longitude);                    
+                    Geoposition geoposition = await geolocator.GetGeopositionAsync(
+                        maximumAge: TimeSpan.FromMinutes(5),
+                        timeout: TimeSpan.FromSeconds(10)
+                        );
+                    _Latitude = geoposition.Coordinate.Latitude.ToString("0.00");
+                    _Longtitude = geoposition.Coordinate.Longitude.ToString("0.00");
+                    __btLocationContent.Text = "Location Added";
+                    __btLocationContent.Foreground = new SolidColorBrush(Color.FromArgb(255, 102, 99, 98));
 
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Couldn't get you location info!");
+                    __btLocation.IsEnabled = true;
+                    __btLocationContent.Text = "Add My Location";
+                }
+                finally
+                {
+                    __LoadingBar.Visibility = System.Windows.Visibility.Collapsed;
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Couldn't get you location info!");
-            }
-            finally 
-            {
-                __LoadingBar.Opacity = 0;
-            }
-
-
-
-
-
-            //bool IsLocationOk = true;
-            
-            //Task t_GetMyLocation = Task.Factory.StartNew(() =>
-            //{
-            //    try
-            //    {
-            //        Geolocator geolocator = new Geolocator();
-            //        geolocator.DesiredAccuracyInMeters = 50;
-
-            //        Geoposition geoposition = await geolocator.GetGeopositionAsync(
-            //            maximumAge: TimeSpan.FromMinutes(5),
-            //            timeout: TimeSpan.FromSeconds(10)
-            //            );
-            //        _Latitude = geoposition.Coordinate.Latitude.ToString("0.00");
-            //        _Longtitude = geoposition.Coordinate.Longitude.ToString("0.00");
-
-            //        //GeoCoordinate myLocation = new GeoCoordinate(geoposition.Coordinate.Latitude, geoposition.Coordinate.Longitude);                    
-
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        IsLocationOk = false;
-            //    }
-            //});
-
-            //Task UpdateUI = t_GetMyLocation.ContinueWith((t) =>
-            //{
-            //    if (IsLocationOk)
-            //    {
-            //        MessageBox.Show(_Longtitude +" - "+_Latitude);
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("Couldn't get you location info!");
-            //    }
-            //    __LoadingBar.Opacity = 0;
-                
-            //}, TaskScheduler.FromCurrentSynchronizationContext());
-            //NavigationService.Navigate(new Uri("/Views/MapView.xaml?caller=expensedetail&longitude=10&latitude=50",UriKind.Relative));
+            else 
+                NavigationService.Navigate(new Uri("/Views/MapView.xaml?caller=expensedetail&longtitude="+_Longtitude+
+                    "&latitude="+_Latitude+"",UriKind.Relative));
 
             
         }
@@ -473,6 +479,8 @@ namespace FinancialManagerPhoneProject.Views
                         ID = _ID,
                         Category = ((Category)__liCategoryList.SelectedItem).Name,
                         RecieptName = _Receipt,
+                        Latitude = (string.IsNullOrEmpty(_Latitude))? string.Empty : _Latitude,
+                        Longtitude = (string.IsNullOrEmpty(_Longtitude)) ? string.Empty : _Longtitude,
                         Date = (DateTime)__dpDatepicker.Value,
                         Description = __tbDescription.Text.ToString(),
                         Value = amount
@@ -485,6 +493,8 @@ namespace FinancialManagerPhoneProject.Views
                         Category = ((Category)__liCategoryList.SelectedItem).Name,
                         Date = (DateTime)__dpDatepicker.Value,
                         RecieptName = _Receipt,
+                        Latitude = (string.IsNullOrEmpty(_Latitude)) ? string.Empty : _Latitude,
+                        Longtitude = (string.IsNullOrEmpty(_Longtitude)) ? string.Empty : _Longtitude,
                         Description = __tbDescription.Text.ToString(),
                         Value = amount
                     });

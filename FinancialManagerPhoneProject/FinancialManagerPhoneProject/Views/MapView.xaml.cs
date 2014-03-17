@@ -19,12 +19,10 @@ namespace FinancialManagerPhoneProject.Views
     {
         string _Caller;
         string _Latitude = string.Empty;
-        string _Longitude = string.Empty;
+        string _Longtitude = string.Empty;
         public MapView()
         {
-            InitializeComponent();
-            
-            LoadMap();
+            InitializeComponent();                        
         }
 
         private async void LoadMap() 
@@ -68,12 +66,10 @@ namespace FinancialManagerPhoneProject.Views
             {
                 if ((uint)ex.HResult == 0x80004004)
                 {
-                    // the application does not have the right capability or the location master switch is off
                     MessageBox.Show("location  is disabled in phone settings.");
                 }
-                //else
+                else
                 {
-                    // something else happened acquring the location
                     MessageBox.Show(ex.InnerException.ToString());
                 }
             }
@@ -95,9 +91,31 @@ namespace FinancialManagerPhoneProject.Views
             base.OnNavigatedTo(e);
             NavigationContext.QueryString.TryGetValue("caller", out _Caller);
             NavigationContext.QueryString.TryGetValue("latitude", out _Latitude);
-            NavigationContext.QueryString.TryGetValue("longitude", out _Longitude);
+            NavigationContext.QueryString.TryGetValue("longtitude", out _Longtitude);
 
-            //__Map.Center = new GeoCoordinate(Convert.ToDouble(_Latitude), Convert.ToDouble(_Longitude));
+            GeoCoordinate myLocation = new GeoCoordinate(Convert.ToDouble(_Latitude), Convert.ToDouble(_Longtitude));
+
+            Ellipse myCircle = new Ellipse();
+            myCircle.Fill = new SolidColorBrush(Colors.Red);
+            myCircle.Height = 20;
+            myCircle.Width = 20;
+            myCircle.Opacity = 50;
+
+            MapOverlay myLocationOverlay = new MapOverlay();
+            myLocationOverlay.Content = myCircle;
+            myLocationOverlay.PositionOrigin = new Point(0.5, 0.5);
+            myLocationOverlay.GeoCoordinate = myLocation;
+
+            MapLayer myLocationLayer = new MapLayer();
+            myLocationLayer.Add(myLocationOverlay);
+
+            Map map = new Map();
+            map.LandmarksEnabled = true;
+            map.ZoomLevel = 16;
+            map.Center = myLocation;
+            map.Layers.Add(myLocationLayer);
+            LayoutRoot.Children.Add(map);
+            
         }
     }
 }
