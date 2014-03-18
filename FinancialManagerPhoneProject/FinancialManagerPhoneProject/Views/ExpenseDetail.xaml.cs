@@ -89,6 +89,12 @@ namespace FinancialManagerPhoneProject.Views
         {
             base.OnNavigatedTo(e);
 
+            // reseting the location button
+            __btLocation.IsEnabled = true;
+            __btLocationContent.Text = "Add My Location";
+            __btLocationContent.Foreground = new SolidColorBrush(Colors.Black);
+            __LoadingBar.Visibility = System.Windows.Visibility.Collapsed;
+
             _Categories = StaticValues.DB.GetAllCategories();
             _PageModel = new ExpenseDetailViewModel();
             _PageModel.ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40;
@@ -320,14 +326,30 @@ namespace FinancialManagerPhoneProject.Views
         {
             if (IsLocaionAvailable)
             {
-                __btLocationContent.Text = "See Location";                
-                __btLocation.IsEnabled = true;
+                if (_Status == "add")
+                {
+                    __btLocation.IsEnabled = false;
+                    __btLocationContent.Text = "Location Added";
+                    __btLocationContent.Foreground = new SolidColorBrush(Color.FromArgb(255, 102, 99, 98));
+                }
+                else
+                {
+                    __btLocationContent.Text = "See Location";
+                    __btLocation.IsEnabled = true;
+                }
             }
             else
             {
-                __btLocationContent.Foreground = new SolidColorBrush(Color.FromArgb(255, 102, 99, 98));
-                __btLocationContent.Text = "No Location";
-                __btLocation.IsEnabled = false;
+                if (_Status == "add")
+                {
+                    // you don't need to do anything about this
+                }
+                else
+                {
+                    __btLocationContent.Foreground = new SolidColorBrush(Color.FromArgb(255, 102, 99, 98));
+                    __btLocationContent.Text = "No Location";
+                    __btLocation.IsEnabled = false;
+                }
             }
         }
 

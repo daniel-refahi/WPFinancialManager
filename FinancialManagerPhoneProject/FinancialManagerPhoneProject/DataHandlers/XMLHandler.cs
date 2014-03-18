@@ -469,6 +469,9 @@ namespace FinancialManagerPhoneProject.DataHandlers
 
         #region Expense
 
+        //public Expense GetTopExpense()
+        //{ }
+
         public List<Expense> GetAllExpenses()
         {
             List<Expense> expenses = new List<Expense>();

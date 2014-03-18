@@ -25,7 +25,8 @@
             <shell:ApplicationBarIconButton Text="Help" IconUri="/Image/help.png"
                                             Click="ApplicationBarHelpIcon_Click"/>
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="Settings"/>
+                <shell:ApplicationBarMenuItem Text="Settings" 
+                                              Click="ApplicationBarMenuItem_Click"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

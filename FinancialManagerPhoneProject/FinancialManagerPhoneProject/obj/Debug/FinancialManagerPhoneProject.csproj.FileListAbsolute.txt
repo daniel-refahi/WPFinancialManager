@@ -550,3 +550,4 @@ C:\Users\abtin\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\
 C:\Users\abtin\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Debug\XapCacheFile.xml
 C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Debug\Views\MapView.g.cs
 C:\Users\abtin\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Debug\Views\MapView.g.cs
+C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Debug\Views\Settings.g.cs

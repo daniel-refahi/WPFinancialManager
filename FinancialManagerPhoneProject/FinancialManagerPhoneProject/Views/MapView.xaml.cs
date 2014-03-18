@@ -77,7 +77,7 @@ namespace FinancialManagerPhoneProject.Views
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
-            //NavigationService.Navigate(new Uri("/Views/ExpenseDetail.xaml?caller=help&object=" + _Object, UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Views/ExpenseDetail.xaml?caller=help", UriKind.Relative));
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
