@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using Windows.Storage;
 using System.IO.IsolatedStorage;
 using System.Windows;
+using Microsoft.Phone.Shell;
 
 namespace FinancialManagerPhoneProject.DataHandlers
 {
@@ -467,10 +468,30 @@ namespace FinancialManagerPhoneProject.DataHandlers
             });
         }
 
-        #region Expense
+        public void UpdateTileValues()
+        {
+            ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("DefaultTitle=FinancialManagerFromTile"));
 
-        //public Expense GetTopExpense()
-        //{ }
+            if (TileToFind != null)
+            {
+                double expenses = StaticValues.DB.GetTotalExpenses();
+                double remaining = StaticValues.DB.GetIncome() - expenses;
+                string symbol = StaticValues.DB.GetCurrencySymbol();               
+
+                StandardTileData NewTileData = new StandardTileData
+                {
+                    BackgroundImage = new Uri("Assets/150_150_Logo.png", UriKind.Relative),
+                    Title = "Financial Manager",
+                    BackContent = "Expenses:\n" + expenses.ToString("n0") + " " + symbol + "\nRemaining:\n" +
+                                  remaining.ToString("n0") + " " + symbol,
+                    BackBackgroundImage = new Uri("Black.jpg", UriKind.Relative)
+                };
+
+                TileToFind.Update(NewTileData);
+            }
+        }
+
+        #region Expense  
 
         public List<Expense> GetAllExpenses()
         {
@@ -569,6 +590,8 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                 .FirstOrDefault().Attribute("TotalExpenses");
             attribute.Value = (Convert.ToDouble(attribute.Value) + expense.Value).ToString();
 
+            UpdateTileValues();
+
             SaveXmlToFileAsync();
         }
 
@@ -604,6 +627,8 @@ namespace FinancialManagerPhoneProject.DataHandlers
                 /* It means there is no image. ignore it */
             }
 
+            UpdateTileValues();
+
             SaveXmlToFileAsync();
         }
 
@@ -633,6 +658,8 @@ namespace FinancialManagerPhoneProject.DataHandlers
             xmlExpense.SetValue(expense.Value);
             //xmlExpense.Attribute("Date").SetValue(expense.Date.Day + "/" + expense.Date.Month + "/" + expense.Date.Year);
             xmlExpense.Attribute("Date").SetValue(expense.Date.ToString());
+
+            UpdateTileValues();
 
             SaveXmlToFileAsync();
         }
@@ -748,6 +775,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
              where x.Attribute("Name").Value == category.Name
              select x).FirstOrDefault().Remove();
 
+            UpdateTileValues();
             SaveXmlToFileAsync();
         }
 
@@ -760,7 +788,8 @@ namespace FinancialManagerPhoneProject.DataHandlers
             (from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
              where x.Attribute("Name").Value == category
              select x).FirstOrDefault().Remove();
-
+            
+            UpdateTileValues();
             SaveXmlToFileAsync();
         }
 

@@ -206,7 +206,7 @@ namespace FinancialManagerPhoneProject.Views
             {
                 mainPageModel.ExpenseListModel.Add(new ExpenseItemModel()
                 {
-                    Amount = symbol + " " + expense.Value,
+                    Amount = symbol + " " + expense.Value.ToString("n2"),
                     ID = expense.ID,
                     Category = expense.Category,
                     Date = expense.Date.ToString("dd/MMM"),
@@ -223,9 +223,9 @@ namespace FinancialManagerPhoneProject.Views
                 mainPageModel.CategoryListModel.Add(new CategoryItemModel()
                 {
                     Name = category.Name,
-                    Plan = symbol + " " + category.Plan,
-                    Remaining = symbol + " " + (category.Plan - category.TotalExpenses),
-                    Total = symbol + " " + category.TotalExpenses,
+                    Plan = symbol + " " + category.Plan.ToString("n2"),
+                    Remaining = symbol + " " + (category.Plan - category.TotalExpenses).ToString("n2"),
+                    Total = symbol + " " + category.TotalExpenses.ToString("n2"),
                     ImageSource = "../../Assets/Icons/" + category.Icon + ".png",
                     ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40
                 });
@@ -263,10 +263,10 @@ namespace FinancialManagerPhoneProject.Views
             double income = StaticValues.DB.GetIncome();
             double totalExpense = StaticValues.DB.GetTotalExpenses();
             double balance = income - totalExpense;
-            mainPageModel.Income = symbol + " " + income;
-            mainPageModel.Balance = symbol + " " + balance;
-            mainPageModel.TotalExpenses = StaticValues.DB.GetCurrencySymbol()+ " " + totalExpense;
-            mainPageModel.Saving = StaticValues.DB.GetCurrencySymbol() + " " + balance;
+            mainPageModel.Income = symbol + " " + income.ToString("n0");
+            mainPageModel.Balance = symbol + " " + balance.ToString("n2");
+            mainPageModel.TotalExpenses = StaticValues.DB.GetCurrencySymbol() + " " + totalExpense.ToString("n2");
+            mainPageModel.Saving = StaticValues.DB.GetCurrencySymbol() + " " + balance.ToString("n2");
 
             return mainPageModel;
         }

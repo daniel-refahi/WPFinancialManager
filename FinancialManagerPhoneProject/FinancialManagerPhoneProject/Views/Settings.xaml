@@ -201,10 +201,10 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="5*"/>
-            <RowDefinition Height="13*"/>
-            <RowDefinition Height="10*"/>
             <RowDefinition Height="3*"/>
+            <RowDefinition Height="12*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="7*"/>
             <RowDefinition Height="9*"/>
             <RowDefinition Height="11*"/>
             <RowDefinition Height="10*"/>
@@ -213,53 +213,74 @@
         </Grid.RowDefinitions>
         
        
-            <TextBlock Text="Settings" 
-                       HorizontalAlignment="Left"
+        <TextBlock Text="Settings" 
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Margin="20,0,0,0" 
+                   Grid.Column="0"
+                   Grid.Row="1"                  
+                   Foreground="{StaticResource FirstForeground}"
+                   Style="{StaticResource PhoneTextTitle1Style}"/>
+        <TextBlock Text="Currency:" 
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"                       
+                   Margin="20,17,0,0" 
+                   Grid.RowSpan="2"
+                   Grid.Column="0"
+                   Grid.Row="2" 
+                   Foreground="{StaticResource FirstForeground}"
+                   Style="{StaticResource PhoneTextNormalStyle}"/>
+        <toolkit:ListPicker  HorizontalAlignment="Stretch"
                        VerticalAlignment="Top"
-                       Margin="20,0,0,0" 
+                       Margin="112,0,31,0" 
                        Grid.Column="0"
-                       Grid.Row="1"                  
-                       Foreground="{StaticResource FirstForeground}"
-                       Style="{StaticResource PhoneTextTitle1Style}"/>
-            <CheckBox x:Name="__cbLiveTile"
+                       Grid.Row="2" 
+                       Grid.RowSpan="5"
+                       BorderBrush="#FF4D4D4D" 
+                       Foreground="#FF3C3C3C" 
+                       Canvas.ZIndex="2">
+            <toolkit:ListPicker.Items>
+                <toolkit:ListPickerItem Content="$&#160;&#160;&#160;Dollar" Canvas.ZIndex="2" Background="White"/>
+                <toolkit:ListPickerItem Content="€&#160;&#160;&#160;Euro" Canvas.ZIndex="2" Background="White"/>
+                <toolkit:ListPickerItem Content="&#x20b9;&#160;&#160;&#160;Rupee" Canvas.ZIndex="2" Background="White"/>
+                <toolkit:ListPickerItem Content="RM&#160;&#160;Ringgit" Canvas.ZIndex="2" Background="White"/>
+                <toolkit:ListPickerItem Content="£&#160;&#160;&#160;Pound" Canvas.ZIndex="2" Background="White"/>
+            </toolkit:ListPicker.Items>
+        </toolkit:ListPicker>
+
+        <TextBlock Text="Income:" 
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Margin="20,0,0,0" 
+                   Grid.Column="0"
+                   Grid.Row="3" 
+                   Foreground="{StaticResource FirstForeground}"
+                   Style="{StaticResource PhoneTextNormalStyle}"/>
+        <TextBox Name="__txIncome"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Bottom"
+                 Foreground="{StaticResource FirstForeground}"
+                 AcceptsReturn="False"
+                 InputScope="Number"
+                 Margin="100,0,20,0" 
+                 Grid.Column="0"
+                 Grid.Row="3"/>
+        <CheckBox x:Name="__cbLiveTile"
                       Foreground="{StaticResource FirstForeground}"                        
                       Content="Create Live Tile"
                       HorizontalAlignment="Left"
                       VerticalAlignment="Top"
                       Margin="20,0,0,0" 
                       Grid.Column="0"
-                      Grid.Row="2" 
+                      Grid.Row="4" 
                       IsChecked="false"
                       IsThreeState="False"
                       Style="{StaticResource CheckBoxStyle}" 
                       FontSize="32" HorizontalContentAlignment="Left" 
                       UseLayoutRounding="True" Padding="0,1,0,0"/>
             
-            <TextBlock Text="Currency:" 
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Bottom"
-                       Margin="20,0,0,0" 
-                       Grid.Column="0"
-                       Grid.Row="3" 
-                   Foreground="{StaticResource FirstForeground}"
-                   Style="{StaticResource PhoneTextNormalStyle}"/>
-        <toolkit:ListPicker  HorizontalAlignment="Left"
-                       VerticalAlignment="Top"
-                       Margin="20,0,0,0" 
-                       Grid.Column="0"
-                       Grid.Row="4" 
-                       Grid.RowSpan="5"
-                       BorderBrush="#FF4D4D4D" 
-                       Foreground="#FF3C3C3C" Width="250"
-                       Canvas.ZIndex="2">
-                <toolkit:ListPicker.Items>
-                    <toolkit:ListPickerItem Content="$&#160;&#160;&#160;Dollar" Canvas.ZIndex="2" Background="White"/>
-                    <toolkit:ListPickerItem Content="€&#160;&#160;&#160;Euro" Canvas.ZIndex="2" Background="White"/>
-                    <toolkit:ListPickerItem Content="&#x20b9;&#160;&#160;&#160;Rupee" Canvas.ZIndex="2" Background="White"/>
-                    <toolkit:ListPickerItem Content="RM&#160;&#160;Ringgit" Canvas.ZIndex="2" Background="White"/>
-                    <toolkit:ListPickerItem Content="£&#160;&#160;&#160;Pound" Canvas.ZIndex="2" Background="White"/>
-                </toolkit:ListPicker.Items>
-            </toolkit:ListPicker>
+            
+        
         <Button Name="__btSave"
                 VerticalAlignment="Top"
                 Margin="10,0" 

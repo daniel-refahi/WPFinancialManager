@@ -236,6 +236,7 @@
     </Content>
     <Content Include="Assets\contacts.png" />
     <Content Include="Assets\receipt.png" />
+    <Content Include="Black.jpg" />
     <Content Include="Image\add.png" />
     <Content Include="Image\check.png" />
     <Content Include="Image\close.png" />
@@ -366,10 +367,7 @@
     </Content>
     <Content Include="README_FIRST.txt" />
     <Content Include="SplashScreenImage.jpg" />
-    <Content Include="TileMediumSecond.jpg" />
-    <Content Include="TileSmallSecond.jpg" />
     <Content Include="TileWideFirst.jpg" />
-    <Content Include="TileWideSecond.jpg" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
