@@ -331,5 +331,42 @@ namespace FinancialManagerPhoneProject.Views
         {
             NavigationService.Navigate(new Uri("/Views/Settings.xaml?", UriKind.Relative));
         }
+
+
+
+
+
+
+
+        private void __productsList_Click_1(object sender, RoutedEventArgs e)
+        {            
+            string product = "Ultimate User - ";
+            if (StaticValues.DB.IsUltimateUser())
+                product += "Is Active!";
+            else
+                product += "Is not Active!";
+            MessageBox.Show(product);
+        }
+
+        private async void __Buy_Click_1(object sender, RoutedEventArgs e)
+        {
+
+            if (StaticValues.DB.IsUltimateUser())
+            {
+                MessageBox.Show("You Already are an Ultimate user");
+            }
+            else
+            {
+                if (await StaticValues.DB.BuyUltimateUser())
+                    MessageBox.Show("You are now Ultimate User!");
+                else
+                    MessageBox.Show("Financial Manager couldn't reach the store!");
+            }            
+        }
+
+        private void __Clear_Click_1(object sender, RoutedEventArgs e)
+        {
+           MockIAPLib.MockIAP.ClearCache();
+        }
     }
 }

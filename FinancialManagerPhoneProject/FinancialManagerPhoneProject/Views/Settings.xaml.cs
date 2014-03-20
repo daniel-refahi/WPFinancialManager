@@ -22,19 +22,70 @@ namespace FinancialManagerPhoneProject.Views
         {
             base.OnNavigatedTo(e);
 
+            switch (StaticValues.DB.GetCurrencySymbol())
+            {
+                case "$":
+                    __liSymbols.SelectedIndex = 0;
+                    break;
+                case "€":
+                    __liSymbols.SelectedIndex = 1;
+                    break;
+                case "&#x20b9;":
+                    __liSymbols.SelectedIndex = 2;
+                    break;
+                case "RM":
+                    __liSymbols.SelectedIndex = 3;
+                    break;
+                case "£":
+                    __liSymbols.SelectedIndex = 4;
+                    break;
+            }
+
+
             ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("DefaultTitle=FinancialManagerFromTile"));
             __cbLiveTile.IsChecked = (TileToFind != null);
             __txIncome.Text = StaticValues.DB.GetIncome().ToString("n0");
         }
 
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=settings", UriKind.Relative));
+        }
+
         private void __btSave_Click(object sender, RoutedEventArgs e)
         {
-            if ((bool)__cbLiveTile.IsChecked)
+            int income = 0;
+            bool isNum = int.TryParse(__txIncome.Text.ToString().Replace(",",""), out income);
+            if (!isNum || income <= 0)
             {
-                ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("DefaultTitle=FinancialManagerFromTile"));
-                
-                if (TileToFind == null)
+                MessageBox.Show("Please Enter a Valid Income!");
+            }
+            else
+            {
+                string newSymbol = string.Empty;
+                switch(__liSymbols.SelectedIndex)
                 {
+                    case 0:
+                        newSymbol = "$";
+                        break;
+                    case 1:
+                        newSymbol = "€";
+                        break;
+                    case 2:
+                        newSymbol = "&#x20b9;";
+                        break;
+                    case 3:
+                        newSymbol = "RM";
+                        break;
+                    case 4:
+                        newSymbol = "£";
+                        break;
+                }
+                StaticValues.DB.UpdateSettings(income.ToString(), newSymbol);
+                if ((bool)__cbLiveTile.IsChecked)
+                {
+                    ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("DefaultTitle=FinancialManagerFromTile"));
+
                     double expenses = StaticValues.DB.GetTotalExpenses();
                     double remaining = StaticValues.DB.GetIncome() - expenses;
                     string symbol = StaticValues.DB.GetCurrencySymbol();
@@ -48,25 +99,36 @@ namespace FinancialManagerPhoneProject.Views
                         BackBackgroundImage = new Uri("Black.jpg", UriKind.Relative)
                     };
 
-                    ShellTile.Create(new Uri("/Views/MainWindow.xaml?DefaultTitle=FinancialManagerFromTile", UriKind.Relative), NewTileData);
+                    if (TileToFind == null)
+                        ShellTile.Create(new Uri("/Views/MainWindow.xaml?DefaultTitle=FinancialManagerFromTile", UriKind.Relative), NewTileData);
+                    else
+                        TileToFind.Update(NewTileData);
                 }
-            }
-            else 
-            {
-                ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("DefaultTitle=FinancialManagerFromTile"));
-
-                if (TileToFind != null)
+                else
                 {
-                    TileToFind.Delete();
-                }
-            }
+                    ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("DefaultTitle=FinancialManagerFromTile"));
 
-            MessageBox.Show("Setting has been saved.");
+                    if (TileToFind != null)
+                    {
+                        TileToFind.Delete();
+                    }
+                }
+
+                MessageBox.Show("Setting has been saved.");
+            }
         }
 
         private void __btDeleteAll_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = MessageBox.Show("I know that you've hit Delete All, but are you really sure?",
+                                                            "Delete All!", MessageBoxButton.OKCancel);
 
+            if (result == MessageBoxResult.OK)
+            {
+                StaticValues.DB.DeleteAll();
+                NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=settings", UriKind.Relative));
+            }
+            
         }        
     }
 }

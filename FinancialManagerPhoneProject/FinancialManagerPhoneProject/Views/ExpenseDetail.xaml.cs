@@ -461,9 +461,12 @@ namespace FinancialManagerPhoneProject.Views
                     __LoadingBar.Visibility = System.Windows.Visibility.Collapsed;
                 }
             }
-            else 
-                NavigationService.Navigate(new Uri("/Views/MapView.xaml?caller=expensedetail&longtitude="+_Longtitude+
-                    "&latitude="+_Latitude+"",UriKind.Relative));
+            else
+            {
+                SaveAppSettings();
+                NavigationService.Navigate(new Uri("/Views/MapView.xaml?caller=expensedetail&longtitude=" + _Longtitude +
+                    "&latitude=" + _Latitude + "", UriKind.Relative));
+            }
 
             
         }

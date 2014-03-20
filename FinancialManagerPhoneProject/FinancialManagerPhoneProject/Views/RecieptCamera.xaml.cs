@@ -155,7 +155,7 @@ namespace FinancialManagerPhoneProject.Views
             {
                 using (IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    using (IsolatedStorageFileStream isfs = isf.OpenFile(imageName, FileMode.Open, FileAccess.Read))
+                    using (IsolatedStorageFileStream isfs = isf.OpenFile("Receipts/"+imageName, FileMode.Open, FileAccess.Read))
                     {
                         data = new byte[isfs.Length];
                         isfs.Read(data, 0, data.Length);

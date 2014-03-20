@@ -11,12 +11,19 @@ using System.IO.IsolatedStorage;
 using System.Windows;
 using Microsoft.Phone.Shell;
 
+#if DEBUG
+using MockIAPLib;
+#else
+using Windows.ApplicationModel.Store;
+#endif
+
+
 namespace FinancialManagerPhoneProject.DataHandlers
 {
     public class XMLHandler
     {
         public static double DEIVCE_WIDTH;
-        public static XDocument FINANCIALMANAGER_XML;
+        public static XDocument FINANCIALMANAGER_XML;        
 
         public async Task LoadDefaultXmlAsync()
         {
@@ -297,13 +304,19 @@ namespace FinancialManagerPhoneProject.DataHandlers
 
                       FINANCIALMANAGER_XML = xml;
                   });
+            await CreateReceiptsFolderAsync();
             await loadDefaultXml;
         }
-
         public async Task SaveXmlToFileAsync()
         {
             Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
             var xmlFile = await localFolder.CreateFileAsync("FinancialManagerXML.xml", CreationCollisionOption.ReplaceExisting);
+
+            var ReceiptFolder = await localFolder.GetFolderAsync("Receipts");
+            if (ReceiptFolder == null)
+            {
+                await localFolder.CreateFolderAsync("Receipts");
+            }
 
             using (var stream = await xmlFile.OpenStreamForWriteAsync())
             {
@@ -313,7 +326,6 @@ namespace FinancialManagerPhoneProject.DataHandlers
                 }
             }
         }
-
         public async Task LoadXmlFromFileAsync()
         {
             bool IsXmlExist = true;
@@ -336,6 +348,25 @@ namespace FinancialManagerPhoneProject.DataHandlers
                 await SaveXmlToFileAsync();
             }
         }
+        
+        public async Task CreateReceiptsFolderAsync()
+        {
+            Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+
+            await localFolder.CreateFolderAsync("Receipts");           
+        }
+        public async Task DeleteReceiptsFolderAsync()
+        {
+            Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+
+            var ReceiptFolder = await localFolder.GetFolderAsync("Receipts");
+            if (ReceiptFolder != null)
+            {
+                await ReceiptFolder.DeleteAsync();
+                await CreateReceiptsFolderAsync();
+            }
+            
+        }        
 
         public string GetCurrencySymbol()
         {
@@ -345,12 +376,21 @@ namespace FinancialManagerPhoneProject.DataHandlers
                 currency = FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Currency").Value;
             }
             catch { currency = "$"; }
+
+            if (currency == "&#x20b9;")
+                return "₹";
             return currency;
         }
 
         public double GetIncome()
         {
             return Convert.ToDouble(FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Income").Value);
+        }
+        public void UpdateSettings(string income, string symbol) 
+        {
+            FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Currency").SetValue(symbol);
+            FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Income").SetValue(income);
+            SaveXmlToFileAsync();
         }
 
         public List<string> GetIcons(string initPath)
@@ -459,7 +499,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                 {                    
                     using (var store = IsolatedStorageFile.GetUserStoreForApplication())
                     {
-                        using (var stream = store.CreateFile(System.IO.Path.Combine(ImageName)))
+                        using (var stream = store.CreateFile(System.IO.Path.Combine("Receipts/"+ImageName)))
                         {
                             stream.Write(imageAsByte, 0, imageAsByte.Length);
                         }
@@ -491,7 +531,86 @@ namespace FinancialManagerPhoneProject.DataHandlers
             }
         }
 
-        #region Expense  
+        public void DeleteAll()
+        {
+            FINANCIALMANAGER_XML.Root.Element("Expenses").DescendantNodes().Remove();
+            FINANCIALMANAGER_XML.Root.Element("Categories").DescendantNodes().Remove();
+            FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Currency").SetValue("$");
+            FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Income").SetValue("3000");
+            FINANCIALMANAGER_XML.Root.Element("Categories").Add(new XElement("Category", new XAttribute("Name", "Rent"),
+                                                                                         new XAttribute("Plan", 1260),
+                                                                                         new XAttribute("Icon", "Mortgage"),
+                                                                                         new XAttribute("TotalExpenses", 0)
+                                                                              ));
+            FINANCIALMANAGER_XML.Root.Element("Categories").Add(new XElement("Category", new XAttribute("Name", "Car"),
+                                                                                         new XAttribute("Plan", 100),
+                                                                                         new XAttribute("Icon", "auto"),
+                                                                                         new XAttribute("TotalExpenses", 0)
+                                                                                         ));
+            FINANCIALMANAGER_XML.Root.Element("Categories").Add(new XElement("Category", new XAttribute("Name", "Phone Bills"),
+                                                                                         new XAttribute("Plan", 80),
+                                                                                         new XAttribute("Icon", "iphone_off"),
+                                                                                         new XAttribute("TotalExpenses", 0)
+                                                                                         ));
+            FINANCIALMANAGER_XML.Root.Element("Categories").Add(new XElement("Category", new XAttribute("Name", "Bills"),
+                                                                                         new XAttribute("Plan", 600),
+                                                                                         new XAttribute("Icon", "invoice2"),
+                                                                                         new XAttribute("TotalExpenses", 0)
+                                                                                         ));
+            FINANCIALMANAGER_XML.Root.Element("Categories").Add(new XElement("Category", new XAttribute("Name", "Groceries"),
+                                                                                         new XAttribute("Plan", 150),
+                                                                                         new XAttribute("Icon", "groceris"),
+                                                                                         new XAttribute("TotalExpenses", 0)
+                                                                                         ));
+
+            DeleteAllStorage();                                                                   
+        }
+        public void DeleteAllStorage()
+        {
+            Task deleteStorage = Task.Factory.StartNew(async() =>
+            {
+                await DeleteReceiptsFolderAsync();
+                SaveXmlToFileAsync();
+            });             
+        }
+
+        #region Store Manager
+        public bool IsUltimateUser()
+        {
+            if (CurrentApp.LicenseInformation.ProductLicenses["1"].IsActive)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> BuyUltimateUser()
+        {
+            var listing = await CurrentApp.LoadListingInformationAsync();
+            try
+            {
+                if (CurrentApp.LicenseInformation.ProductLicenses["1"].IsActive)
+                {
+                    return true;
+                }
+                else
+                {
+                    string receipt = await CurrentApp.RequestProductPurchaseAsync("1", true);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        
+        #endregion
+
+        #region Expense
 
         public List<Expense> GetAllExpenses()
         {

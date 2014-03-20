@@ -68,6 +68,34 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
+                    
+                    <!--<Button Name="__productsList"
+                            Height="100"
+                            Width="250"
+                            Content="Get Products"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Margin="0"
+                            Canvas.ZIndex="4"
+                            Click="__productsList_Click_1"/>
+                    <Button Name="__Buy"
+                            Height="100"
+                            Width="250"
+                            Canvas.ZIndex="4"
+                            Content="Get Products"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Margin="0,160,0,0"
+                            Click="__Buy_Click_1"/>
+                    <Button Name="__Clear"
+                            Height="100"
+                            Width="250"
+                            Canvas.ZIndex="4"
+                            Content="Clear Cashe"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Margin="0,260,0,0"
+                            Click="__Clear_Click_1"/>-->
 
                     <TextBlock Text="Income: "
                                Grid.Row="0"

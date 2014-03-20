@@ -210,8 +210,7 @@
             <RowDefinition Height="10*"/>
             <RowDefinition Height="15*"/>
             <RowDefinition Height="10*"/>
-        </Grid.RowDefinitions>
-        
+        </Grid.RowDefinitions>        
        
         <TextBlock Text="Settings" 
                    HorizontalAlignment="Left"
@@ -230,15 +229,16 @@
                    Grid.Row="2" 
                    Foreground="{StaticResource FirstForeground}"
                    Style="{StaticResource PhoneTextNormalStyle}"/>
-        <toolkit:ListPicker  HorizontalAlignment="Stretch"
-                       VerticalAlignment="Top"
-                       Margin="112,0,31,0" 
-                       Grid.Column="0"
-                       Grid.Row="2" 
-                       Grid.RowSpan="5"
-                       BorderBrush="#FF4D4D4D" 
-                       Foreground="#FF3C3C3C" 
-                       Canvas.ZIndex="2">
+        <toolkit:ListPicker  Name="__liSymbols"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Top"
+                   Margin="112,0,31,0" 
+                   Grid.Column="0"
+                   Grid.Row="2" 
+                   Grid.RowSpan="5"
+                   BorderBrush="#FF4D4D4D" 
+                   Foreground="#FF3C3C3C" 
+                   Canvas.ZIndex="2">
             <toolkit:ListPicker.Items>
                 <toolkit:ListPickerItem Content="$&#160;&#160;&#160;Dollar" Canvas.ZIndex="2" Background="White"/>
                 <toolkit:ListPickerItem Content="€&#160;&#160;&#160;Euro" Canvas.ZIndex="2" Background="White"/>
@@ -278,9 +278,7 @@
                       Style="{StaticResource CheckBoxStyle}" 
                       FontSize="32" HorizontalContentAlignment="Left" 
                       UseLayoutRounding="True" Padding="0,1,0,0"/>
-            
-            
-        
+                               
         <Button Name="__btSave"
                 VerticalAlignment="Top"
                 Margin="10,0" 
