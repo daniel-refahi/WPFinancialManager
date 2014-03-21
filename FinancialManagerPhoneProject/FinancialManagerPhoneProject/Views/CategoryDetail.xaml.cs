@@ -174,7 +174,10 @@ namespace FinancialManagerPhoneProject.Views
             }
 
         }
-
+        private void ApplicationBarMenuItem_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Views/Settings.xaml?", UriKind.Relative));
+        }
         #endregion
 
         private void SaveAppSettings()

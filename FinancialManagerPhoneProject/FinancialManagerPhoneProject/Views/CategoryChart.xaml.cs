@@ -68,10 +68,13 @@ namespace FinancialManagerPhoneProject.Views
         {
             NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?caller=categorychart&categoryname="+ _CategoryName, UriKind.Relative));
         }
-
         private void ApplicationBarHelpIcon_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/Views/Help.xaml?caller=categorychart&object="+_CategoryName, UriKind.Relative));
+        }
+        private void ApplicationBarMenuItem_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Views/Settings.xaml?", UriKind.Relative));
         }
 
 

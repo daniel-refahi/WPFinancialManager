@@ -275,23 +275,10 @@ namespace FinancialManagerPhoneProject.Views
         {
             
         }
-
-        private async void ApplicationBarAddIcon_Click(object sender, EventArgs e)
-        {
-            if (StaticValues.AppStatus == StaticValues.AppStatusOptions.Expenses)
-            {
-                if(await IsUserValid())
-                    NavigationService.Navigate(new Uri("/Views/ExpenseDetail.xaml?status=add&caller=mainwindow", UriKind.Relative));
-            }
-            else if (StaticValues.AppStatus == StaticValues.AppStatusOptions.Categories)
-            {
-                NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?status=add&caller=mainwindow", UriKind.Relative));
-            }
-        }
-
+        
         private async Task<bool> IsUserValid()
         {
-            if (StaticValues.DB.IsDefaultData() || (!StaticValues.DB.IsDefaultData() && StaticValues.DB.IsUltimateUser()))
+            if (StaticValues.DB.IsValidToSave())
             {
                 // continue
                 return true;
@@ -299,7 +286,7 @@ namespace FinancialManagerPhoneProject.Views
             else
             {
                 // load buy from store
-                MessageBoxResult result = MessageBox.Show("With your free account you can olny add 10 expense records. Do you want to get the full access?",
+                MessageBoxResult result = MessageBox.Show("With your free account, you can only add 10 expense records. \n\nDo you want to get the full access?",
                                                            "Buy Full Access", MessageBoxButton.OKCancel);
 
                 if (result == MessageBoxResult.OK)
@@ -315,23 +302,7 @@ namespace FinancialManagerPhoneProject.Views
                     return false;
             }
         }
-
-        private void ApplicationBarHelpIcon_Click(object sender, EventArgs e)
-        {
-            switch (StaticValues.AppStatus)
-            {
-                case StaticValues.AppStatusOptions.Expenses:
-                    NavigationService.Navigate(new Uri("/Views/help.xaml?caller=mainwindow&object=expense", UriKind.Relative));
-                    break;
-                case StaticValues.AppStatusOptions.Categories:
-                    NavigationService.Navigate(new Uri("/Views/help.xaml?caller=mainwindow&object=category", UriKind.Relative));
-                    break;
-                case StaticValues.AppStatusOptions.Report:
-                    NavigationService.Navigate(new Uri("/Views/help.xaml?caller=mainwindow&object=report", UriKind.Relative));
-                    break;
-            }            
-        }
-
+        
         private void __liExpensesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if(((ListBox)sender).SelectedItem != null)
@@ -359,6 +330,32 @@ namespace FinancialManagerPhoneProject.Views
         {
             NavigationService.Navigate(new Uri("/Views/Settings.xaml?", UriKind.Relative));
         }
-
+        private async void ApplicationBarAddIcon_Click(object sender, EventArgs e)
+        {
+            if (StaticValues.AppStatus == StaticValues.AppStatusOptions.Expenses)
+            {
+                if (await IsUserValid())
+                    NavigationService.Navigate(new Uri("/Views/ExpenseDetail.xaml?status=add&caller=mainwindow", UriKind.Relative));
+            }
+            else if (StaticValues.AppStatus == StaticValues.AppStatusOptions.Categories)
+            {
+                NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?status=add&caller=mainwindow", UriKind.Relative));
+            }
+        }
+        private void ApplicationBarHelpIcon_Click(object sender, EventArgs e)
+        {
+            switch (StaticValues.AppStatus)
+            {
+                case StaticValues.AppStatusOptions.Expenses:
+                    NavigationService.Navigate(new Uri("/Views/help.xaml?caller=mainwindow&object=expense", UriKind.Relative));
+                    break;
+                case StaticValues.AppStatusOptions.Categories:
+                    NavigationService.Navigate(new Uri("/Views/help.xaml?caller=mainwindow&object=category", UriKind.Relative));
+                    break;
+                case StaticValues.AppStatusOptions.Report:
+                    NavigationService.Navigate(new Uri("/Views/help.xaml?caller=mainwindow&object=report", UriKind.Relative));
+                    break;
+            }
+        }
     }
 }

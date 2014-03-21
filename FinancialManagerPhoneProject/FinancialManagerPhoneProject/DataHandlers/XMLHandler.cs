@@ -10,10 +10,11 @@ using Windows.Storage;
 using System.IO.IsolatedStorage;
 using System.Windows;
 using Microsoft.Phone.Shell;
+using System.Runtime.CompilerServices;
+
 
 #if DEBUG
 using MockIAPLib;
-using System.Runtime.CompilerServices;
 #else
 using Windows.ApplicationModel.Store;
 #endif
@@ -391,6 +392,28 @@ namespace FinancialManagerPhoneProject.DataHandlers
         {
             string temp = FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("IsDefaultData").Value;
             return temp == "1" ? true : false;
+        }
+        public bool IsValidToSave() 
+        {
+            if (!StaticValues.DB.IsDefaultData())
+            {
+                if(StaticValues.DB.IsUltimateUser())
+                {
+                    return true;
+                }
+                else
+                {
+                    int expenseCount = FINANCIALMANAGER_XML.Root.Element("Expenses").Descendants().Count();
+                    if(expenseCount <= 10)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+            else 
+            {
+                return true;
+            }
         }
 
         public void UpdateSettings(string income, string symbol) 

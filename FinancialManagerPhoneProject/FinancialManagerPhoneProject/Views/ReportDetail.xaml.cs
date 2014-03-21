@@ -87,14 +87,16 @@ namespace FinancialManagerPhoneProject.Views
         {
 
         }
+
+        private void ApplicationBarMenuItem_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Views/Settings.xaml?", UriKind.Relative));
+        }
+        private void ApplicationBarHelpIcon_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Views/help.xaml?caller=reportdetail&object=" + string.Empty, UriKind.Relative));
+        }
     }
 
-    //public class ReportDetailModel 
-    //{
-    //    public ReportDetailModel()
-    //    {
-    //        ReportDetails = new List<ReportDetailItemModel>();
-    //    }
-    //    public List<ReportDetailItemModel> ReportDetails { get; set; }
-    //}
+   
 }

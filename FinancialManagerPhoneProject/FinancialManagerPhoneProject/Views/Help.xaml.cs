@@ -36,6 +36,9 @@ namespace FinancialManagerPhoneProject.Views
                 case "categorychart":
                     NavigationService.Navigate(new Uri("/Views/CategoryChart.xaml?caller=help&categoryname=" + _Object, UriKind.Relative));
                     break;
+                case "reportdetail":
+                    NavigationService.Navigate(new Uri("/Views/ReportDetail.xaml?caller=help", UriKind.Relative));
+                    break;
             }
         }
 
@@ -49,9 +52,37 @@ namespace FinancialManagerPhoneProject.Views
         {
             base.OnNavigatedTo(e);
             NavigationContext.QueryString.TryGetValue("caller", out _Caller);
-            NavigationContext.QueryString.TryGetValue("object", out _Object);
-            _title.Text = _Caller;
-            _object.Text = _Object;
+            NavigationContext.QueryString.TryGetValue("object", out _Object);           
+
+            switch (_Caller)
+            {
+                case "mainwindow":
+                    switch (_Object)
+                    { 
+                        case "expense":
+                            __title.Text = "Expense List Help";
+                            break;
+                        case "category":
+                            __title.Text = "Category List Help";
+                            break;
+                        case "report":
+                            __title.Text = "Report Page Help";
+                            break;
+                    }
+                    break;
+                case "expensedetail":
+                    __title.Text = "Expense Detail Help";
+                    break;
+                case "categorydetail":
+                    __title.Text = "Category Edit Help";
+                    break;
+                case "categorychart":
+                    __title.Text = "Category Detail Help";
+                    break;
+                case "reportdetail":
+                    __title.Text = "Report Detail Help";
+                    break;
+            }
         }
     }
 }

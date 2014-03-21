@@ -77,7 +77,7 @@ namespace FinancialManagerPhoneProject
 
             ProductListing p = new ProductListing
             {
-                Name = "Ultimate User",
+                Name = "Full Access",
                 ImageUri = new Uri("/Assets/300_300.png", UriKind.Relative),
                 ProductId = "1",
                 ProductType = Windows.ApplicationModel.Store.ProductType.Durable,

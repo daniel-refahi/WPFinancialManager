@@ -88,10 +88,13 @@ namespace FinancialManagerPhoneProject.Views
             NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?caller=iconselector&source=" +
                                                 ((BitmapImage)_CurrentIcon.Source).UriSource.ToString(), UriKind.Relative));
         }
-
         private void ApplicationBarCancelButton_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?caller=iconselector&source=" + _OldIconSource, UriKind.Relative));
-        }        
+        }
+        private void ApplicationBarMenuItem_Click(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Views/Settings.xaml?", UriKind.Relative));
+        }
     }
 }
