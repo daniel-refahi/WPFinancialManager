@@ -43,7 +43,7 @@ namespace FinancialManagerPhoneProject.Views
 
 
             ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("DefaultTitle=FinancialManagerFromTile"));
-            __cbLiveTile.IsChecked = (TileToFind != null);
+            __btCreateTile.Content = (TileToFind == null) ? "Create Live Tile" : "Remove Live Tile";
             __txIncome.Text = StaticValues.DB.GetIncome().ToString("n0");
         }
 
@@ -82,41 +82,55 @@ namespace FinancialManagerPhoneProject.Views
                         break;
                 }
                 StaticValues.DB.UpdateSettings(income.ToString(), newSymbol);
-                if ((bool)__cbLiveTile.IsChecked)
+
+                ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("DefaultTitle=FinancialManagerFromTile"));
+
+                double expenses = StaticValues.DB.GetTotalExpenses();
+                double remaining = StaticValues.DB.GetIncome() - expenses;
+                string symbol = StaticValues.DB.GetCurrencySymbol();
+
+                StandardTileData NewTileData = new StandardTileData
                 {
-                    ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("DefaultTitle=FinancialManagerFromTile"));
+                    BackgroundImage = new Uri("Assets/150_150_Logo.png", UriKind.Relative),
+                    Title = "Financial Manager",
+                    BackContent = "Expenses:\n" + expenses.ToString("n0") + " " + symbol + "\nRemaining:\n" +
+                                  remaining.ToString("n0") + " " + symbol,
+                    BackBackgroundImage = new Uri("Black.jpg", UriKind.Relative)
+                };
 
-                    double expenses = StaticValues.DB.GetTotalExpenses();
-                    double remaining = StaticValues.DB.GetIncome() - expenses;
-                    string symbol = StaticValues.DB.GetCurrencySymbol();
-
-                    StandardTileData NewTileData = new StandardTileData
-                    {
-                        BackgroundImage = new Uri("Assets/150_150_Logo.png", UriKind.Relative),
-                        Title = "Financial Manager",
-                        BackContent = "Expenses:\n" + expenses.ToString("n0") + " " + symbol + "\nRemaining:\n" +
-                                      remaining.ToString("n0") + " " + symbol,
-                        BackBackgroundImage = new Uri("Black.jpg", UriKind.Relative)
-                    };
-
-                    if (TileToFind == null)
-                        ShellTile.Create(new Uri("/Views/MainWindow.xaml?DefaultTitle=FinancialManagerFromTile", UriKind.Relative), NewTileData);
-                    else
-                        TileToFind.Update(NewTileData);
-                }
-                else
-                {
-                    ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("DefaultTitle=FinancialManagerFromTile"));
-
-                    if (TileToFind != null)
-                    {
-                        TileToFind.Delete();
-                    }
-                }
+                if (TileToFind != null)
+                    TileToFind.Update(NewTileData);
 
                 MessageBox.Show("Setting has been saved.");
             }
         }
+
+        private void __btCreateTile_Click(object sender, RoutedEventArgs e)
+        {
+            ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("DefaultTitle=FinancialManagerFromTile"));
+
+            double expenses = StaticValues.DB.GetTotalExpenses();
+            double remaining = StaticValues.DB.GetIncome() - expenses;
+            string symbol = StaticValues.DB.GetCurrencySymbol();
+
+            StandardTileData NewTileData = new StandardTileData
+            {
+                BackgroundImage = new Uri("Assets/150_150_Logo.png", UriKind.Relative),
+                Title = "Financial Manager",
+                BackContent = "Expenses:\n" + expenses.ToString("n0") + " " + symbol + "\nRemaining:\n" +
+                              remaining.ToString("n0") + " " + symbol,
+                BackBackgroundImage = new Uri("Black.jpg", UriKind.Relative)
+            };
+
+            if (TileToFind == null)
+                ShellTile.Create(new Uri("/Views/MainWindow.xaml?DefaultTitle=FinancialManagerFromTile", UriKind.Relative), NewTileData);
+            else
+            {
+                TileToFind.Delete();
+                MessageBox.Show("Live Tile has been removed!");
+                __btCreateTile.Content = "Create Live Tile";
+            }
+        }        
 
         private void __btDeleteAll_Click(object sender, RoutedEventArgs e)
         {
@@ -129,6 +143,8 @@ namespace FinancialManagerPhoneProject.Views
                 NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=settings", UriKind.Relative));
             }
             
-        }        
+        }
+
+        
     }
 }

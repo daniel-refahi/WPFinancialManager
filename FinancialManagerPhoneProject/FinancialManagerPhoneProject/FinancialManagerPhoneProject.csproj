@@ -235,6 +235,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\contacts.png" />
+    <Content Include="Assets\Patterns\CategoryItem.jpg" />
     <Content Include="Assets\receipt.png" />
     <Content Include="Black.jpg" />
     <Content Include="Image\add.png" />

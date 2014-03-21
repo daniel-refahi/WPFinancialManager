@@ -137,7 +137,7 @@
             Grid.Column="0"
             Grid.ColumnSpan="3"
             Grid.Row="6"
-            Height="150"
+            Height="220"            
             HorizontalAlignment="Stretch"
             Background="Transparent"
             LightingEnabled="False" 
@@ -151,7 +151,7 @@
                 <vc:DataSeries RenderAs="Pie" LabelEnabled="true" ShowInLegend="false"
                                IncludePercentageInLegend="False">
                     <vc:DataSeries.DataPoints>
-                        <vc:DataPoint AxisXLabel="Total" YValue="{Binding TotalAll}" Color="Maroon"/>
+                        <vc:DataPoint AxisXLabel="Others" YValue="{Binding TotalAll}" Color="Maroon"/>
                         <vc:DataPoint AxisXLabel="{Binding CategoryName}" YValue="{Binding TotalCategory}"
                                       Exploded="True" Color="Wheat"/>
                     </vc:DataSeries.DataPoints>
@@ -211,8 +211,8 @@
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="17*"/>
-                                <ColumnDefinition Width="17*"/>
-                                <ColumnDefinition Width="46*"/>
+                                <ColumnDefinition Width="20*"/>
+                                <ColumnDefinition Width="43*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock
                                 HorizontalAlignment="Center"

@@ -13,6 +13,7 @@ using Microsoft.Phone.Shell;
 
 #if DEBUG
 using MockIAPLib;
+using System.Runtime.CompilerServices;
 #else
 using Windows.ApplicationModel.Store;
 #endif
@@ -23,7 +24,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
     public class XMLHandler
     {
         public static double DEIVCE_WIDTH;
-        public static XDocument FINANCIALMANAGER_XML;        
+        public static XDocument FINANCIALMANAGER_XML;
 
         public async Task LoadDefaultXmlAsync()
         {
@@ -35,7 +36,8 @@ namespace FinancialManagerPhoneProject.DataHandlers
                           new XElement("FinancialManager",
 
                               new XElement("StaticValues", new XAttribute("Income", "3600"),
-                                                           new XAttribute("Currency", "$")),
+                                                           new XAttribute("Currency", "$"),
+                                                           new XAttribute("IsDefaultData", "1")),
                               new XElement("Expenses", new XElement("Expense", new XAttribute("ID", 1),
                                                                               new XAttribute("Category", "Mortgage"),
                                                                               new XAttribute("RecieptName", ""),
@@ -381,11 +383,16 @@ namespace FinancialManagerPhoneProject.DataHandlers
                 return "₹";
             return currency;
         }
-
         public double GetIncome()
         {
             return Convert.ToDouble(FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Income").Value);
         }
+        public bool IsDefaultData()
+        {
+            string temp = FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("IsDefaultData").Value;
+            return temp == "1" ? true : false;
+        }
+
         public void UpdateSettings(string income, string symbol) 
         {
             FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Currency").SetValue(symbol);
@@ -535,6 +542,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
         {
             FINANCIALMANAGER_XML.Root.Element("Expenses").DescendantNodes().Remove();
             FINANCIALMANAGER_XML.Root.Element("Categories").DescendantNodes().Remove();
+            FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("IsDefaultData").SetValue("0");
             FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Currency").SetValue("$");
             FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Income").SetValue("3000");
             FINANCIALMANAGER_XML.Root.Element("Categories").Add(new XElement("Category", new XAttribute("Name", "Rent"),
@@ -712,7 +720,9 @@ namespace FinancialManagerPhoneProject.DataHandlers
             UpdateTileValues();
 
             SaveXmlToFileAsync();
+                      
         }
+        
 
         public void DeleteExpense(string ID)
         {

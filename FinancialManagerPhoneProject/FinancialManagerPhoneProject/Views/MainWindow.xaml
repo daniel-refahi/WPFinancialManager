@@ -184,35 +184,35 @@
                                Grid.ColumnSpan="2"
                                FontSize="30"
                                Foreground="{StaticResource FirstForeground}"
-                               Style="{StaticResource PhoneTextLargeStyle}"/>
-                    
-                    <TextBlock Text="Total Expenses: "
-                               Grid.Row="3"
-                               Grid.Column="0"                                
-                               Foreground="{StaticResource FirstForeground}"
-                               Style="{StaticResource PhoneTextLargeStyle}"/>
-
-                    <TextBlock Text="{Binding TotalExpenses}"
-                               Grid.Row="3"
-                               Grid.Column="1"
-                               Style="{StaticResource PhoneTextSmallStyle}"
-                               Foreground="{StaticResource SecondForeground}"
-                               FontSize="30"/>
+                               Style="{StaticResource PhoneTextLargeStyle}"/>                                        
 
                     <TextBlock Text="Income: "
-                               Grid.Row="4"
+                               Grid.Row="3"
                                Grid.Column="0"  
                                Foreground="{StaticResource FirstForeground}"
                                Style="{StaticResource PhoneTextLargeStyle}"/>
 
                     <TextBlock Text="{Binding Income}"
+                               Grid.Row="3"
+                               Grid.Column="1"
+                               Style="{StaticResource PhoneTextSmallStyle}"
+                               Foreground="{StaticResource SecondForeground}"
+                               FontSize="30"/>
+
+                        <TextBlock Text="Total Expenses: "
+                               Grid.Row="4"
+                               Grid.Column="0"                                
+                               Foreground="{StaticResource FirstForeground}"
+                               Style="{StaticResource PhoneTextLargeStyle}"/>
+
+                        <TextBlock Text="{Binding TotalExpenses}"
                                Grid.Row="4"
                                Grid.Column="1"
                                Style="{StaticResource PhoneTextSmallStyle}"
                                Foreground="{StaticResource SecondForeground}"
                                FontSize="30"/>
 
-                    <TextBlock Text="Saving: "
+                        <TextBlock Text="Saving: "
                                Grid.Row="5"
                                Grid.Column="0"  
                                Foreground="{StaticResource FirstForeground}"

@@ -206,7 +206,7 @@ namespace FinancialManagerPhoneProject.Views
             {
                 mainPageModel.ExpenseListModel.Add(new ExpenseItemModel()
                 {
-                    Amount = symbol + " " + expense.Value.ToString("n2"),
+                    Amount = symbol + " " + expense.Value,
                     ID = expense.ID,
                     Category = expense.Category,
                     Date = expense.Date.ToString("dd/MMM"),
@@ -276,15 +276,43 @@ namespace FinancialManagerPhoneProject.Views
             
         }
 
-        private void ApplicationBarAddIcon_Click(object sender, EventArgs e)
+        private async void ApplicationBarAddIcon_Click(object sender, EventArgs e)
         {
             if (StaticValues.AppStatus == StaticValues.AppStatusOptions.Expenses)
             {
-                NavigationService.Navigate(new Uri("/Views/ExpenseDetail.xaml?status=add&caller=mainwindow", UriKind.Relative));
+                if(await IsUserValid())
+                    NavigationService.Navigate(new Uri("/Views/ExpenseDetail.xaml?status=add&caller=mainwindow", UriKind.Relative));
             }
             else if (StaticValues.AppStatus == StaticValues.AppStatusOptions.Categories)
             {
                 NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?status=add&caller=mainwindow", UriKind.Relative));
+            }
+        }
+
+        private async Task<bool> IsUserValid()
+        {
+            if (StaticValues.DB.IsDefaultData() || (!StaticValues.DB.IsDefaultData() && StaticValues.DB.IsUltimateUser()))
+            {
+                // continue
+                return true;
+            }
+            else
+            {
+                // load buy from store
+                MessageBoxResult result = MessageBox.Show("With your free account you can olny add 10 expense records. Do you want to get the full access?",
+                                                           "Buy Full Access", MessageBoxButton.OKCancel);
+
+                if (result == MessageBoxResult.OK)
+                {
+                    if (await StaticValues.DB.BuyUltimateUser())
+                    {
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+                else
+                    return false;
             }
         }
 
@@ -332,41 +360,5 @@ namespace FinancialManagerPhoneProject.Views
             NavigationService.Navigate(new Uri("/Views/Settings.xaml?", UriKind.Relative));
         }
 
-
-
-
-
-
-
-        private void __productsList_Click_1(object sender, RoutedEventArgs e)
-        {            
-            string product = "Ultimate User - ";
-            if (StaticValues.DB.IsUltimateUser())
-                product += "Is Active!";
-            else
-                product += "Is not Active!";
-            MessageBox.Show(product);
-        }
-
-        private async void __Buy_Click_1(object sender, RoutedEventArgs e)
-        {
-
-            if (StaticValues.DB.IsUltimateUser())
-            {
-                MessageBox.Show("You Already are an Ultimate user");
-            }
-            else
-            {
-                if (await StaticValues.DB.BuyUltimateUser())
-                    MessageBox.Show("You are now Ultimate User!");
-                else
-                    MessageBox.Show("Financial Manager couldn't reach the store!");
-            }            
-        }
-
-        private void __Clear_Click_1(object sender, RoutedEventArgs e)
-        {
-           MockIAPLib.MockIAP.ClearCache();
-        }
     }
 }
