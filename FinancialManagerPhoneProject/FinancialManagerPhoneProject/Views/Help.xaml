@@ -16,26 +16,125 @@
         <DataTemplate x:Key="ExpenseListItemTemplate"/>
         <SolidColorBrush x:Key="FirstForeground" Color="#FF2E2E2E"/>
         <SolidColorBrush x:Key="SecondForeground" Color="#FF838383"/>
+        <Style x:Key="TextBlockStyle" TargetType="RichTextBox">
+        	<Setter Property="FontSize" Value="22"/>
+            <Setter Property="Foreground" Value="{StaticResource FirstForeground}"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Margin" Value="0,0,0,20"/>
+            <Setter Property="TextAlignment" Value="Justify"/>
+        </Style>
     </phone:PhoneApplicationPage.Resources>
 
     <Grid x:Name="LayoutRoot" >
        
         <Grid.Background>
             <ImageBrush ImageSource="../Assets/Patterns/White.jpg"/>
-        </Grid.Background>             
+        </Grid.Background>
 
-        <StackPanel Margin="10"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch">                      
-
-            <TextBlock Name="__title"
+        <TextBlock Name="__title"
                        Text="Category Detail Help" 
                        Margin="20,10,0,0" 
                        Foreground="{StaticResource FirstForeground}"
                        Style="{StaticResource PhoneTextLargeStyle}"/>
+
+        <ScrollViewer Margin="10,70,10,30"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch">
+        <StackPanel >
+            
+            <StackPanel Name="__MainExpense"
+                        Visibility="Collapsed"
+                        Margin="25,30,25,0">
+                <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                    <Paragraph>
+                        You can see all the expenses you have made in this page.
+                    </Paragraph>
+                </RichTextBox>
+                <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                    <Paragraph>
+                        The icons represent the category of the expenses.
+                    </Paragraph>                    
+                </RichTextBox>
+                <Image Source="../Assets/HelpAssets/ExpenseItemIcon.png"
+                       Margin="0,-30,0,20"/>
+
+                <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                    <Paragraph>
+                        On each expense record you would find the
+                        <Bold>Amount</Bold>,
+                        <Bold>Description</Bold> and
+                        <Bold>Date</Bold> you have made the expense.
+                    </Paragraph>
+                </RichTextBox>
+                <Image Source="../Assets/HelpAssets/ExpenseItem.png"
+                       Margin="0,20,0,0"/>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            You can see more detail about each expense record by tapping on it.
+                        </Paragraph>
+                    </RichTextBox>
+                </StackPanel>
             
             
-        </StackPanel>        
+                <StackPanel Name="__MainCategory"
+                        Visibility="Collapsed"
+                        Margin="25,30,25,0">
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            With <Bold>Financial Manager</Bold> you can create a
+                            <Bold>Plan</Bold> for each 
+                            category and as you spend your money, you 
+                            can check your progress against your plans.
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            In this page you would see all your categories with the most useful information about them.
+                        </Paragraph>
+                    </RichTextBox>
+                    <Image Source="../Assets/HelpAssets/CategoryItem.png"
+                       Margin="0,20,0,20"/>
+
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            You can see more detail about each category by tapping on it.
+                        </Paragraph>
+                    </RichTextBox>                    
+                </StackPanel>
+
+                <StackPanel Name="__MainReport"
+                        Visibility="Collapsed"
+                        Margin="25,30,25,0">
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            As you purchase or pay your bills, 
+                            you might spend more in some categories 
+                            without even noticing it.
+                            <Bold>Top Categories</Bold> 
+                            shows you 5 most spent categories.
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            <Bold>Total Expenses</Bold> shows how much you have spent in all categories.
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            <Bold>Saving</Bold> is the difference between your income and total expenses.
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            You can update your
+                            <Bold>Income</Bold> from settings.
+                        </Paragraph>
+                    </RichTextBox>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 
 </phone:PhoneApplicationPage>

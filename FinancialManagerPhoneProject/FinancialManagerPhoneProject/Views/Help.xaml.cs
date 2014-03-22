@@ -61,12 +61,15 @@ namespace FinancialManagerPhoneProject.Views
                     { 
                         case "expense":
                             __title.Text = "Expense List Help";
+                            __MainExpense.Visibility = System.Windows.Visibility.Visible;
                             break;
                         case "category":
                             __title.Text = "Category List Help";
+                            __MainCategory.Visibility = System.Windows.Visibility.Visible;
                             break;
                         case "report":
                             __title.Text = "Report Page Help";
+                            __MainReport.Visibility = System.Windows.Visibility.Visible;
                             break;
                     }
                     break;
