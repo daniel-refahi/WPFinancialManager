@@ -133,6 +133,43 @@
                     </RichTextBox>
                 </StackPanel>
 
+                <StackPanel Name="__AddExpense"
+                        Visibility="Collapsed"
+                        Margin="25,30,25,0">
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            You can add a little description about your purchase in
+                            <Bold>Des</Bold> field.
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            Don’t forget to select a category for your expense.
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            You can take a picture of the Receipt by tapping on
+                            <Bold>Attach Receipt</Bold>.
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            You never forget where you spend your 
+                            money again. Just hit
+                            <Bold>Add My Location</Bold>. 
+                            Financial Manager memorizes your location 
+                            and you can check it later.
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            After you create the expense record, you can’t change the category, add location or receipt.
+                        </Paragraph>
+                    </RichTextBox>
+                </StackPanel>
+
+
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -533,7 +533,7 @@ namespace FinancialManagerPhoneProject.Views
         private void ApplicationBarHelpIcon_Click(object sender, EventArgs e)
         {            
             SaveAppSettings();
-            NavigationService.Navigate(new Uri("/Views/help.xaml?caller=expensedetail&object=" + _ID, UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Views/help.xaml?caller=expensedetail&status="+_Status+"&object=" + _ID, UriKind.Relative));
         }
         private void ApplicationBarMenuItem_Click(object sender, EventArgs e)
         {

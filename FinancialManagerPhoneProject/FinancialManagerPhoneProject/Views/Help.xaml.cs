@@ -12,8 +12,9 @@ namespace FinancialManagerPhoneProject.Views
 {
     public partial class Help : PhoneApplicationPage
     {
-        string _Caller;
-        string _Object;
+        string _Caller = string.Empty;
+        string _Object = string.Empty;
+        string _status = string.Empty;
         public Help()
         {
             InitializeComponent();
@@ -52,7 +53,8 @@ namespace FinancialManagerPhoneProject.Views
         {
             base.OnNavigatedTo(e);
             NavigationContext.QueryString.TryGetValue("caller", out _Caller);
-            NavigationContext.QueryString.TryGetValue("object", out _Object);           
+            NavigationContext.QueryString.TryGetValue("object", out _Object);
+            NavigationContext.QueryString.TryGetValue("status", out _status);
 
             switch (_Caller)
             {
@@ -60,11 +62,11 @@ namespace FinancialManagerPhoneProject.Views
                     switch (_Object)
                     { 
                         case "expense":
-                            __title.Text = "Expense List Help";
+                            __title.Text = "Expenses List Help";
                             __MainExpense.Visibility = System.Windows.Visibility.Visible;
                             break;
                         case "category":
-                            __title.Text = "Category List Help";
+                            __title.Text = "Categories List Help";
                             __MainCategory.Visibility = System.Windows.Visibility.Visible;
                             break;
                         case "report":
@@ -75,6 +77,13 @@ namespace FinancialManagerPhoneProject.Views
                     break;
                 case "expensedetail":
                     __title.Text = "Expense Detail Help";
+                    if (_status == "add")
+                    {
+                        __title.Text = "Add Expense Help";
+                        __AddExpense.Visibility = System.Windows.Visibility.Visible;
+                    }
+                    else
+                    { }
                     break;
                 case "categorydetail":
                     __title.Text = "Category Edit Help";
