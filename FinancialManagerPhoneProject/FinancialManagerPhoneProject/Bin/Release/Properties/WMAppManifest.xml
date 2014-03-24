@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
+  <DefaultLanguage xmlns="" code="en-US" />
+  <App xmlns="" ProductID="{8cb6646d-5add-48fb-b1df-b69f8925dafb}" Title="Financial Manager" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Daniel Refahi" Description="Use Financial Manager to manage your expenses and make plan for them." Publisher="Daniel Refahi" PublisherID="{5525d8e2-5315-47a5-80de-e8dd7f4076c5}">
+    <IconPath IsRelative="true" IsResource="false">Assets\150_150_Logo.png</IconPath>
+    <Capabilities>
+      <Capability Name="ID_CAP_NETWORKING" />
+      <Capability Name="ID_CAP_MEDIALIB_AUDIO" />
+      <Capability Name="ID_CAP_MEDIALIB_PLAYBACK" />
+      <Capability Name="ID_CAP_SENSORS" />
+      <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
+      <Capability Name="ID_CAP_MAP" />
+      <Capability Name="ID_CAP_LOCATION" />
+    </Capabilities>
+    <Tasks>
+      <DefaultTask Name="_default" NavigationPage="Views/MainWindow.xaml" />
+    </Tasks>
+    <Tokens>
+      <PrimaryToken TokenID="FinancialManagerPhoneProjectToken" TaskName="_default">
+        <TemplateFlip>
+          <SmallImageURI IsRelative="true" IsResource="false">Assets\150_150_Logo.png</SmallImageURI>
+          <Count>0</Count>
+          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\150_150_Logo.png</BackgroundImageURI>
+          <Title>Financial Manager</Title>
+          <BackContent></BackContent>
+          <BackBackgroundImageURI></BackBackgroundImageURI>
+          <BackTitle></BackTitle>
+          <LargeBackgroundImageURI IsRelative="true" IsResource="false">TileWideFirst.jpg</LargeBackgroundImageURI>
+          <LargeBackContent />
+          <LargeBackBackgroundImageURI IsRelative="true" IsResource="false"></LargeBackBackgroundImageURI>
+          <DeviceLockImageURI></DeviceLockImageURI>
+          <HasLarge>True</HasLarge>
+        </TemplateFlip>
+      </PrimaryToken>
+    </Tokens>
+    <ScreenResolutions>
+      <ScreenResolution Name="ID_RESOLUTION_WVGA" />
+      <ScreenResolution Name="ID_RESOLUTION_WXGA" />
+      <ScreenResolution Name="ID_RESOLUTION_HD720P" />
+    </ScreenResolutions>
+  </App>
+</Deployment>
+<!-- WPSDK Version 8.0.9900 -->

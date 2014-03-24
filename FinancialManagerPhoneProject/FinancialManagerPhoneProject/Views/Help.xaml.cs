@@ -83,16 +83,31 @@ namespace FinancialManagerPhoneProject.Views
                         __AddExpense.Visibility = System.Windows.Visibility.Visible;
                     }
                     else
-                    { }
+                    {
+                        __title.Text = "Edit Expense Help";
+                        __AddExpense.Visibility = System.Windows.Visibility.Visible;
+                    }
                     break;
                 case "categorydetail":
-                    __title.Text = "Category Edit Help";
+                    if (_status == "add")
+                    {
+                        __title.Text = "Add Category Help";
+                        __AddCategory.Visibility = System.Windows.Visibility.Visible;
+                    }
+                    else
+                    {
+                        __title.Text = "Category Edit Help";
+                        __EditCategory.Visibility = System.Windows.Visibility.Visible;
+                    }
+                    
                     break;
                 case "categorychart":
                     __title.Text = "Category Detail Help";
+                    __ChartCategory.Visibility = System.Windows.Visibility.Visible;
                     break;
                 case "reportdetail":
                     __title.Text = "Report Detail Help";
+                    __ReportDetail.Visibility = System.Windows.Visibility.Visible;
                     break;
             }
         }

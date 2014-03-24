@@ -12,12 +12,12 @@ using System.Windows;
 using Microsoft.Phone.Shell;
 using System.Runtime.CompilerServices;
 
-
-#if DEBUG
-using MockIAPLib;
-#else
 using Windows.ApplicationModel.Store;
-#endif
+//#if DEBUG
+//using MockIAPLib;
+//#else
+//using Windows.ApplicationModel.Store;
+//#endif
 
 
 namespace FinancialManagerPhoneProject.DataHandlers
@@ -45,15 +45,15 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
                                                                               new XAttribute("Description", "Monthly Mortgage"),
-                                                                              new XAttribute("Date", "05/12/2013"),
-                                                                              1200),
+                                                                              new XAttribute("Date", "01/05/2013"),
+                                                                              1350),
                                                        new XElement("Expense", new XAttribute("ID", 22),
                                                                               new XAttribute("Category", "Bills"),
                                                                               new XAttribute("RecieptName", ""),
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
                                                                               new XAttribute("Description", "Electricity Bill"),
-                                                                              new XAttribute("Date", "05/12/2013"),
+                                                                              new XAttribute("Date", "03/05/2013"),
                                                                               180),
                                                        new XElement("Expense", new XAttribute("ID", 23),
                                                                               new XAttribute("Category", "Bills"),
@@ -61,7 +61,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
                                                                               new XAttribute("Description", "Gas Bill"),
-                                                                              new XAttribute("Date", "05/12/2013"),
+                                                                              new XAttribute("Date", "04/05/2013"),
                                                                               100),
                                                        new XElement("Expense", new XAttribute("ID", 24),
                                                                               new XAttribute("Category", "Bills"),
@@ -69,7 +69,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
                                                                               new XAttribute("Description", "Water Bill"),
-                                                                              new XAttribute("Date", "05/12/2013"),
+                                                                              new XAttribute("Date", "06/05/2013"),
                                                                               20),
                                                        new XElement("Expense", new XAttribute("ID", 2),
                                                                               new XAttribute("Category", "Car"),
@@ -77,7 +77,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
                                                                               new XAttribute("Description", "Changing Motor Oil"),
-                                                                              new XAttribute("Date", "05/12/2013"),
+                                                                              new XAttribute("Date", "07/05/2013"),
                                                                               90),
                                                        new XElement("Expense", new XAttribute("ID", 20),
                                                                               new XAttribute("Category", "Groceries"),
@@ -85,7 +85,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
                                                                               new XAttribute("RecieptName", ""),
-                                                                              new XAttribute("Date", "05/12/2013"),
+                                                                              new XAttribute("Date", "07/05/2013"),
                                                                               89),
                                                        new XElement("Expense", new XAttribute("ID", 21),
                                                                               new XAttribute("Category", "Groceries"),
@@ -93,7 +93,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                                                               new XAttribute("RecieptName", ""),
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
-                                                                              new XAttribute("Date", "05/12/2013"),
+                                                                              new XAttribute("Date", "09/05/2013"),
                                                                               35),
                                                        new XElement("Expense", new XAttribute("ID", 4),
                                                                               new XAttribute("Category", "Groceries"),
@@ -101,7 +101,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                                                               new XAttribute("RecieptName", ""),
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
-                                                                              new XAttribute("Date", "05/12/2013"),
+                                                                              new XAttribute("Date", "12/05/2013"),
                                                                               43),
                                                        new XElement("Expense", new XAttribute("ID", 6),
                                                                               new XAttribute("Category", "Insurances"),
@@ -109,31 +109,31 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                                                               new XAttribute("RecieptName", ""),
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
-                                                                              new XAttribute("Date", "05/12/2013"),
+                                                                              new XAttribute("Date", "12/05/2013"),
                                                                               120),
                                                        new XElement("Expense", new XAttribute("ID", 7),
                                                                               new XAttribute("Category", "Commute"),
-                                                                              new XAttribute("Description", "My Key Top up"),
+                                                                              new XAttribute("Description", "Monthly train ticket top up"),
                                                                               new XAttribute("RecieptName", ""),
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
-                                                                              new XAttribute("Date", "05/12/2013"),
+                                                                              new XAttribute("Date", "15/05/2013"),
                                                                               128),
                                                        new XElement("Expense", new XAttribute("ID", 8),
                                                                               new XAttribute("Category", "Children"),
                                                                               new XAttribute("RecieptName", ""),
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
-                                                                              new XAttribute("Description", "Monthly pocket money"),
-                                                                              new XAttribute("Date", "05/12/2013"),
+                                                                              new XAttribute("Description", "Alex monthly pocket money"),
+                                                                              new XAttribute("Date", "18/05/2013"),
                                                                               70),
                                                        new XElement("Expense", new XAttribute("ID", 9),
                                                                               new XAttribute("Category", "Accessories"),
                                                                               new XAttribute("RecieptName", ""),
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
-                                                                              new XAttribute("Description", "A headphone"),
-                                                                              new XAttribute("Date", "05/12/2013"),
+                                                                              new XAttribute("Description", "A headphone at ebay"),
+                                                                              new XAttribute("Date", "20/05/2013"),
                                                                               160),
                                                        new XElement("Expense", new XAttribute("ID", 10),
                                                                               new XAttribute("Category", "Car"),
@@ -141,55 +141,55 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
                                                                               new XAttribute("Description", "Gas"),
-                                                                              new XAttribute("Date", "05/12/2013"),
+                                                                              new XAttribute("Date", "22/05/2013"),
                                                                               50),
                                                        new XElement("Expense", new XAttribute("ID", 11),
                                                                               new XAttribute("Category", "Clothes"),
                                                                               new XAttribute("RecieptName", ""),
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
-                                                                              new XAttribute("Description", "New Coat"),
-                                                                              new XAttribute("Date", "05/12/2013"),
-                                                                              138),
+                                                                              new XAttribute("Description", "New Red Coat"),
+                                                                              new XAttribute("Date", "06/05/2013"),
+                                                                              38),
                                                        new XElement("Expense", new XAttribute("ID", 12),
                                                                               new XAttribute("Category", "Clothes"),
                                                                               new XAttribute("RecieptName", ""),
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
                                                                               new XAttribute("Description", "New Bag"),
-                                                                              new XAttribute("Date", "05/12/2013"),
-                                                                              80),
+                                                                              new XAttribute("Date", "18/05/2013"),
+                                                                              30),
                                                        new XElement("Expense", new XAttribute("ID", 13),
                                                                               new XAttribute("Category", "Clothes"),
                                                                               new XAttribute("RecieptName", ""),
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
                                                                               new XAttribute("Description", "New Sweater"),
-                                                                              new XAttribute("Date", "05/12/2013"),
+                                                                              new XAttribute("Date", "25/05/2013"),
                                                                               35),
                                                        new XElement("Expense", new XAttribute("ID", 14),
                                                                               new XAttribute("Category", "Game"),
                                                                               new XAttribute("RecieptName", ""),
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
-                                                                              new XAttribute("Description", "Call of duty"),
-                                                                              new XAttribute("Date", "05/12/2013"),
-                                                                              88),
+                                                                              new XAttribute("Description", "Buying a pack on hearthstone"),
+                                                                              new XAttribute("Date", "12/05/2013"),
+                                                                              50),
                                                        new XElement("Expense", new XAttribute("ID", 15),
                                                                               new XAttribute("Category", "Game"),
                                                                               new XAttribute("RecieptName", ""),
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
-                                                                              new XAttribute("Description", "Dishonored"),
-                                                                              new XAttribute("Date", "05/12/2013"),
-                                                                              49),
+                                                                              new XAttribute("Description", "Diablo 3"),
+                                                                              new XAttribute("Date", "28/05/2013"),
+                                                                              39),
                                                        new XElement("Expense", new XAttribute("ID", 16),
                                                                               new XAttribute("Category", "Pets"),
                                                                               new XAttribute("RecieptName", ""),
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
                                                                               new XAttribute("Description", "Dog food"),
-                                                                              new XAttribute("Date", "05/12/2013"),
+                                                                              new XAttribute("Date", "02/05/2013"),
                                                                               25),
                                                        new XElement("Expense", new XAttribute("ID", 17),
                                                                               new XAttribute("Category", "Pets"),
@@ -197,7 +197,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
                                                                               new XAttribute("Description", "Dog Shampoo"),
-                                                                              new XAttribute("Date", "05/12/2013"),
+                                                                              new XAttribute("Date", "22/05/2013"),
                                                                               15),
                                                        new XElement("Expense", new XAttribute("ID", 18),
                                                                               new XAttribute("Category", "Pets"),
@@ -205,7 +205,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
                                                                               new XAttribute("Description", "Dog food"),
-                                                                              new XAttribute("Date", "05/12/2013"),
+                                                                              new XAttribute("Date", "29/05/2013"),
                                                                               25),
                                                        new XElement("Expense", new XAttribute("ID", 19),
                                                                               new XAttribute("Category", "Liquor"),
@@ -213,7 +213,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
                                                                               new XAttribute("Description", "Beer"),
-                                                                              new XAttribute("Date", "05/12/2013"),
+                                                                              new XAttribute("Date", "09/05/2013"),
                                                                               30),
                                                        new XElement("Expense", new XAttribute("ID", 5),
                                                                               new XAttribute("Category", "Liquor"),
@@ -221,7 +221,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
                                                                               new XAttribute("Description", "Wine"),
-                                                                              new XAttribute("Date", "05/12/2013"),
+                                                                              new XAttribute("Date", "19/05/2013"),
                                                                               12),
                                                        new XElement("Expense", new XAttribute("ID", 3),
                                                                               new XAttribute("Category", "Childcare"),
@@ -229,12 +229,12 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                                                               new XAttribute("Latitude", ""),
                                                                               new XAttribute("Longtitude", ""),
                                                                               new XAttribute("Description", "Weekly Payment"),
-                                                                              new XAttribute("Date", "05/12/2013"),
+                                                                              new XAttribute("Date", "15/05/2013"),
                                                                               150)),
                               new XElement("Categories", new XElement("Category", new XAttribute("Name", "Mortgage"),
-                                                                              new XAttribute("Plan", 1200),
+                                                                              new XAttribute("Plan", 1350),
                                                                               new XAttribute("Icon", "Mortgage"),
-                                                                              new XAttribute("TotalExpenses", 1200)
+                                                                              new XAttribute("TotalExpenses", 1350)
                                                                               ),
                                                          new XElement("Category", new XAttribute("Name", "Car"),
                                                                               new XAttribute("Plan", 200),
@@ -274,7 +274,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                                          new XElement("Category", new XAttribute("Name", "Clothes"),
                                                                               new XAttribute("Plan", 180),
                                                                               new XAttribute("Icon", "clothing"),
-                                                                              new XAttribute("TotalExpenses", 253)
+                                                                              new XAttribute("TotalExpenses", 103)
                                                                               ),
                                                          new XElement("Category", new XAttribute("Name", "Gift"),
                                                                               new XAttribute("Plan", 50),
@@ -284,7 +284,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                                          new XElement("Category", new XAttribute("Name", "Game"),
                                                                               new XAttribute("Plan", 100),
                                                                               new XAttribute("Icon", "input_gaming"),
-                                                                              new XAttribute("TotalExpenses", 137)
+                                                                              new XAttribute("TotalExpenses", 89)
                                                                               ),
                                                          new XElement("Category", new XAttribute("Name", "Pets"),
                                                                               new XAttribute("Plan", 100),
@@ -393,28 +393,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
             string temp = FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("IsDefaultData").Value;
             return temp == "1" ? true : false;
         }
-        public bool IsValidToSave() 
-        {
-            if (!StaticValues.DB.IsDefaultData())
-            {
-                if(StaticValues.DB.IsUltimateUser())
-                {
-                    return true;
-                }
-                else
-                {
-                    int expenseCount = FINANCIALMANAGER_XML.Root.Element("Expenses").Descendants().Count();
-                    if(expenseCount <= 10)
-                        return true;
-                    else
-                        return false;
-                }
-            }
-            else 
-            {
-                return true;
-            }
-        }
+        
 
         public void UpdateSettings(string income, string symbol) 
         {
@@ -606,9 +585,32 @@ namespace FinancialManagerPhoneProject.DataHandlers
         }
 
         #region Store Manager
+        public bool IsValidToSave()
+        {
+            if (!StaticValues.DB.IsDefaultData())
+            {
+                if (StaticValues.DB.IsUltimateUser())
+                {
+                    return true;
+                }
+                else
+                {
+                    int expenseCount = FINANCIALMANAGER_XML.Root.Element("Expenses").Descendants().Count();
+                    if (expenseCount <= 1)
+                        return true;
+                    else
+                        return false;
+                }
+            }
+            else
+            {
+                return true;
+            }
+        }
         public bool IsUltimateUser()
         {
-            if (CurrentApp.LicenseInformation.ProductLicenses["1"].IsActive)
+            //if (FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("FullAccess").Value == "1")
+            if (CurrentApp.LicenseInformation.ProductLicenses["11111"].IsActive)
             {
                 return true;
             }
@@ -623,13 +625,15 @@ namespace FinancialManagerPhoneProject.DataHandlers
             var listing = await CurrentApp.LoadListingInformationAsync();
             try
             {
-                if (CurrentApp.LicenseInformation.ProductLicenses["1"].IsActive)
+                if (CurrentApp.LicenseInformation.ProductLicenses["11111"].IsActive)
                 {
+                    //FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("FullAccess").SetValue("1");
                     return true;
                 }
                 else
                 {
-                    string receipt = await CurrentApp.RequestProductPurchaseAsync("1", true);
+                    string receipt = await CurrentApp.RequestProductPurchaseAsync("11111", true);
+                    //FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("FullAccess").SetValue("1");
                     return true;
                 }
             }

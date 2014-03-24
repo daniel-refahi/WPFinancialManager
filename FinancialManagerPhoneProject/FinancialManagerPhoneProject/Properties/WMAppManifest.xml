@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{c8deadbd-f016-4f37-b87f-af32c125d746}" Title="Financial Manager" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Daniel Refahi" Description="Use Financial Manager to manage your expenses and make plan for them." Publisher="Daniel Refahi" PublisherID="{5525d8e2-5315-47a5-80de-e8dd7f4076c5}">
+  <App xmlns="" ProductID="{8cb6646d-5add-48fb-b1df-b69f8925dafb}" Title="Financial Manager" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Daniel Refahi" Description="Use Financial Manager to manage your expenses and make plan for them." Publisher="Daniel Refahi" PublisherID="{5525d8e2-5315-47a5-80de-e8dd7f4076c5}">
     <IconPath IsRelative="true" IsResource="false">Assets\150_150_Logo.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />

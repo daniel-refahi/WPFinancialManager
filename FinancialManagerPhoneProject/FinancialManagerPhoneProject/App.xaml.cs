@@ -11,7 +11,9 @@ using FinancialManagerPhoneProject.DataHandlers;
 using FinancialManagerPhoneProject.Views;
 using System.Threading;
 using System.Windows.Media;
+#if DEBUG
 using MockIAPLib;
+#endif
 
 namespace FinancialManagerPhoneProject
 {
@@ -62,15 +64,10 @@ namespace FinancialManagerPhoneProject
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
 
-
-            SetupMockIAP();
-        }
-
-        private void SetupMockIAP()
-        {
 #if DEBUG
             MockIAP.Init();
             MockIAP.RunInMockMode(true);
+            MockIAP.ClearCache();
             MockIAP.SetListingInformation(1, "en-us", "Some description", "1", "TestApp");
 
             // Add some more items manually.
@@ -79,7 +76,7 @@ namespace FinancialManagerPhoneProject
             {
                 Name = "Full Access",
                 ImageUri = new Uri("/Assets/300_300.png", UriKind.Relative),
-                ProductId = "1",
+                ProductId = "11111",
                 ProductType = Windows.ApplicationModel.Store.ProductType.Durable,
                 Keywords = new string[] { "image" },
                 Description = "Nice image",
@@ -90,6 +87,7 @@ namespace FinancialManagerPhoneProject
             MockIAP.AddProductListing("Ultimate User", p);
 #endif
         }
+
 
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated

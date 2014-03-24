@@ -17,7 +17,7 @@
         <SolidColorBrush x:Key="FirstForeground" Color="#FF2E2E2E"/>
         <SolidColorBrush x:Key="SecondForeground" Color="#FF838383"/>
         <Style x:Key="TextBlockStyle" TargetType="RichTextBox">
-        	<Setter Property="FontSize" Value="22"/>
+            <Setter Property="FontSize" Value="22"/>
             <Setter Property="Foreground" Value="{StaticResource FirstForeground}"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -27,7 +27,7 @@
     </phone:PhoneApplicationPage.Resources>
 
     <Grid x:Name="LayoutRoot" >
-       
+
         <Grid.Background>
             <ImageBrush ImageSource="../Assets/Patterns/White.jpg"/>
         </Grid.Background>
@@ -41,48 +41,50 @@
         <ScrollViewer Margin="10,70,10,30"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch">
-        <StackPanel >
-            
-            <StackPanel Name="__MainExpense"
+            <StackPanel >
+
+                <StackPanel Name="__MainExpense"
                         Visibility="Collapsed"
                         Margin="25,30,25,0">
-                <RichTextBox  Style="{StaticResource TextBlockStyle}">
-                    <Paragraph>
-                        You can see all the expenses you have made in this page.
-                    </Paragraph>
-                </RichTextBox>
-                <RichTextBox  Style="{StaticResource TextBlockStyle}">
-                    <Paragraph>
-                        The icons represent the category of the expenses.
-                    </Paragraph>                    
-                </RichTextBox>
-                <Image Source="../Assets/HelpAssets/ExpenseItemIcon.png"
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            You can see all the expenses you have made in this page.
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            The icons represent the category of the expenses.
+                        </Paragraph>
+                    </RichTextBox>
+                    <Image Source="../Assets/HelpAssets/ExpenseItemIcon.png"
                        Margin="0,-30,0,20"/>
 
-                <RichTextBox  Style="{StaticResource TextBlockStyle}">
-                    <Paragraph>
-                        On each expense record you would find the
-                        <Bold>Amount</Bold>,
-                        <Bold>Description</Bold> and
-                        <Bold>Date</Bold> you have made the expense.
-                    </Paragraph>
-                </RichTextBox>
-                <Image Source="../Assets/HelpAssets/ExpenseItem.png"
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            On each expense record you would find the
+                            <Bold>Amount</Bold> ,
+                            <Bold>Description</Bold> and
+                            <Bold>Date</Bold> you have made the expense.
+                        </Paragraph>
+                    </RichTextBox>
+                    <Image Source="../Assets/HelpAssets/ExpenseItem.png"
                        Margin="0,20,0,0"/>
                     <RichTextBox  Style="{StaticResource TextBlockStyle}">
                         <Paragraph>
-                            You can see more detail about each expense record by tapping on it.
+                            You can see more detail about each expense 
+                            record by tapping on it.
                         </Paragraph>
                     </RichTextBox>
                 </StackPanel>
-            
-            
+
+
                 <StackPanel Name="__MainCategory"
                         Visibility="Collapsed"
                         Margin="25,30,25,0">
                     <RichTextBox  Style="{StaticResource TextBlockStyle}">
                         <Paragraph>
-                            With <Bold>Financial Manager</Bold> you can create a
+                            With
+                            <Bold>Financial Manager</Bold> you can create a
                             <Bold>Plan</Bold> for each 
                             category and as you spend your money, you 
                             can check your progress against your plans.
@@ -90,7 +92,8 @@
                     </RichTextBox>
                     <RichTextBox  Style="{StaticResource TextBlockStyle}">
                         <Paragraph>
-                            In this page you would see all your categories with the most useful information about them.
+                            In this page you would see all your categories 
+                            with the most useful information about them.
                         </Paragraph>
                     </RichTextBox>
                     <Image Source="../Assets/HelpAssets/CategoryItem.png"
@@ -98,9 +101,10 @@
 
                     <RichTextBox  Style="{StaticResource TextBlockStyle}">
                         <Paragraph>
-                            You can see more detail about each category by tapping on it.
+                            You can see more detail about each category 
+                            by tapping on it.
                         </Paragraph>
-                    </RichTextBox>                    
+                    </RichTextBox>
                 </StackPanel>
 
                 <StackPanel Name="__MainReport"
@@ -111,18 +115,20 @@
                             As you purchase or pay your bills, 
                             you might spend more in some categories 
                             without even noticing it.
-                            <Bold>Top Categories</Bold> 
-                            shows you 5 most spent categories.
+                            <Bold>Top Categories</Bold>
+                            shows your 5 most spent categories.
                         </Paragraph>
                     </RichTextBox>
                     <RichTextBox  Style="{StaticResource TextBlockStyle}">
                         <Paragraph>
-                            <Bold>Total Expenses</Bold> shows how much you have spent in all categories.
+                            <Bold>Total Expenses</Bold> shows how much 
+                            you have spent in all categories.
                         </Paragraph>
                     </RichTextBox>
                     <RichTextBox  Style="{StaticResource TextBlockStyle}">
                         <Paragraph>
-                            <Bold>Saving</Bold> is the difference between your income and total expenses.
+                            <Bold>Saving</Bold> is the difference 
+                            between your income and total expenses.
                         </Paragraph>
                     </RichTextBox>
                     <RichTextBox  Style="{StaticResource TextBlockStyle}">
@@ -150,24 +156,209 @@
                     <RichTextBox  Style="{StaticResource TextBlockStyle}">
                         <Paragraph>
                             You can take a picture of the Receipt by tapping on
-                            <Bold>Attach Receipt</Bold>.
+                            <Bold>Attach Receipt</Bold> .
                         </Paragraph>
                     </RichTextBox>
                     <RichTextBox  Style="{StaticResource TextBlockStyle}">
                         <Paragraph>
                             You never forget where you spend your 
                             money again. Just hit
-                            <Bold>Add My Location</Bold>. 
+                            <Bold>Add My Location</Bold> . 
                             Financial Manager memorizes your location 
                             and you can check it later.
                         </Paragraph>
                     </RichTextBox>
                     <RichTextBox  Style="{StaticResource TextBlockStyle}">
                         <Paragraph>
-                            After you create the expense record, you can’t change the category, add location or receipt.
+                            After you create the expense record,
+                            you can’t change the category, 
+                            add location or receipt.
                         </Paragraph>
                     </RichTextBox>
                 </StackPanel>
+
+                <StackPanel Name="__EditExpense"
+                        Visibility="Collapsed"
+                        Margin="25,30,25,0">
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            You can edit your expense
+                            <Bold>Amount</Bold> ,
+                            <Bold>Description</Bold> or the
+                            <Bold>Date</Bold> .
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            You would find your attached receipt and 
+                            the location you have spent, on this page.
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            You
+                            <Bold>can’t</Bold> change the category or
+                            attach a receipt after you create the expense record.
+                        </Paragraph>
+                    </RichTextBox>
+                </StackPanel>
+
+                <StackPanel Name="__AddCategory"
+                        Visibility="Collapsed"
+                        Margin="25,30,25,0">
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            When you create a category, you can add 
+                            a
+                            <Bold>Plan</Bold> .
+                        </Paragraph>
+                        <Paragraph>
+                            For example: if you add 200 $ 
+                            as your plan for Groceries category. It 
+                            means you expect to spent 200 $ as Groceries.
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            Try to be precise about your plans and 
+                            stick to them.
+                        </Paragraph>
+                        <Paragraph>
+                            This feature of Financial 
+                            Manager helps you to save money in each category.
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            <Bold>Total Planned</Bold> helps you to make a 
+                            better plan, by showing how much 
+                            you have planned so far. This value 
+                            changes as you enter the plan amount.
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            Tap on the icon to change the category icon.
+                        </Paragraph>
+                    </RichTextBox>
+                </StackPanel>
+
+                <StackPanel Name="__EditCategory"
+                        Visibility="Collapsed"
+                        Margin="25,30,25,0">
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            When you create a category, you can add 
+                            a
+                            <Bold>Plan</Bold> .
+                        </Paragraph>
+                        <Paragraph>
+                            For example: if you add 200 $ 
+                            as your plan for Groceries category. It 
+                            means you expect to spent 200 $ as Groceries.
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            Try to be precise about your plans and 
+                            stick to them.
+                        </Paragraph>
+                        <Paragraph>
+                            This feature of Financial 
+                            Manager helps you to save money in each category.
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            <Bold>Total Planned</Bold> helps you to make a 
+                            better plan, by showing how much 
+                            you have planned so far. This value 
+                            changes as you enter the plan amount.
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            Tap on the icon to change the category icon.
+                        </Paragraph>
+                    </RichTextBox>
+                </StackPanel>
+
+                <Canvas Name="__ChartCategory"
+                        Visibility="Collapsed"
+                        Margin="25,30,25,0">
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}"
+                                  Width="200"
+                                  Canvas.Left="0"
+                                  Canvas.Top="0"
+                                  Canvas.ZIndex="0">
+                        <Paragraph>
+                            The sum of all expenses in this category
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}"
+                                  Width="200"
+                                  Canvas.Left="200"
+                                  Canvas.Top="53"
+                                  Canvas.ZIndex="0" Margin="0">
+                        <Paragraph>
+                            This category against all other categories
+                        </Paragraph>
+                    </RichTextBox>
+                    <Image Source="../Assets/HelpAssets/CategoryChart.png"                       
+                           Width="300"
+                           Canvas.Left="40"
+                           Canvas.Top="100"
+                           Canvas.ZIndex="0"/>
+
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}"
+                                  Width="200"
+                                  Canvas.Left="0"
+                                  Canvas.Top="480"
+                                  Canvas.ZIndex="0">
+                        <Paragraph>
+                            All expenses in this category
+                        </Paragraph>
+                    </RichTextBox>
+                </Canvas>
+
+                <Canvas Name="__ReportDetail"
+                        Visibility="Collapsed"
+                        Margin="25,30,25,0">
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}"
+                                  Width="400"
+                                  Canvas.Left="0"
+                                  Canvas.Top="0"
+                                  Canvas.ZIndex="0" Margin="0">
+                        <Paragraph>
+                            In
+                            <Bold>Report Detail</Bold> page you would 
+                            see how much you have left in each category
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}"
+                                  Width="200"
+                                  Canvas.Left="200"
+                                  Canvas.Top="158"
+                                  Canvas.ZIndex="1" Margin="0">
+                        <Paragraph>
+                            How much you have spent in this category
+                        </Paragraph>
+                    </RichTextBox>
+                    <Image Source="../Assets/HelpAssets/ReportDetail.png"                       
+                           Width="295"
+                           Canvas.Top="114"
+                           Canvas.ZIndex="0" Height="334"/>
+
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}"
+                                  Width="200"
+                                  Canvas.Left="21"
+                                  Canvas.Top="448"
+                                  Canvas.ZIndex="1" Margin="0">
+                        <Paragraph>
+                            Your plan in this category
+                        </Paragraph>
+                    </RichTextBox>
+                </Canvas>
 
 
             </StackPanel>

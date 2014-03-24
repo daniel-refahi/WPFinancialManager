@@ -131,14 +131,18 @@ namespace FinancialManagerPhoneProject.Views
         private void ApplicationBarHelpIcon_Click(object sender, EventArgs e)
         {
             SaveAppSettings();
-            NavigationService.Navigate(new Uri("/Views/help.xaml?caller=categorydetail&object=" + _Name, UriKind.Relative));
+            NavigationService.Navigate(new Uri("/Views/help.xaml?caller=categorydetail&status="+_Status+"&object=" + _Name, UriKind.Relative));
         }
         private void ApplicationBarSaveIcon_Click(object sender, EventArgs e)
         {
             double plan = 0;
             bool isNum = double.TryParse(__tbPlan.Text.ToString(), out plan);
-            if (!isNum)
+            if (!isNum || plan <= 0)
                 MessageBox.Show("Please Enter a Valid Plan!");
+            else if(string.IsNullOrEmpty(__tbName.Text) || string.IsNullOrWhiteSpace(__tbName.Text))
+            {
+                MessageBox.Show("Please Enter a Valid Category Name!");
+            }
             else
             {
                 string icon = ((BitmapImage)(__Icon.Source)).UriSource.ToString();
@@ -202,9 +206,11 @@ namespace FinancialManagerPhoneProject.Views
                 IsolatedStorageSettings.ApplicationSettings.TryGetValue("iconsource", out _IconSource);
             IsolatedStorageSettings.ApplicationSettings.Clear();
 
-            if(_Status == "edit")
+            if (_Status == "edit")
+            {
                 __tbTitle.Text = "Edit Category";
-            UpdatingAppBar();
+                UpdatingAppBar();
+            }
         }
         private void UpdatingAppBar()
         {
