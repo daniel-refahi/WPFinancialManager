@@ -23,7 +23,7 @@ namespace FinancialManagerPhoneProject.Views
     public partial class ExpenseDetail : PhoneApplicationPage
     {
         CameraCaptureTask _CameraTask;
-        byte[] _ImageAsByte;
+        public static byte[] _ImageAsByte;
 
         ExpenseDetailViewModel _PageModel;
         List<Category> _Categories;

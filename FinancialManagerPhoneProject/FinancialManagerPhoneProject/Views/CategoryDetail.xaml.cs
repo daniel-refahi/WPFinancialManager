@@ -124,8 +124,10 @@ namespace FinancialManagerPhoneProject.Views
 
             if (result == MessageBoxResult.OK)
             {
-                StaticValues.DB.DeleteCategory(_Name);
-                NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=categorydetail", UriKind.Relative));
+                if (StaticValues.DB.DeleteCategory(__tbName.Text.ToString()))
+                    NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=categorydetail", UriKind.Relative));
+                else
+                    MessageBox.Show("The category can't be deleted, because there is no category as " + __tbName.Text.ToString() + " !");
             }
         }
         private void ApplicationBarHelpIcon_Click(object sender, EventArgs e)

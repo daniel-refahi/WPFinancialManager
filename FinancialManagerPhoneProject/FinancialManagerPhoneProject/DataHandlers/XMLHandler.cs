@@ -502,19 +502,24 @@ namespace FinancialManagerPhoneProject.DataHandlers
 
         public void SaveImageAsync(byte[] imageAsByte, string ImageName)
         {
-            Task saveImage = Task.Factory.StartNew(() =>
+            try
             {
-                if (imageAsByte != null)
-                {                    
-                    using (var store = IsolatedStorageFile.GetUserStoreForApplication())
+                Task saveImage = Task.Factory.StartNew(() =>
+                {
+                    if (imageAsByte != null)
                     {
-                        using (var stream = store.CreateFile(System.IO.Path.Combine("Receipts/"+ImageName)))
+                        using (var store = IsolatedStorageFile.GetUserStoreForApplication())
                         {
-                            stream.Write(imageAsByte, 0, imageAsByte.Length);
+                            using (var stream = store.CreateFile(System.IO.Path.Combine("Receipts/" + ImageName)))
+                            {
+                                stream.Write(imageAsByte, 0, imageAsByte.Length);
+                            }
                         }
                     }
-                }
-            });
+                });
+            }catch(Exception ex){
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         public void UpdateTileValues()
@@ -935,18 +940,27 @@ namespace FinancialManagerPhoneProject.DataHandlers
             SaveXmlToFileAsync();
         }
 
-        public void DeleteCategory(string category)
+        public bool DeleteCategory(string category)
         {
-            (from x in FINANCIALMANAGER_XML.Root.Element("Expenses").Elements()
-             where x.Attribute("Category").Value == category
-             select x).Remove();
+            try
+            {
+                (from x in FINANCIALMANAGER_XML.Root.Element("Expenses").Elements()
+                 where x.Attribute("Category").Value == category
+                 select x).Remove();
 
-            (from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
-             where x.Attribute("Name").Value == category
-             select x).FirstOrDefault().Remove();
-            
-            UpdateTileValues();
-            SaveXmlToFileAsync();
+                (from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
+                 where x.Attribute("Name").Value == category
+                 select x).FirstOrDefault().Remove();
+
+                UpdateTileValues();
+                SaveXmlToFileAsync();
+
+                return true;
+            }
+            catch 
+            {
+                return false;
+            }
         }
 
         public void UpdateCategory(Category category)
