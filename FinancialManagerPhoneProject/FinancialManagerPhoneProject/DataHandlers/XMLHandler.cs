@@ -601,7 +601,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                 else
                 {
                     int expenseCount = FINANCIALMANAGER_XML.Root.Element("Expenses").Descendants().Count();
-                    if (expenseCount <= 1)
+                    if (expenseCount <= 9)
                         return true;
                     else
                         return false;
