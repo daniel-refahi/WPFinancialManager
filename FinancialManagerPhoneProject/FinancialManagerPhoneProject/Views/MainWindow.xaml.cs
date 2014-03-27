@@ -34,12 +34,12 @@ namespace FinancialManagerPhoneProject.Views
 
         }
 
-        void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             _DeviceWidth = Application.Current.Host.Content.ActualWidth;
 
             __LoadingBar.Opacity = 1;
-            Task t_LoadPageModel = Task.Factory.StartNew(() =>
+            Task t_LoadPageModel = await Task.Factory.StartNew(async () =>
             {
                 _MainPageModel = LoadPageModel();
             });
@@ -80,6 +80,80 @@ namespace FinancialManagerPhoneProject.Views
                 }
             }, TaskScheduler.FromCurrentSynchronizationContext());
         }
+
+        private MainPageModel LoadPageModel()
+        {
+            MainPageModel mainPageModel = new MainPageModel();
+            string symbol = StaticValues.DB.GetCurrencySymbol();
+            foreach (Expense expense in StaticValues.DB.GetAllExpenses())
+            {
+                mainPageModel.ExpenseListModel.Add(new ExpenseItemModel()
+                {
+                    Amount = symbol + " " + expense.Value,
+                    ID = expense.ID,
+                    Category = expense.Category,
+                    Date = expense.Date.ToString("dd/MMM"),
+                    Description = expense.Description,
+                    ReceiptVisibility = string.IsNullOrEmpty(expense.RecieptName) ? "Collapsed" : "Visible",
+                    MapVisibility = string.IsNullOrEmpty(expense.Latitude) ? "Collapsed" : "Visible",
+                    ImageSource = "../../Assets/Icons/" + expense.Icon + ".png",
+                    ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40
+                });
+            }
+
+            foreach (Category category in StaticValues.DB.GetAllCategories())
+            {
+                mainPageModel.CategoryListModel.Add(new CategoryItemModel()
+                {
+                    Name = category.Name,
+                    Plan = symbol + " " + category.Plan.ToString("n2"),
+                    Remaining = symbol + " " + (category.Plan - category.TotalExpenses).ToString("n2"),
+                    Total = symbol + " " + category.TotalExpenses.ToString("n2"),
+                    ImageSource = "../../Assets/Icons/" + category.Icon + ".png",
+                    ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40
+                });
+            }
+
+            int topCategoriesCounter = 1;
+            foreach (Category category in StaticValues.DB.GetTopCategories())
+            {
+                switch (topCategoriesCounter)
+                {
+                    case 1:
+                        mainPageModel.CategoryName1 = category.Name;
+                        mainPageModel.TotalCategory1 = category.TotalExpenses;
+                        break;
+                    case 2:
+                        mainPageModel.CategoryName2 = category.Name;
+                        mainPageModel.TotalCategory2 = category.TotalExpenses;
+                        break;
+                    case 3:
+                        mainPageModel.CategoryName3 = category.Name;
+                        mainPageModel.TotalCategory3 = category.TotalExpenses;
+                        break;
+                    case 4:
+                        mainPageModel.CategoryName4 = category.Name;
+                        mainPageModel.TotalCategory4 = category.TotalExpenses;
+                        break;
+                    case 5:
+                        mainPageModel.CategoryName5 = category.Name;
+                        mainPageModel.TotalCategory5 = category.TotalExpenses;
+                        break;
+                }
+                topCategoriesCounter++;
+            }
+
+            double income = StaticValues.DB.GetIncome();
+            double totalExpense = StaticValues.DB.GetTotalExpenses();
+            double balance = income - totalExpense;
+            mainPageModel.Income = symbol + " " + income.ToString("n0");
+            mainPageModel.Balance = symbol + " " + balance.ToString("n2");
+            mainPageModel.TotalExpenses = StaticValues.DB.GetCurrencySymbol() + " " + totalExpense.ToString("n2");
+            mainPageModel.Saving = StaticValues.DB.GetCurrencySymbol() + " " + balance.ToString("n2");
+
+            return mainPageModel;
+        }
+
 
         void __MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -198,79 +272,7 @@ namespace FinancialManagerPhoneProject.Views
             base.OnBackKeyPress(e);            
         }
 
-        private MainPageModel LoadPageModel()
-        {            
-            MainPageModel mainPageModel = new MainPageModel();
-            string symbol = StaticValues.DB.GetCurrencySymbol();            
-            foreach (Expense expense in StaticValues.DB.GetAllExpenses())
-            {
-                mainPageModel.ExpenseListModel.Add(new ExpenseItemModel()
-                {
-                    Amount = symbol + " " + expense.Value,
-                    ID = expense.ID,
-                    Category = expense.Category,
-                    Date = expense.Date.ToString("dd/MMM"),
-                    Description = expense.Description,
-                    ReceiptVisibility = string.IsNullOrEmpty(expense.RecieptName) ? "Collapsed" : "Visible",
-                    MapVisibility = string.IsNullOrEmpty(expense.Latitude) ? "Collapsed" : "Visible",
-                    ImageSource = "../../Assets/Icons/" + expense.Icon + ".png",
-                    ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40
-                });
-            }
-
-            foreach (Category category in StaticValues.DB.GetAllCategories())
-            {
-                mainPageModel.CategoryListModel.Add(new CategoryItemModel()
-                {
-                    Name = category.Name,
-                    Plan = symbol + " " + category.Plan.ToString("n2"),
-                    Remaining = symbol + " " + (category.Plan - category.TotalExpenses).ToString("n2"),
-                    Total = symbol + " " + category.TotalExpenses.ToString("n2"),
-                    ImageSource = "../../Assets/Icons/" + category.Icon + ".png",
-                    ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40
-                });
-            }
-
-            int topCategoriesCounter = 1;            
-            foreach (Category category in StaticValues.DB.GetTopCategories())
-            {
-                switch (topCategoriesCounter)
-                {
-                    case 1:
-                        mainPageModel.CategoryName1 = category.Name;
-                        mainPageModel.TotalCategory1 = category.TotalExpenses;
-                        break;
-                    case 2:
-                        mainPageModel.CategoryName2 = category.Name;
-                        mainPageModel.TotalCategory2 = category.TotalExpenses;
-                        break;
-                    case 3:
-                        mainPageModel.CategoryName3 = category.Name;
-                        mainPageModel.TotalCategory3 = category.TotalExpenses;
-                        break;
-                    case 4:
-                        mainPageModel.CategoryName4 = category.Name;
-                        mainPageModel.TotalCategory4 = category.TotalExpenses;
-                        break;
-                    case 5:
-                        mainPageModel.CategoryName5 = category.Name;
-                        mainPageModel.TotalCategory5 = category.TotalExpenses;
-                        break;
-                }
-                topCategoriesCounter++;
-            }
-
-            double income = StaticValues.DB.GetIncome();
-            double totalExpense = StaticValues.DB.GetTotalExpenses();
-            double balance = income - totalExpense;
-            mainPageModel.Income = symbol + " " + income.ToString("n0");
-            mainPageModel.Balance = symbol + " " + balance.ToString("n2");
-            mainPageModel.TotalExpenses = StaticValues.DB.GetCurrencySymbol() + " " + totalExpense.ToString("n2");
-            mainPageModel.Saving = StaticValues.DB.GetCurrencySymbol() + " " + balance.ToString("n2");
-
-            return mainPageModel;
-        }
-
+        
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
             

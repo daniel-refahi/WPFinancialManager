@@ -91,7 +91,7 @@ namespace FinancialManagerPhoneProject
 
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated
-        private async void Application_Launching(object sender, LaunchingEventArgs e)
+        private void Application_Launching(object sender, LaunchingEventArgs e)
         {
             DateTime beginTime = DateTime.Now;
             XMLHandler.DEIVCE_WIDTH = Application.Current.Host.Content.ActualWidth;
@@ -99,7 +99,8 @@ namespace FinancialManagerPhoneProject
 
             while (XMLHandler.FINANCIALMANAGER_XML == null)
             {
-                await StaticValues.DB.LoadXmlFromFileAsync();
+                StaticValues.DB.LoadXmlFromFileAsync();
+                Thread.Sleep(200);
             }
 
             TimeSpan diffrenceTime = DateTime.Now - beginTime;

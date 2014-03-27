@@ -9,6 +9,7 @@
     <AssemblyPart x:Name="Microsoft.Expression.Interactions" Source="Microsoft.Expression.Interactions.dll" />
     <AssemblyPart x:Name="Microsoft.Phone.Controls" Source="Microsoft.Phone.Controls.dll" />
     <AssemblyPart x:Name="Microsoft.Phone.Controls.Toolkit" Source="Microsoft.Phone.Controls.Toolkit.dll" />
+    <AssemblyPart x:Name="MockIAPLib" Source="MockIAPLib.dll" />
     <AssemblyPart x:Name="SLWpVisifire.Charts" Source="SLWpVisifire.Charts.dll" />
     <AssemblyPart x:Name="SLWpVisifire.Gauges" Source="SLWpVisifire.Gauges.dll" />
     <AssemblyPart x:Name="System.Windows.Interactivity" Source="System.Windows.Interactivity.dll" />
