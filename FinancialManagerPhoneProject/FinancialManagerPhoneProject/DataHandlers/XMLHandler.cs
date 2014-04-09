@@ -13,6 +13,7 @@ using Microsoft.Phone.Shell;
 using System.Runtime.CompilerServices;
 
 using Windows.ApplicationModel.Store;
+using System.Diagnostics;
 //#if DEBUG
 //using MockIAPLib;
 //#else
@@ -331,16 +332,29 @@ namespace FinancialManagerPhoneProject.DataHandlers
         }
         public async Task LoadXmlFromFileAsync()
         {
+            Debug.WriteLine("Entered the load xml async");
             bool IsXmlExist = true;
             try
             {
 
-                Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-                var file = await localFolder.GetFileAsync("FinancialManagerXML.xml");
-                var stream = await file.OpenStreamForReadAsync();
-                FINANCIALMANAGER_XML = XDocument.Load(stream);
+                StorageFile openedFile = await ApplicationData.Current.LocalFolder.GetFileAsync("FinancialManagerXML.xml");
+                using (StreamReader reader = new StreamReader(await openedFile.OpenStreamForReadAsync()))
+                {
+                    XMLHandler.FINANCIALMANAGER_XML = XDocument.Load(reader);
+                    //var t = await reader.ReadToEndAsync();
+                }
+
+                //Debug.WriteLine("Entered the try statement");
+                //Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+                //Debug.WriteLine("got the local folder: "+ localFolder.Name);
+                //var file = await localFolder.GetFileAsync("FinancialManagerXML.xml");
+                //Debug.WriteLine("got the file: "+ file.Name);
+                //var stream = await file.OpenStreamForReadAsync();
+                //Debug.WriteLine("got the streaming: "+ stream.Length);
+                //XMLHandler.FINANCIALMANAGER_XML = XDocument.Load(stream);
+                //Debug.WriteLine("got the xml file");
             }
-            catch
+            catch (Exception ex)
             {
                 IsXmlExist = false;
             }

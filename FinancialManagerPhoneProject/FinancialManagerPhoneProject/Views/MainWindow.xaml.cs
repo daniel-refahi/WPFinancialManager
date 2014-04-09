@@ -39,8 +39,9 @@ namespace FinancialManagerPhoneProject.Views
             _DeviceWidth = Application.Current.Host.Content.ActualWidth;
 
             __LoadingBar.Opacity = 1;
-            Task t_LoadPageModel = await Task.Factory.StartNew(async () =>
-            {
+            await StaticValues.DB.LoadXmlFromFileAsync();
+            Task t_LoadPageModel = Task.Factory.StartNew(() =>
+            {                
                 _MainPageModel = LoadPageModel();
             });
 
@@ -153,7 +154,6 @@ namespace FinancialManagerPhoneProject.Views
 
             return mainPageModel;
         }
-
 
         void __MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -271,7 +271,6 @@ namespace FinancialManagerPhoneProject.Views
             
             base.OnBackKeyPress(e);            
         }
-
         
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
