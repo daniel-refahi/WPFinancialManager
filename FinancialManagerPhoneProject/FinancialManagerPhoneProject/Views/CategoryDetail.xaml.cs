@@ -189,6 +189,7 @@ namespace FinancialManagerPhoneProject.Views
         private void SaveAppSettings()
         {
             IsolatedStorageSettings.ApplicationSettings.Clear();
+            IsolatedStorageSettings.ApplicationSettings["firsttime"] = "0";
             IsolatedStorageSettings.ApplicationSettings["name"] = __tbName.Text.ToString();
             IsolatedStorageSettings.ApplicationSettings["oldname"] = _OldName;
             IsolatedStorageSettings.ApplicationSettings["plan"] = __tbPlan.Text.ToString();
@@ -207,6 +208,8 @@ namespace FinancialManagerPhoneProject.Views
             if(!IsFromIconSelection)
                 IsolatedStorageSettings.ApplicationSettings.TryGetValue("iconsource", out _IconSource);
             IsolatedStorageSettings.ApplicationSettings.Clear();
+            IsolatedStorageSettings.ApplicationSettings["firsttime"] = "0";
+            IsolatedStorageSettings.ApplicationSettings.Save();
 
             if (_Status == "edit")
             {

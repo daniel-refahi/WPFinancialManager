@@ -356,6 +356,7 @@ namespace FinancialManagerPhoneProject.Views
         private void SaveAppSettings()
         {
             IsolatedStorageSettings.ApplicationSettings.Clear();
+            IsolatedStorageSettings.ApplicationSettings["firsttime"] = "0";
             IsolatedStorageSettings.ApplicationSettings["helperpage"] = _HelperPage;
             IsolatedStorageSettings.ApplicationSettings["amount"] = __tbAmount.Text.ToString();
             IsolatedStorageSettings.ApplicationSettings["description"] = __tbDescription.Text.ToString();

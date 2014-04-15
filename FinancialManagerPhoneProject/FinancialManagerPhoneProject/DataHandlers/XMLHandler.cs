@@ -332,38 +332,37 @@ namespace FinancialManagerPhoneProject.DataHandlers
         }
         public async Task LoadXmlFromFileAsync()
         {
-            Debug.WriteLine("Entered the load xml async");
-            bool IsXmlExist = true;
-            try
-            {
+            //Debug.WriteLine("Entered the load xml async");
 
+            string FirstTime = null;
+            IsolatedStorageSettings.ApplicationSettings.TryGetValue("firsttime", out FirstTime);
+
+            if (FirstTime == "1")
+            {
+                IsolatedStorageSettings.ApplicationSettings["firsttime"] = "0";
+                IsolatedStorageSettings.ApplicationSettings.Save();
+                await LoadDefaultXmlAsync();
+                await SaveXmlToFileAsync();
+            }
+            else
+            {
                 StorageFile openedFile = await ApplicationData.Current.LocalFolder.GetFileAsync("FinancialManagerXML.xml");
                 using (StreamReader reader = new StreamReader(await openedFile.OpenStreamForReadAsync()))
                 {
                     XMLHandler.FINANCIALMANAGER_XML = XDocument.Load(reader);
-                    //var t = await reader.ReadToEndAsync();
                 }
-
-                //Debug.WriteLine("Entered the try statement");
-                //Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-                //Debug.WriteLine("got the local folder: "+ localFolder.Name);
-                //var file = await localFolder.GetFileAsync("FinancialManagerXML.xml");
-                //Debug.WriteLine("got the file: "+ file.Name);
-                //var stream = await file.OpenStreamForReadAsync();
-                //Debug.WriteLine("got the streaming: "+ stream.Length);
-                //XMLHandler.FINANCIALMANAGER_XML = XDocument.Load(stream);
-                //Debug.WriteLine("got the xml file");
-            }
-            catch (Exception ex)
-            {
-                IsXmlExist = false;
             }
 
-            if (!IsXmlExist)
-            {
-                await LoadDefaultXmlAsync();
-                await SaveXmlToFileAsync();
-            }
+            //Debug.WriteLine("Entered the try statement");
+            //Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            //Debug.WriteLine("got the local folder: "+ localFolder.Name);
+            //var file = await localFolder.GetFileAsync("FinancialManagerXML.xml");
+            //Debug.WriteLine("got the file: "+ file.Name);
+            //var stream = await file.OpenStreamForReadAsync();
+            //Debug.WriteLine("got the streaming: "+ stream.Length);
+            //XMLHandler.FINANCIALMANAGER_XML = XDocument.Load(stream);
+            //Debug.WriteLine("got the xml file");
+            
         }
         
         public async Task CreateReceiptsFolderAsync()

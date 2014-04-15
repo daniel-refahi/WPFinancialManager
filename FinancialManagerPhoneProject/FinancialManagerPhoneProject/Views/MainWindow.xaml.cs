@@ -39,7 +39,10 @@ namespace FinancialManagerPhoneProject.Views
             _DeviceWidth = Application.Current.Host.Content.ActualWidth;
 
             __LoadingBar.Opacity = 1;
-            await StaticValues.DB.LoadXmlFromFileAsync();
+
+            if(XMLHandler.FINANCIALMANAGER_XML == null)
+                await StaticValues.DB.LoadXmlFromFileAsync();            
+                
             Task t_LoadPageModel = Task.Factory.StartNew(() =>
             {                
                 _MainPageModel = LoadPageModel();

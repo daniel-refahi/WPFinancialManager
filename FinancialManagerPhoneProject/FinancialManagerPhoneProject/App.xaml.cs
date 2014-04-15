@@ -11,6 +11,7 @@ using FinancialManagerPhoneProject.DataHandlers;
 using FinancialManagerPhoneProject.Views;
 using System.Threading;
 using System.Windows.Media;
+using System.IO.IsolatedStorage;
 #if DEBUG
 using MockIAPLib;
 #endif
@@ -93,6 +94,15 @@ namespace FinancialManagerPhoneProject
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            string FirstTime = null;
+            IsolatedStorageSettings.ApplicationSettings.TryGetValue("firsttime", out FirstTime);
+
+            if (string.IsNullOrEmpty(FirstTime))
+            {
+                IsolatedStorageSettings.ApplicationSettings["firsttime"] = "1";
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            }
+
             DateTime beginTime = DateTime.Now;
             XMLHandler.DEIVCE_WIDTH = Application.Current.Host.Content.ActualWidth;
             StaticValues.DB = new XMLHandler();
