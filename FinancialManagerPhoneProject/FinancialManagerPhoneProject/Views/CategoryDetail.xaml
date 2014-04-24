@@ -48,8 +48,11 @@
                                             Click="ApplicationBarSaveIcon_Click"/>
             <shell:ApplicationBarIconButton Text="Help" IconUri="/Image/help.png"
                                             Click="ApplicationBarHelpIcon_Click"/>
-            <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="Settings" Click="ApplicationBarMenuItem_Click"/>
+            <shell:ApplicationBar.MenuItems>                
+                <shell:ApplicationBarMenuItem Text="Settings..." 
+                                              Click="ApplicationBarMenuItem_Click"/>
+                <shell:ApplicationBarMenuItem Text="Feedback..." 
+                                              Click="ApplicationBarFeedback_Click"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

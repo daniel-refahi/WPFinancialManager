@@ -23,7 +23,10 @@
             <shell:ApplicationBarIconButton Text="Cancel" IconUri="/Image/close.png"
                                             Click="ApplicationBarCancelButton_Click"/>
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="Settings" Click="ApplicationBarMenuItem_Click"/>
+                <shell:ApplicationBarMenuItem Text="Settings..." 
+                                              Click="ApplicationBarMenuItem_Click"/>
+                <shell:ApplicationBarMenuItem Text="Feedback..." 
+                                              Click="ApplicationBarFeedback_Click"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

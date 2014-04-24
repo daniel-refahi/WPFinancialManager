@@ -11,6 +11,7 @@ using FinancialManagerPhoneProject.DataHandlers;
 using FinancialManagerPhoneProject.Models;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Microsoft.Phone.Tasks;
 
 namespace FinancialManagerPhoneProject.Views
 {
@@ -95,6 +96,16 @@ namespace FinancialManagerPhoneProject.Views
         private void ApplicationBarMenuItem_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/Views/Settings.xaml?", UriKind.Relative));
+        }
+        private void ApplicationBarFeedback_Click(object sender, EventArgs e)
+        {
+            EmailComposeTask emailComposeTask = new EmailComposeTask();
+
+            emailComposeTask.Subject = "Report bug & Suggestion";
+            emailComposeTask.Body = "";
+            emailComposeTask.To = "financialmanager.pro@outlook.com";
+
+            emailComposeTask.Show();
         }
     }
 }
