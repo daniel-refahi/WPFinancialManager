@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
@@ -10,9 +8,6 @@ using Microsoft.Phone.Shell;
 using FinancialManagerPhoneProject.DataHandlers;
 using System.Threading.Tasks;
 using FinancialManagerPhoneProject.Models;
-using FinancialManagerPhoneProject.Views.UserControls;
-using System.Threading;
-using Windows.Storage;
 using System.Windows.Media;
 using Visifire.Charts;
 using Microsoft.Phone.Tasks;
