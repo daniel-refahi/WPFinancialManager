@@ -65,28 +65,28 @@ namespace FinancialManagerPhoneProject
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
             }
 
-//#if DEBUG
-//            MockIAP.Init();
-//            MockIAP.RunInMockMode(true);
-//            MockIAP.ClearCache();
-//            MockIAP.SetListingInformation(1, "en-us", "Some description", "1", "TestApp");
+#if DEBUG
+            MockIAP.Init();
+            MockIAP.RunInMockMode(true);
+            MockIAP.ClearCache();
+            MockIAP.SetListingInformation(1, "en-us", "Some description", "1", "TestApp");
 
-//            // Add some more items manually.
+            // Add some more items manually.
 
-//            ProductListing p = new ProductListing
-//            {
-//                Name = "Full Access",
-//                ImageUri = new Uri("/Assets/300_300.png", UriKind.Relative),
-//                ProductId = "11111",
-//                ProductType = Windows.ApplicationModel.Store.ProductType.Durable,
-//                Keywords = new string[] { "image" },
-//                Description = "Nice image",
-//                FormattedPrice = "1.0",
-//                Tag = string.Empty
-//            };
+            ProductListing p = new ProductListing
+            {
+                Name = "Full Access",
+                ImageUri = new Uri("/Assets/300_300.png", UriKind.Relative),
+                ProductId = "11111",
+                ProductType = Windows.ApplicationModel.Store.ProductType.Durable,
+                Keywords = new string[] { "image" },
+                Description = "Nice image",
+                FormattedPrice = "1.0",
+                Tag = string.Empty
+            };
 
-//            MockIAP.AddProductListing("Ultimate User", p);
-//#endif
+            MockIAP.AddProductListing("Ultimate User", p);
+#endif
         }
 
 

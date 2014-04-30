@@ -53,6 +53,9 @@ namespace FinancialManagerPhoneProject.Views
                 this.DataContext = _MainPageModel;
                 __LoadingBar.Opacity = 0;
 
+                if (StaticValues.DB.GetVersion() != StaticValues.CurrentVersion)
+                    MessageBox.Show(StaticValues.NewFeatures);
+
                 if (_Caller == "categorydetail" || _Caller == "categorychart")
                 {
                     __MainPivot.SelectedIndex = 1;

@@ -174,9 +174,7 @@
             <ColumnDefinition Width="25*"/>
             <ColumnDefinition Width="70*"/>
         </Grid.ColumnDefinitions>
-
         
-
         <TextBlock Name="__tbTitle"
                    Text="Add Expense"
                    Style="{StaticResource PhoneTextTitle1Style}"

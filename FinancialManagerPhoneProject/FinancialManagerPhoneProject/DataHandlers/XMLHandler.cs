@@ -9,8 +9,11 @@ using System.IO.IsolatedStorage;
 using System.Windows;
 using Microsoft.Phone.Shell;
 
-//using Windows.ApplicationModel.Store;
-using MockIAPLib;
+#if DEBUG
+    using MockIAPLib;
+#else
+    using Windows.ApplicationModel.Store;
+#endif
 
 
 
@@ -34,6 +37,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                                            new XAttribute("Currency", "$"),
                                                            //new XAttribute("CurrentMonth", "4"),
                                                            //new XAttribute("CurrentYear", "2014"),
+                                                           //new XAttribute("Version", "1.3"),
                                                            new XAttribute("IsDefaultData", "1")),
                               new XElement("Expenses", new XElement("Expense", new XAttribute("ID", 1),
                                                                               new XAttribute("Category", "Mortgage"),
@@ -367,6 +371,26 @@ namespace FinancialManagerPhoneProject.DataHandlers
 
         }
 
+        public string GetVersion()        
+        {
+            try
+            {
+                string oldVersion = FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Version").Value.ToString();
+                string newVersion = StaticValues.CurrentVersion;
+                if (oldVersion != newVersion)
+                {
+                    FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Version").SetValue(newVersion);
+                    SaveXmlToFileAsync();
+                }
+                return oldVersion;
+            }
+            catch
+            {
+                FINANCIALMANAGER_XML.Root.Element("StaticValues").Add(new XAttribute("Version", "1.3"));
+                SaveXmlToFileAsync();
+                return "1.3";
+            }
+        }
         public string GetCurrencySymbol()
         {
             string currency;
@@ -393,8 +417,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
             catch 
             {
                 FINANCIALMANAGER_XML.Root.Element("StaticValues").Add(new XAttribute("CurrentMonth", DateTime.Today.Month));
-                UpdateCategoriesTotalExpense();
-                MessageBox.Show("These are all the new updates: \n1. cool features\n2.Fixing bugs");
+                UpdateCategoriesTotalExpense();                
                 return DateTime.Today.Month;
             }
         }

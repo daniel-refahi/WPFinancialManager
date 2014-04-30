@@ -198,26 +198,61 @@
         </Grid.Background>
         
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="50*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"/>
             <RowDefinition Height="12*"/>
-            <RowDefinition Height="6*"/>
-            <RowDefinition Height="7*"/>
+            <RowDefinition Height="8*"/>
             <RowDefinition Height="9*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="12*"/>
             <RowDefinition Height="11*"/>
             <RowDefinition Height="10*"/>
-            <RowDefinition Height="15*"/>
             <RowDefinition Height="10*"/>
-        </Grid.RowDefinitions>        
-       
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Name="__LoadingLayer"
+                Grid.Column="0"
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+                Grid.RowSpan="11"
+                Background="Black"
+                Canvas.ZIndex="4"
+                Visibility="Collapsed"
+                Opacity="0.5">
+            <TextBlock Text="Please don't close the app. You might lose your data if you close the app."
+                       Foreground="White"
+                       TextWrapping="Wrap"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       FontSize="20"
+                       Width="340"
+                       Margin="50,0,50,130"/>
+            <TextBlock Text="Loading"
+                       Foreground="White"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       FontSize="30"
+                       Margin="50,0,0,30"/>
+            <ProgressBar  IsIndeterminate="True"
+                          Width="200"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Margin="90,0,0,10"
+                          Foreground="White"/>
+        </Grid>
+
         <TextBlock Text="Settings" 
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
                    Margin="20,0,0,0" 
                    Grid.Column="0"
-                   Grid.Row="1"                  
+                   Grid.Row="1"   
+                   Grid.ColumnSpan="2"
                    Foreground="{StaticResource FirstForeground}"
                    Style="{StaticResource PhoneTextTitle1Style}"/>
         <TextBlock Text="Currency:" 
@@ -226,6 +261,7 @@
                    Margin="20,17,0,0" 
                    Grid.RowSpan="2"
                    Grid.Column="0"
+                   Grid.ColumnSpan="2"
                    Grid.Row="2" 
                    Foreground="{StaticResource FirstForeground}"
                    Style="{StaticResource PhoneTextNormalStyle}"/>
@@ -234,17 +270,18 @@
                    VerticalAlignment="Top"
                    Margin="112,0,31,0" 
                    Grid.Column="0"
+                   Grid.ColumnSpan="2"
                    Grid.Row="2" 
                    Grid.RowSpan="5"
                    BorderBrush="#FF4D4D4D" 
                    Foreground="#FF3C3C3C" 
-                   Canvas.ZIndex="2">
+                   Canvas.ZIndex="3">
             <toolkit:ListPicker.Items>
-                <toolkit:ListPickerItem Content="$&#160;&#160;&#160;Dollar" Canvas.ZIndex="2" Background="White"/>
-                <toolkit:ListPickerItem Content="€&#160;&#160;&#160;Euro" Canvas.ZIndex="2" Background="White"/>
-                <toolkit:ListPickerItem Content="&#x20b9;&#160;&#160;&#160;Rupee" Canvas.ZIndex="2" Background="White"/>
-                <toolkit:ListPickerItem Content="RM&#160;&#160;Ringgit" Canvas.ZIndex="2" Background="White"/>
-                <toolkit:ListPickerItem Content="£&#160;&#160;&#160;Pound" Canvas.ZIndex="2" Background="White"/>
+                <toolkit:ListPickerItem Content="$&#160;&#160;&#160;Dollar" Canvas.ZIndex="3" Background="White"/>
+                <toolkit:ListPickerItem Content="€&#160;&#160;&#160;Euro" Canvas.ZIndex="3" Background="White"/>
+                <toolkit:ListPickerItem Content="&#x20b9;&#160;&#160;&#160;Rupee" Canvas.ZIndex="3" Background="White"/>
+                <toolkit:ListPickerItem Content="RM&#160;&#160;Ringgit" Canvas.ZIndex="3" Background="White"/>
+                <toolkit:ListPickerItem Content="£&#160;&#160;&#160;Pound" Canvas.ZIndex="3" Background="White"/>
             </toolkit:ListPicker.Items>
         </toolkit:ListPicker>
 
@@ -254,6 +291,7 @@
                    Margin="20,0,0,0" 
                    Grid.Column="0"
                    Grid.Row="3" 
+                   Grid.ColumnSpan="2"
                    Foreground="{StaticResource FirstForeground}"
                    Style="{StaticResource PhoneTextNormalStyle}"/>
         <TextBox Name="__txIncome"
@@ -264,12 +302,58 @@
                  InputScope="Number"
                  Margin="100,0,20,0" 
                  Grid.Column="0"
+                 Grid.ColumnSpan="2"
                  Grid.Row="3"/>
+
+        <TextBlock Text="Show Expenses for:" 
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"                       
+                   Margin="20,17,0,0" 
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Grid.Row="4" 
+                   Foreground="{StaticResource FirstForeground}"
+                   Style="{StaticResource PhoneTextNormalStyle}"/>
+        
+        <ScrollViewer
+                VerticalAlignment="Top"
+                Margin="20,0,5,0" 
+                Grid.Column="0"
+                Grid.Row="5"
+                MaxHeight="320"
+                Canvas.ZIndex="2"
+                Grid.RowSpan="3">
+            <toolkit:ListPicker
+                VerticalAlignment="Top"
+                Margin="0"
+                Name="__btYearPicker"
+                Background="White"
+                BorderBrush="#FF2C2C2C" 
+                Foreground="#FF303030" />
+        </ScrollViewer>
+        <ScrollViewer
+                VerticalAlignment="Top"
+                Margin="5,0,20,0"
+                Grid.Column="1"
+                Grid.Row="5"
+                MaxHeight="250"
+                Canvas.ZIndex="2"
+                Grid.RowSpan="3">
+            <toolkit:ListPicker
+                Name="__btMonthPicker"
+                VerticalAlignment="Top"
+                Margin="0"
+                Background="White"
+                BorderBrush="#FF2C2C2C" 
+                Foreground="#FF303030" />
+        </ScrollViewer>
+
         <Button x:Name="___btSave"
             	VerticalAlignment="Top"
             	Margin="13,15,7,0" 
             	Grid.Column="0"
-                Grid.Row="4" 
+                Grid.Row="6" 
+                Grid.ColumnSpan="2"
             	BorderBrush="#FF2C2C2C" 
             	Foreground="#FF303030" 
             	Content="Save Settings"                
@@ -279,26 +363,30 @@
                 VerticalAlignment="Top"
                 Margin="10,0" 
                 Grid.Column="0"
-                Grid.Row="5" 
+                Grid.Row="8" 
+                Grid.ColumnSpan="2"
                 BorderBrush="#FF2C2C2C" 
                 Foreground="#FF303030" 
                 Content="Create Live Tile"                
                 Click="__btCreateTile_Click"/>
-            <TextBlock Text="You can delete all your data from here. There will be some default categories but all your expenses will be deleted!" 
-            	       HorizontalAlignment="Left"
-                       VerticalAlignment="Top"
-                       Margin="20,0,0,0" 
-                       Grid.Column="0"
-                       Grid.Row="7" 
-            	       Foreground="{StaticResource FirstForeground}"
-                       TextWrapping="Wrap"
-                       TextTrimming="WordEllipsis"       
-            	       Width="auto" FontSize="26.667"/>
+
+        <Button Name="__btDeleteAllExpenses"
+                VerticalAlignment="Top"
+                Margin="10,0" 
+                Grid.Column="0"
+                Grid.Row="9" 
+                Grid.ColumnSpan="2"
+            	BorderBrush="#FF2C2C2C" 
+            	Foreground="#FF303030" 
+            	Content="Delete All Expenses"
+                Click="__btDeleteAllExpenses_Click"/>
+        
             <Button Name="__btDeleteAll"
                 VerticalAlignment="Top"
                 Margin="10,0" 
                 Grid.Column="0"
-                Grid.Row="8" 
+                Grid.Row="10" 
+                Grid.ColumnSpan="2"
             	BorderBrush="#FF2C2C2C" 
             	Foreground="#FF303030" 
             	Content="Delete All Data"
