@@ -453,7 +453,6 @@ namespace FinancialManagerPhoneProject.DataHandlers
             // called from other places. 
             
         }
-
         private void UpdateCategoriesTotalExpense()
         {
             // we need to update the total expenses attribute in each category node. 
@@ -466,15 +465,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                 category.Attribute("TotalExpenses").SetValue(totalExpenses);
             }
             SaveXmlToFileAsync();
-        }
-
-        public void UpdateSettings(string income, string symbol)
-        {
-            FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Currency").SetValue(symbol);
-            FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Income").SetValue(income);
-            
-            SaveXmlToFileAsync();
-        }
+        }        
 
         public List<string> GetIcons(string initPath)
         {
@@ -621,6 +612,19 @@ namespace FinancialManagerPhoneProject.DataHandlers
             }
         }
 
+        public void DeleteAllExpenses()
+        {
+            FINANCIALMANAGER_XML.Root.Element("Expenses").DescendantNodes().Remove();
+
+            var categoriesXml = from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
+                                select x;
+
+            foreach (var node in categoriesXml)
+            {
+                node.Attribute("TotalExpenses").SetValue("0");
+            }
+            DeleteAllStorage();
+        }
         public void DeleteAll()
         {
             FINANCIALMANAGER_XML.Root.Element("Expenses").DescendantNodes().Remove();
@@ -628,8 +632,9 @@ namespace FinancialManagerPhoneProject.DataHandlers
             FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("IsDefaultData").SetValue("0");
             FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Currency").SetValue("$");
             FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Income").SetValue("3000");
-            FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("CurrentMonth").SetValue(DateTime.Today.ToString("MMM"));
-            FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("CurrentYear").SetValue(DateTime.Today.Year.ToString());
+            FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("CurrentMonth").SetValue(DateTime.Today.Month.ToString());
+            FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("CurrentYear").SetValue(DateTime.Today.Year.ToString());            
+
             FINANCIALMANAGER_XML.Root.Element("Categories").Add(new XElement("Category", new XAttribute("Name", "Rent"),
                                                                                          new XAttribute("Plan", 1260),
                                                                                          new XAttribute("Icon", "Mortgage"),

@@ -251,7 +251,7 @@ namespace FinancialManagerPhoneProject.Views
 
             if (result == MessageBoxResult.OK)
             {
-                //delete all expenses
+                StaticValues.DB.DeleteAllExpenses();
                 NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=settings", UriKind.Relative));
             }
         }

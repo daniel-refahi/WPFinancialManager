@@ -22,6 +22,7 @@ namespace FinancialManagerPhoneProject.Models
         public string TotalExpenses { get; set; }
         public string Saving { get; set; }
         public string Income { get; set; }
+        public string MonthYear { get; set; }
         
         public string Balance { get; set; }
 

@@ -88,6 +88,8 @@ namespace FinancialManagerPhoneProject.Views
         {
             MainPageModel mainPageModel = new MainPageModel();
             string symbol = StaticValues.DB.GetCurrencySymbol();
+
+            // Getting all the expenses
             foreach (Expense expense in StaticValues.DB.GetAllExpenses())
             {
                 mainPageModel.ExpenseListModel.Add(new ExpenseItemModel()
@@ -104,6 +106,7 @@ namespace FinancialManagerPhoneProject.Views
                 });
             }
 
+            // Getting all the categories
             foreach (Category category in StaticValues.DB.GetAllCategories())
             {
                 mainPageModel.CategoryListModel.Add(new CategoryItemModel()
@@ -117,6 +120,7 @@ namespace FinancialManagerPhoneProject.Views
                 });
             }
 
+            // data for the report page 
             int topCategoriesCounter = 1;
             foreach (Category category in StaticValues.DB.GetTopCategories())
             {
@@ -153,6 +157,7 @@ namespace FinancialManagerPhoneProject.Views
             mainPageModel.Balance = symbol + " " + balance.ToString("n2");
             mainPageModel.TotalExpenses = StaticValues.DB.GetCurrencySymbol() + " " + totalExpense.ToString("n2");
             mainPageModel.Saving = StaticValues.DB.GetCurrencySymbol() + " " + balance.ToString("n2");
+            mainPageModel.MonthYear = StaticMethods.GetMonthSymbol(StaticValues.DB.GetCurrentMonth()) + "/" + StaticValues.DB.GetCurrentYear();
 
             return mainPageModel;
         }

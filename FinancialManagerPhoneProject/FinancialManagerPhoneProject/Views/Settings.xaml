@@ -350,14 +350,31 @@
 
         <Button x:Name="___btSave"
             	VerticalAlignment="Top"
-            	Margin="13,15,7,0" 
+            	Margin="10,15,5,0" 
             	Grid.Column="0"
                 Grid.Row="6" 
                 Grid.ColumnSpan="2"
             	BorderBrush="#FF2C2C2C" 
             	Foreground="#FF303030" 
             	Content="Save Settings"                
-            	Click="__btSave_Click"/>        
+            	Click="__btSave_Click"/>
+
+        <Rectangle VerticalAlignment="Top"
+                   HorizontalAlignment="Stretch"
+            	Margin="20,30,20,0" 
+            	Grid.Column="0"
+                Grid.Row="7"                    
+                Grid.ColumnSpan="2"
+                Height="3"
+                Fill="Black"/>
+        <Rectangle VerticalAlignment="Top"
+                   HorizontalAlignment="Stretch"
+            	Margin="20,35,20,0" 
+            	Grid.Column="0"
+                Grid.Row="7"                    
+                Grid.ColumnSpan="2"
+                Height="3"
+                Fill="Black"/>
                                
         <Button Name="__btCreateTile"
                 VerticalAlignment="Top"
