@@ -9,6 +9,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
 {
     public static class StaticMethods
     {
+        public static Random rd = new Random();
         public static string GenerateID() 
         {
             return Guid.NewGuid().ToString();
@@ -74,6 +75,11 @@ namespace FinancialManagerPhoneProject.DataHandlers
                 default:
                     return "12";
             }
+        }
+
+        public static string DefaultRandomDate()
+        {
+            return rd.Next(1, 29) + "/" + DateTime.Today.Month + "/" + DateTime.Today.Year;
         }
     }
 }

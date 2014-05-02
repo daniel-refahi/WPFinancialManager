@@ -54,7 +54,10 @@ namespace FinancialManagerPhoneProject.Views
                 __LoadingBar.Opacity = 0;
 
                 if (StaticValues.DB.GetVersion() != StaticValues.CurrentVersion)
+                {
                     MessageBox.Show(StaticValues.NewFeatures);
+                    
+                }
 
                 if (_Caller == "categorydetail" || _Caller == "categorychart")
                 {
@@ -168,24 +171,27 @@ namespace FinancialManagerPhoneProject.Views
             {
                 case "Expenses":
                     StaticValues.AppStatus = StaticValues.AppStatusOptions.Expenses;
+
                     
                     if (ApplicationBar.Buttons.Count == 1)
                     {
                         Uri uri = new Uri("//Image/add.png", UriKind.Relative);
-                        ApplicationBarIconButton addIcon = new ApplicationBarIconButton() { Text = "add", IconUri = uri };
+                        ApplicationBarIconButton addIcon = new ApplicationBarIconButton() { Text = "add expense", IconUri = uri };
                         addIcon.Click += ApplicationBarAddIcon_Click;
                         ApplicationBar.Buttons.Insert(0, addIcon);
                     }
+                    ((ApplicationBarIconButton)ApplicationBar.Buttons[0]).Text = "add expense";
                     break;
                 case "Categories":
                     StaticValues.AppStatus = StaticValues.AppStatusOptions.Categories;                    
                     if (ApplicationBar.Buttons.Count == 1)
                     {
                         Uri uri = new Uri("//Image/add.png", UriKind.Relative);
-                        ApplicationBarIconButton addIcon = new ApplicationBarIconButton() { Text = "add", IconUri = uri };
+                        ApplicationBarIconButton addIcon = new ApplicationBarIconButton() { Text = "add category", IconUri = uri };
                         addIcon.Click += ApplicationBarAddIcon_Click;
                         ApplicationBar.Buttons.Insert(0, addIcon);
                     }
+                    ((ApplicationBarIconButton)ApplicationBar.Buttons[0]).Text = "add category";
                     break;
                 case "Report":
                     StaticValues.AppStatus = StaticValues.AppStatusOptions.Report;

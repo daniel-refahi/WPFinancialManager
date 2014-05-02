@@ -20,7 +20,7 @@
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" Mode="Default" 
                               ForegroundColor="WhiteSmoke" 
                               BackgroundColor="#FF2E2E2E" >
-            <shell:ApplicationBarIconButton Text="Add"  IconUri="/Image/add.png"
+            <shell:ApplicationBarIconButton x:Name="__btAdd" Text="Add Expense"  IconUri="/Image/add.png"
                                             Click="ApplicationBarAddIcon_Click"/>
             <shell:ApplicationBarIconButton Text="Help" IconUri="/Image/help.png"
                                             Click="ApplicationBarHelpIcon_Click"/>
