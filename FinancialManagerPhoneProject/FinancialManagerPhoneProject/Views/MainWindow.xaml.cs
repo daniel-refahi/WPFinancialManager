@@ -56,7 +56,7 @@ namespace FinancialManagerPhoneProject.Views
                 if (StaticValues.DB.GetVersion() != StaticValues.CurrentVersion)
                 {
                     MessageBox.Show(StaticValues.NewFeatures);
-                    
+
                 }
 
                 if (_Caller == "categorydetail" || _Caller == "categorychart")
@@ -353,6 +353,11 @@ namespace FinancialManagerPhoneProject.Views
             emailComposeTask.To = "financialmanager.pro@outlook.com";
 
             emailComposeTask.Show();
+        }
+        private void ApplicationBarRateMe_Click(object sender, EventArgs e)
+        {
+            MarketplaceReviewTask marketplaceReviewTask = new MarketplaceReviewTask();
+            marketplaceReviewTask.Show();
         }
         private async void ApplicationBarAddIcon_Click(object sender, EventArgs e)
         {

@@ -8,8 +8,9 @@ namespace FinancialManagerPhoneProject.DataHandlers
 {
     public class StaticValues
     {
-        public static string CurrentVersion = "1.4";
-        public static string NewFeatures = "These are the new features:\n1. Cool ideas\n2. Fixing bugs";
+        public static string CurrentVersion = "2";
+        public static string NewFeatures = "New features:\n1. Your expenses are now monthly basis. \n2. You can change the month from \nsettings."+
+                                           "\n3. Some bugs have been fixed. \n4. New items in settings. \n5. \"feedback\" and \"rate me\" links. ";
 
         public static XMLHandler DB;
         public static AppStatusOptions AppStatus;

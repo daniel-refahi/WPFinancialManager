@@ -29,6 +29,8 @@
                                               Click="ApplicationBarMenuItem_Click"/>
                 <shell:ApplicationBarMenuItem Text="Feedback..." 
                                               Click="ApplicationBarFeedback_Click"/>
+                <shell:ApplicationBarMenuItem Text="Rate Me..." 
+                                              Click="ApplicationBarRateMe_Click"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

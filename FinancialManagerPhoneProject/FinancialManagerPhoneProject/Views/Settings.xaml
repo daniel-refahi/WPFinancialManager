@@ -222,7 +222,7 @@
                 Grid.RowSpan="11"
                 Background="Black"
                 Canvas.ZIndex="4"
-                Visibility="Visible"
+                Visibility="Collapsed"
                 Opacity="0.8">
             <TextBlock Text="Please don't close the app. You might lose your data if you close the app."
                        Foreground="White"

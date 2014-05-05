@@ -35,9 +35,9 @@ namespace FinancialManagerPhoneProject.DataHandlers
 
                               new XElement("StaticValues", new XAttribute("Income", "3600"),
                                                            new XAttribute("Currency", "$"),
-                                                           //new XAttribute("CurrentMonth", "4"),
-                                                           //new XAttribute("CurrentYear", "2014"),
-                                                           //new XAttribute("Version", "1.3"),
+                                                           new XAttribute("CurrentMonth", DateTime.Today.Month),
+                                                           new XAttribute("CurrentYear", DateTime.Today.Year),
+                                                           new XAttribute("Version", StaticValues.CurrentVersion),
                                                            new XAttribute("IsDefaultData", "1")),
                               new XElement("Expenses", new XElement("Expense", new XAttribute("ID", 1),
                                                                               new XAttribute("Category", "Mortgage"),
@@ -712,7 +712,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                 else
                 {
                     int expenseCount = FINANCIALMANAGER_XML.Root.Element("Expenses").Descendants().Count();
-                    if (expenseCount <= 1)
+                    if (expenseCount <= 8)
                         return true;
                     else
                         return false;
