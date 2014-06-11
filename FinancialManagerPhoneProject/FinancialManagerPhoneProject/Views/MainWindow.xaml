@@ -59,6 +59,7 @@
                      Background="Transparent" 
                      Margin="0,2,0,0"
                      SelectionChanged="__MainPivot_SelectionChanged">
+            
             <phone:PivotItem Header="Expenses" >
                 <Grid Name="__GrExpenses" 
                     HorizontalAlignment="Stretch" >
@@ -79,7 +80,7 @@
                                Margin="10,5,0,20"/>
 
                     <TextBlock Name="__tbIncome"
-                               Text="{Binding Income}"
+                               Text="{Binding TotalIncome}"
                                Grid.Row="0"
                                Grid.Column="0"
                                Style="{StaticResource PhoneTextSmallStyle}"
@@ -222,6 +223,60 @@
                 </Grid>
                 </ScrollViewer>
             </phone:PivotItem>
+
+            <phone:PivotItem Header="Incomes" >
+                <Grid Name="__GrIncomes" 
+                    HorizontalAlignment="Stretch" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Total: "
+                               Grid.Row="0"
+                               Grid.Column="0"  
+                               Foreground="{StaticResource FirstForeground}"
+                               Style="{StaticResource PhoneTextLargeStyle}"
+                               Margin="10,5,0,20"/>
+
+                    <TextBlock Name="__tbTotalIncome"
+                               Text="{Binding TotalIncome}"
+                               Grid.Row="0"
+                               Grid.Column="0"
+                               Style="{StaticResource PhoneTextSmallStyle}"
+                               Foreground="{StaticResource SecondForeground}"
+                               FontSize="30"
+                               Margin="130,8,0,20"/>
+
+                    <TextBlock Text="{Binding MonthYear}"
+                               Grid.Row="0"
+                               Grid.Column="0"  
+                               HorizontalAlignment="Right"
+                               Foreground="Maroon"
+                               Style="{StaticResource PhoneTextLargeStyle}"
+                               Margin="0,3,10,0"/>
+
+                    <ListBox Name="__liIncomesList" 
+                             animations:TiltEffect.IsTiltEnabled="True"
+                             Grid.Column="0"
+                             ItemsSource="{Binding IncomeListModel}"
+                             Margin="0,0,0,5"
+                             SelectionChanged="__liIncomeList_SelectionChanged"
+                             Grid.Row="1">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <UserControls:IncomeItem />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                </Grid>
+            </phone:PivotItem>
+
         </phone:Pivot>
     </Grid>
 </phone:PhoneApplicationPage>

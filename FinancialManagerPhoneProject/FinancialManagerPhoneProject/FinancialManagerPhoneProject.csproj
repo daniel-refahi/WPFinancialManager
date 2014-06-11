@@ -109,6 +109,8 @@
     <Compile Include="Models\CategoryChartModel.cs" />
     <Compile Include="Models\CategoryDetailViewModel.cs" />
     <Compile Include="Models\CategoryItemModel.cs" />
+    <Compile Include="Models\IncomeDetailViewModel.cs" />
+    <Compile Include="Models\IncomeItemModel.cs" />
     <Compile Include="Models\ExpenseDetailViewModel.cs" />
     <Compile Include="Models\ExpenseItemModel.cs" />
     <Compile Include="Models\MainPageModel.cs" />
@@ -151,6 +153,9 @@
     </Compile>
     <Compile Include="Views\UserControls\CategoryItem.xaml.cs">
       <DependentUpon>CategoryItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControls\IncomeItem.xaml.cs">
+      <DependentUpon>IncomeItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\ExpenseItem.xaml.cs">
       <DependentUpon>ExpenseItem.xaml</DependentUpon>
@@ -207,6 +212,10 @@
     <Page Include="Views\UserControls\CategoryItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControls\IncomeItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UserControls\ExpenseItem.xaml">
       <SubType>Designer</SubType>

@@ -92,6 +92,19 @@ namespace FinancialManagerPhoneProject.Views
             MainPageModel mainPageModel = new MainPageModel();
             string symbol = StaticValues.DB.GetCurrencySymbol();
 
+            // Getting all the incomes
+            foreach (Income income in StaticValues.DB.GetAllIncomes())
+            {
+                mainPageModel.IncomeListModel.Add(new IncomeItemModel()
+                {
+                    Value = symbol + " " + income.Value,
+                    ID = income.ID,
+                    Date = income.Date.ToString("dd/MMM"),
+                    Description = income.Description,
+                    ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40
+                });
+            }
+
             // Getting all the expenses
             foreach (Expense expense in StaticValues.DB.GetAllExpenses())
             {
@@ -153,10 +166,10 @@ namespace FinancialManagerPhoneProject.Views
                 topCategoriesCounter++;
             }
 
-            double income = StaticValues.DB.GetIncome();
+            double totalIncome = StaticValues.DB.GetIncome();
             double totalExpense = StaticValues.DB.GetTotalExpenses();
-            double balance = income - totalExpense;
-            mainPageModel.Income = symbol + " " + income.ToString("n0");
+            double balance = totalIncome - totalExpense;
+            mainPageModel.TotalIncome = symbol + " " + totalIncome.ToString("n0");
             mainPageModel.Balance = symbol + " " + balance.ToString("n2");
             mainPageModel.TotalExpenses = StaticValues.DB.GetCurrencySymbol() + " " + totalExpense.ToString("n2");
             mainPageModel.Saving = StaticValues.DB.GetCurrencySymbol() + " " + balance.ToString("n2");
