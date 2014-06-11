@@ -101,6 +101,7 @@
     <Compile Include="common.cs" />
     <Compile Include="DataHandlers\Category.cs" />
     <Compile Include="DataHandlers\Expense.cs" />
+    <Compile Include="DataHandlers\Income.cs" />
     <Compile Include="DataHandlers\StaticMethods.cs" />
     <Compile Include="DataHandlers\StaticValues.cs" />
     <Compile Include="DataHandlers\XMLHandler.cs" />

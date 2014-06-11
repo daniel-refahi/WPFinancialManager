@@ -392,7 +392,6 @@ namespace FinancialManagerPhoneProject.DataHandlers
             }
         }
 
-
         public string GetCurrencySymbol()
         {
             string currency;
@@ -406,10 +405,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                 return "₹";
             return currency;
         }
-        public double GetIncome()
-        {
-            return Convert.ToDouble(FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Income").Value);
-        }
+
         public int GetCurrentMonth()
         {
             try
@@ -751,6 +747,101 @@ namespace FinancialManagerPhoneProject.DataHandlers
             {
                 return false;
             }
+        }
+
+        #endregion
+
+        #region Income
+        public List<Income> GetAllIncomes()
+        {
+            List<Income> incomes = new List<Income>();
+
+            int currentMonth = GetCurrentMonth();
+            int currentYear = GetCurrentYear();
+
+            var incomesXml = from x in FINANCIALMANAGER_XML.Root.Element("Incomes").Elements()
+                             where Convert.ToDateTime(x.Attribute("Date").Value.ToString()).Month == currentMonth &&
+                                   Convert.ToDateTime(x.Attribute("Date").Value.ToString()).Year == currentYear
+                             select x;
+
+            foreach (var node in incomesXml)
+            {
+                DateTime date = Convert.ToDateTime(node.Attribute("Date").Value.ToString());
+
+                incomes.Add(new Income()
+                {
+                    ID = node.Attribute("ID").Value,
+                    Date = date,
+                    Description = node.Attribute("Description").Value,
+                    Value = Convert.ToDouble(node.Value.ToString()),                   
+                });
+            }
+            return incomes.OrderByDescending(e => e.Date).ToList();
+        }
+
+        public double GetIncome()
+        {
+            int currentMonth = GetCurrentMonth();
+            int currentYear = GetCurrentYear();
+
+            try
+            {
+                var incomesXml = from x in FINANCIALMANAGER_XML.Root.Element("Incomes").Elements()
+                                 where Convert.ToDateTime(x.Attribute("Date").Value.ToString()).Month == currentMonth &&
+                                       Convert.ToDateTime(x.Attribute("Date").Value.ToString()).Year == currentYear
+                                 select x;
+
+                if (incomesXml == null)
+                    return 0;
+
+                return (incomesXml).Sum(e => Convert.ToDouble(e.Value));
+            }
+            catch
+            {
+                // the income node doesn't exist
+
+                FINANCIALMANAGER_XML.Root.Add(new XElement("Incomes"));
+                SaveXmlToFileAsync();
+                return 0;                
+            }
+        }
+
+        public void AddIncome(Income income)
+        {
+            XElement newIncome = new XElement("Income",
+                                                new XAttribute("ID", StaticMethods.GenerateID()),
+                                                new XAttribute("Description", income.Description),
+                                                new XAttribute("Date", income.Date.ToString()),
+                                                income.Value);
+            FINANCIALMANAGER_XML.Root.Element("Incomes").Add(newIncome);
+            
+            UpdateTileValues();
+            SaveXmlToFileAsync();
+        }
+
+        public void DeleteIncome(string ID)
+        {
+            var incomeXML = (from x in FINANCIALMANAGER_XML.Root.Element("Incomes").Elements()
+                             where x.Attribute("ID").Value == ID
+                             select x).FirstOrDefault();
+            incomeXML.Remove();
+
+            UpdateTileValues();
+            SaveXmlToFileAsync();
+        }
+
+        public void UpdateIncome(Income income)
+        {
+            var xmlIncome = (from x in FINANCIALMANAGER_XML.Root.Element("Incomes").Elements()
+                             where x.Attribute("ID").Value == income.ID
+                             select x).FirstOrDefault();
+
+            xmlIncome.Attribute("Description").SetValue(income.Description);
+            xmlIncome.SetValue(income.Value);
+            xmlIncome.Attribute("Date").SetValue(income.Date.ToString());
+
+            UpdateTileValues();
+            SaveXmlToFileAsync();
         }
 
         #endregion
