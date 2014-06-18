@@ -276,3 +276,4 @@ C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneP
 C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Release\FinancialManagerPhoneProject.pdb
 C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Release\XapCacheFile.xml
 C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Release\Views\UserControls\IncomeItem.g.cs
+C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Release\Views\IncomeDetail.g.cs

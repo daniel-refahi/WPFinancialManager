@@ -8,9 +8,8 @@ namespace FinancialManagerPhoneProject.DataHandlers
 {
     public class StaticValues
     {
-        public static string CurrentVersion = "2";
-        public static string NewFeatures = "New features:\n1. Your expenses are now monthly basis. \n2. You can change the month from \nsettings."+
-                                           "\n3. Some bugs have been fixed. \n4. New items in settings. \n5. \"feedback\" and \"rate me\" links. ";
+        public static string CurrentVersion = "3";
+        public static string NewFeatures = "New features:\n1. Your incomes are now monthly basis.\n2. You can save your receipts in your image gallery\n3. Fixing bugs related to update live tile\n4. Fixing bug related to receipt image\n5. Adding Shillings to currency list.\n1. You can now delete Expenses, Incomes separately.";
 
         public static XMLHandler DB;
         public static AppStatusOptions AppStatus;
@@ -18,7 +17,8 @@ namespace FinancialManagerPhoneProject.DataHandlers
         {
             Expenses,
             Categories,
-            Report
+            Report,
+            Incomes
         };
 
     }

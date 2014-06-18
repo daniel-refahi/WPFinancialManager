@@ -18,13 +18,57 @@
         <SolidColorBrush x:Key="SecondForeground" Color="#FF838383"/>
     </phone:PhoneApplicationPage.Resources>
 
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" Mode="Default" 
+                              ForegroundColor="WhiteSmoke" 
+                              BackgroundColor="#FF2E2E2E" >
+            <shell:ApplicationBarIconButton x:Name="__btSate" Text="save to gallery"  IconUri="/Image/save.png"
+                                            Click="__btSave_Click"/>                       
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
     <Grid x:Name="LayoutRoot" >
-        <Grid.Background>
+
+        <Image HorizontalAlignment="Stretch" 
+               VerticalAlignment="Stretch" Margin="0" Name="image" Stretch="Fill"/>
+        
+        <Grid Name="__LoadingLayer"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Margin="0"
+                Background="Black"
+                Canvas.ZIndex="4"
+                Visibility="Collapsed"
+                Opacity="0.8">
+            <TextBlock Text="The reciept is being saved in your image gallery"
+                       Foreground="White"
+                       TextWrapping="Wrap"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       FontSize="20"
+                       Width="340"
+                       Margin="50,0,50,130"/>
+            <TextBlock Text="Loading"
+                       Foreground="White"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       FontSize="30"
+                       Margin="50,0,0,30"/>
+            <ProgressBar  IsIndeterminate="True"
+                          Width="200"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Margin="90,0,0,10"
+                          Foreground="White"/>
+        </Grid>
+        
+             
+        <!--<Grid.Background>
             <ImageBrush ImageSource="../Assets/Patterns/White.jpg"/>
         </Grid.Background>                
 
         <Grid x:Name="ContentPanel"
-              Margin="10,50,10,50">
+              Margin="10,50,10,0">
             <ViewportControl x:Name="viewport"  
                 ManipulationStarted="OnManipulationStarted" ManipulationDelta="OnManipulationDelta"  
                              ManipulationCompleted="OnManipulationCompleted" ViewportChanged="viewport_ViewportChanged">
@@ -37,7 +81,7 @@
                     </Image>
                 </Canvas>
             </ViewportControl>
-        </Grid>
+        </Grid>-->
     </Grid>
 
 </phone:PhoneApplicationPage>

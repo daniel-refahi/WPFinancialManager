@@ -205,11 +205,11 @@
             <RowDefinition Height="3*"/>
             <RowDefinition Height="12*"/>
             <RowDefinition Height="8*"/>
-            <RowDefinition Height="9*"/>
             <RowDefinition Height="6*"/>
             <RowDefinition Height="9*"/>
             <RowDefinition Height="12*"/>
             <RowDefinition Height="11*"/>
+            <RowDefinition Height="10*"/>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="10*"/>
@@ -282,28 +282,9 @@
                 <toolkit:ListPickerItem Content="&#x20b9;&#160;&#160;&#160;Rupee" Canvas.ZIndex="3" Background="White"/>
                 <toolkit:ListPickerItem Content="RM&#160;&#160;Ringgit" Canvas.ZIndex="3" Background="White"/>
                 <toolkit:ListPickerItem Content="£&#160;&#160;&#160;Pound" Canvas.ZIndex="3" Background="White"/>
+                <toolkit:ListPickerItem Content="UGX&#160;&#160;Shillings" Canvas.ZIndex="3" Background="White"/>
             </toolkit:ListPicker.Items>
-        </toolkit:ListPicker>
-
-        <TextBlock Text="Income:" 
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Center"
-                   Margin="20,0,0,0" 
-                   Grid.Column="0"
-                   Grid.Row="3" 
-                   Grid.ColumnSpan="2"
-                   Foreground="{StaticResource FirstForeground}"
-                   Style="{StaticResource PhoneTextNormalStyle}"/>
-        <TextBox Name="__txIncome"
-                 HorizontalAlignment="Stretch"
-                 VerticalAlignment="Bottom"
-                 Foreground="{StaticResource FirstForeground}"
-                 AcceptsReturn="False"
-                 InputScope="Number"
-                 Margin="100,0,20,0" 
-                 Grid.Column="0"
-                 Grid.ColumnSpan="2"
-                 Grid.Row="3"/>
+        </toolkit:ListPicker> 
 
         <TextBlock Text="Show Expenses for:" 
                    HorizontalAlignment="Left"
@@ -311,7 +292,7 @@
                    Margin="20,17,0,0" 
                    Grid.Column="0"
                    Grid.ColumnSpan="2"
-                   Grid.Row="4" 
+                   Grid.Row="3" 
                    Foreground="{StaticResource FirstForeground}"
                    Style="{StaticResource PhoneTextNormalStyle}"/>
         
@@ -319,7 +300,7 @@
                 VerticalAlignment="Top"
                 Margin="20,0,5,0" 
                 Grid.Column="0"
-                Grid.Row="5"
+                Grid.Row="4"
                 MaxHeight="320"
                 Canvas.ZIndex="2"
                 Grid.RowSpan="3">
@@ -335,7 +316,7 @@
                 VerticalAlignment="Top"
                 Margin="5,0,20,0"
                 Grid.Column="1"
-                Grid.Row="5"
+                Grid.Row="4"
                 MaxHeight="250"
                 Canvas.ZIndex="2"
                 Grid.RowSpan="3">
@@ -352,7 +333,7 @@
             	VerticalAlignment="Top"
             	Margin="10,15,5,0" 
             	Grid.Column="0"
-                Grid.Row="6" 
+                Grid.Row="5" 
                 Grid.ColumnSpan="2"
             	BorderBrush="#FF2C2C2C" 
             	Foreground="#FF303030" 
@@ -363,7 +344,7 @@
                    HorizontalAlignment="Stretch"
             	Margin="20,30,20,0" 
             	Grid.Column="0"
-                Grid.Row="7"                    
+                Grid.Row="6"                    
                 Grid.ColumnSpan="2"
                 Height="3"
                 Fill="Black"/>
@@ -371,21 +352,32 @@
                    HorizontalAlignment="Stretch"
             	Margin="20,35,20,0" 
             	Grid.Column="0"
-                Grid.Row="7"                    
+                Grid.Row="6"                    
                 Grid.ColumnSpan="2"
                 Height="3"
                 Fill="Black"/>
-                               
+        
         <Button Name="__btCreateTile"
                 VerticalAlignment="Top"
                 Margin="10,0" 
                 Grid.Column="0"
-                Grid.Row="8" 
+                Grid.Row="7" 
                 Grid.ColumnSpan="2"
                 BorderBrush="#FF2C2C2C" 
                 Foreground="#FF303030" 
                 Content="Create Live Tile"                
                 Click="__btCreateTile_Click"/>
+
+        <Button Name="__btDeleteAllIncome"
+                VerticalAlignment="Top"
+                Margin="10,0" 
+                Grid.Column="0"
+                Grid.Row="8" 
+                Grid.ColumnSpan="2"
+            	BorderBrush="#FF2C2C2C" 
+            	Foreground="#FF303030" 
+            	Content="Delete All Income Records"
+                Click="__btDeleteAllIncome_Click"/>
 
         <Button Name="__btDeleteAllExpenses"
                 VerticalAlignment="Top"

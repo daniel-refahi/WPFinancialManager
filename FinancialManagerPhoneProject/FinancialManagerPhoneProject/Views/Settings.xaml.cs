@@ -34,6 +34,7 @@ namespace FinancialManagerPhoneProject.Views
                 __btYearPicker.Items.Add(item);    
             }
             __btYearPicker.SelectedItem = yearItems.Where(i => ((ListPickerItem)i).Content.ToString() == currentYear).FirstOrDefault();
+            __liSymbols.SetValue(Microsoft.Phone.Controls.ListPicker.ItemCountThresholdProperty, 50);
 
             __btMonthPicker.SetValue(Microsoft.Phone.Controls.ListPicker.ItemCountThresholdProperty, 50);
             List<ListPickerItem> monthItems = new List<ListPickerItem>();
@@ -113,7 +114,7 @@ namespace FinancialManagerPhoneProject.Views
 
             ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("DefaultTitle=FinancialManagerFromTile"));
             __btCreateTile.Content = (TileToFind == null) ? "Create Live Tile" : "Remove Live Tile";
-            __txIncome.Text = StaticValues.DB.GetIncome().ToString("n0");
+            //__txIncome.Text = StaticValues.DB.GetIncome().ToString("n0");
         }
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
@@ -123,73 +124,63 @@ namespace FinancialManagerPhoneProject.Views
 
         private void __btSave_Click(object sender, RoutedEventArgs e)
         {
-            int income = 0;
-            bool isNum = int.TryParse(__txIncome.Text.ToString().Replace(",",""), out income);
-            if (!isNum || income <= 0)
+            string newSymbol = string.Empty;
+            switch (__liSymbols.SelectedIndex)
             {
-                MessageBox.Show("Please Enter a Valid Income!");
+                case 0:
+                    newSymbol = "$";
+                    break;
+                case 1:
+                    newSymbol = "€";
+                    break;
+                case 2:
+                    newSymbol = "&#x20b9;";
+                    break;
+                case 3:
+                    newSymbol = "RM";
+                    break;
+                case 4:
+                    newSymbol = "£";
+                    break;
+                case 5:
+                    newSymbol = "UGX";
+                    break;
             }
-            else
+
+            __LoadingLayer.Visibility = System.Windows.Visibility.Visible;
+            string month = StaticMethods.GetMonthNumber(((ListPickerItem)__btMonthPicker.SelectedItem).Content.ToString());
+            string year = ((ListPickerItem)__btYearPicker.SelectedItem).Content.ToString();
+
+            Task t_LoadPageModel = Task.Factory.StartNew(() =>
             {
+                StaticValues.DB.UpdateSettings(newSymbol, month, year);
+            });
 
-                
+            Task UpdateUI = t_LoadPageModel.ContinueWith((t) =>
+            {
+                __LoadingLayer.Visibility = System.Windows.Visibility.Collapsed;
+            }, TaskScheduler.FromCurrentSynchronizationContext());
 
 
-                string newSymbol = string.Empty;
-                switch(__liSymbols.SelectedIndex)
-                {
-                    case 0:
-                        newSymbol = "$";
-                        break;
-                    case 1:
-                        newSymbol = "€";
-                        break;
-                    case 2:
-                        newSymbol = "&#x20b9;";
-                        break;
-                    case 3:
-                        newSymbol = "RM";
-                        break;
-                    case 4:
-                        newSymbol = "£";
-                        break;
-                }
+            ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("DefaultTitle=FinancialManagerFromTile"));
 
-                __LoadingLayer.Visibility = System.Windows.Visibility.Visible;
-                string month = StaticMethods.GetMonthNumber(((ListPickerItem)__btMonthPicker.SelectedItem).Content.ToString());
-                string year = ((ListPickerItem)__btYearPicker.SelectedItem).Content.ToString();
+            double expenses = StaticValues.DB.GetTotalExpenses();
+            double remaining = StaticValues.DB.GetIncome() - expenses;
+            string symbol = StaticValues.DB.GetCurrencySymbol();
 
-                Task t_LoadPageModel = Task.Factory.StartNew(() =>
-                {
-                    StaticValues.DB.UpdateSettings(income.ToString(), newSymbol,month,year);
-                });
+            StandardTileData NewTileData = new StandardTileData
+            {
+                BackgroundImage = new Uri("Assets/150_150_Logo.png", UriKind.Relative),
+                Title = "Financial Manager",
+                BackContent = "Expenses:\n" + expenses.ToString("n0") + " " + symbol + "\nRemaining:\n" +
+                              remaining.ToString("n0") + " " + symbol,
+                BackBackgroundImage = new Uri("Black.jpg", UriKind.Relative)
+            };
 
-                Task UpdateUI = t_LoadPageModel.ContinueWith((t) =>
-                {
-                    __LoadingLayer.Visibility = System.Windows.Visibility.Collapsed;
-                }, TaskScheduler.FromCurrentSynchronizationContext());
-                
+            if (TileToFind != null)
+                TileToFind.Update(NewTileData);
 
-                ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("DefaultTitle=FinancialManagerFromTile"));
-
-                double expenses = StaticValues.DB.GetTotalExpenses();
-                double remaining = StaticValues.DB.GetIncome() - expenses;
-                string symbol = StaticValues.DB.GetCurrencySymbol();
-
-                StandardTileData NewTileData = new StandardTileData
-                {
-                    BackgroundImage = new Uri("Assets/150_150_Logo.png", UriKind.Relative),
-                    Title = "Financial Manager",
-                    BackContent = "Expenses:\n" + expenses.ToString("n0") + " " + symbol + "\nRemaining:\n" +
-                                  remaining.ToString("n0") + " " + symbol,
-                    BackBackgroundImage = new Uri("Black.jpg", UriKind.Relative)
-                };
-
-                if (TileToFind != null)
-                    TileToFind.Update(NewTileData);
-
-                MessageBox.Show("Setting has been saved.");
-            }
+            MessageBox.Show("Setting has been saved.");
         }
 
         private void __btCreateTile_Click(object sender, RoutedEventArgs e)
@@ -241,6 +232,19 @@ namespace FinancialManagerPhoneProject.Views
                 
             }
             
+        }
+
+        private void __btDeleteAllIncome_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("I know that you've hit Delete All Income records, but are you really sure?\n\n" +
+                "Your categories and expenses will be intact and I'll just delete your income records.",
+                                                            "Delete All Income Records!", MessageBoxButton.OKCancel);
+
+            if (result == MessageBoxResult.OK)
+            {
+                StaticValues.DB.DeleteAllIncomes();
+                NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=settings", UriKind.Relative));
+            }
         }
 
         private void __btDeleteAllExpenses_Click(object sender, RoutedEventArgs e)

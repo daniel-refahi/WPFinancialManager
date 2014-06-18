@@ -56,7 +56,6 @@ namespace FinancialManagerPhoneProject.Views
                 if (StaticValues.DB.GetVersion() != StaticValues.CurrentVersion)
                 {
                     MessageBox.Show(StaticValues.NewFeatures);
-
                 }
 
                 if (_Caller == "categorydetail" || _Caller == "categorychart")
@@ -66,6 +65,10 @@ namespace FinancialManagerPhoneProject.Views
                 if (_Caller == "report")
                 {
                     __MainPivot.SelectedIndex = 2;
+                }
+                if (_Caller == "incomedetail")
+                {
+                    __MainPivot.SelectedIndex = 3;
                 }
                 else if (_Caller == "help")
                 {
@@ -82,6 +85,9 @@ namespace FinancialManagerPhoneProject.Views
                         case "report":
                             __MainPivot.SelectedIndex = 2;
                             break;
+                        case "income":
+                            __MainPivot.SelectedIndex = 3;
+                            break;
                     }
                 }
             }, TaskScheduler.FromCurrentSynchronizationContext());
@@ -90,20 +96,7 @@ namespace FinancialManagerPhoneProject.Views
         private MainPageModel LoadPageModel()
         {
             MainPageModel mainPageModel = new MainPageModel();
-            string symbol = StaticValues.DB.GetCurrencySymbol();
-
-            // Getting all the incomes
-            foreach (Income income in StaticValues.DB.GetAllIncomes())
-            {
-                mainPageModel.IncomeListModel.Add(new IncomeItemModel()
-                {
-                    Value = symbol + " " + income.Value,
-                    ID = income.ID,
-                    Date = income.Date.ToString("dd/MMM"),
-                    Description = income.Description,
-                    ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40
-                });
-            }
+            string symbol = StaticValues.DB.GetCurrencySymbol();            
 
             // Getting all the expenses
             foreach (Expense expense in StaticValues.DB.GetAllExpenses())
@@ -120,7 +113,7 @@ namespace FinancialManagerPhoneProject.Views
                     ImageSource = "../../Assets/Icons/" + expense.Icon + ".png",
                     ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40
                 });
-            }
+            }            
 
             // Getting all the categories
             foreach (Category category in StaticValues.DB.GetAllCategories())
@@ -175,13 +168,40 @@ namespace FinancialManagerPhoneProject.Views
             mainPageModel.Saving = StaticValues.DB.GetCurrencySymbol() + " " + balance.ToString("n2");
             mainPageModel.MonthYear = StaticMethods.GetMonthSymbol(StaticValues.DB.GetCurrentMonth()) + "/" + StaticValues.DB.GetCurrentYear();
 
+            // Getting all the incomes
+            foreach (Income income in StaticValues.DB.GetAllIncomes())
+            {
+                mainPageModel.IncomeListModel.Add(new IncomeItemModel()
+                {
+                    Value = symbol + " " + income.Value,
+                    ID = income.ID,
+                    Date = income.Date.ToString("dd/MMM"),
+                    Description = income.Description,
+                    ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40
+                });
+            }
+
             return mainPageModel;
         }
 
+        #region Page Events
         void __MainPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             switch (((PivotItem)e.AddedItems[0]).Header.ToString())
             {
+                case "Incomes":
+                    StaticValues.AppStatus = StaticValues.AppStatusOptions.Incomes;
+
+                    
+                    if (ApplicationBar.Buttons.Count == 1)
+                    {
+                        Uri uri = new Uri("//Image/add.png", UriKind.Relative);
+                        ApplicationBarIconButton addIcon = new ApplicationBarIconButton() { Text = "add income", IconUri = uri };
+                        addIcon.Click += ApplicationBarAddIcon_Click;
+                        ApplicationBar.Buttons.Insert(0, addIcon);
+                    }
+                    ((ApplicationBarIconButton)ApplicationBar.Buttons[0]).Text = "add income";
+                    break;
                 case "Expenses":
                     StaticValues.AppStatus = StaticValues.AppStatusOptions.Expenses;
 
@@ -294,7 +314,6 @@ namespace FinancialManagerPhoneProject.Views
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
-            
             base.OnBackKeyPress(e);            
         }
         
@@ -302,34 +321,9 @@ namespace FinancialManagerPhoneProject.Views
         {
             
         }
-        
-        private async Task<bool> IsUserValid()
-        {
-            if (StaticValues.DB.IsValidToSave())
-            {
-                // continue
-                return true;
-            }
-            else
-            {
-                // load buy from store
-                MessageBoxResult result = MessageBox.Show("With your free account, you can only add 10 expense records. \n\nDo you want to get the full access?",
-                                                           "Buy Full Access", MessageBoxButton.OKCancel);
+        #endregion
 
-                if (result == MessageBoxResult.OK)
-                {
-                    if (await StaticValues.DB.BuyUltimateUser())
-                    {
-                        return true;
-                    }
-                    else
-                        return false;
-                }
-                else
-                    return false;
-            }
-        }
-        
+        #region List selection events
         private void __liExpensesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if(((ListBox)sender).SelectedItem != null)
@@ -348,11 +342,17 @@ namespace FinancialManagerPhoneProject.Views
                                                                         UriKind.Relative));
         }
 
-        private void __btReportDetail_Click(object sender, RoutedEventArgs e)
+        private void __liIncomeList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/Views/ReportDetail.xaml?",UriKind.Relative));
+            if (((ListBox)sender).SelectedItem != null)
+                NavigationService.Navigate(
+                    new Uri("/Views/IncomeDetail.xaml?status=update&caller=mainwindow&ID=" +
+                                ((IncomeItemModel)((ListBox)sender).SelectedItem).ID,
+                                                                        UriKind.Relative));
         }
-        
+        #endregion       
+
+        #region Application bar
         private void ApplicationBarMenuItem_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/Views/Settings.xaml?", UriKind.Relative));
@@ -379,6 +379,11 @@ namespace FinancialManagerPhoneProject.Views
                 if (await IsUserValid())
                     NavigationService.Navigate(new Uri("/Views/ExpenseDetail.xaml?status=add&caller=mainwindow", UriKind.Relative));
             }
+            else if (StaticValues.AppStatus == StaticValues.AppStatusOptions.Incomes)
+            {
+                if (await IsUserValid())
+                    NavigationService.Navigate(new Uri("/Views/IncomeDetail.xaml?status=add&caller=mainwindow", UriKind.Relative));
+            }
             else if (StaticValues.AppStatus == StaticValues.AppStatusOptions.Categories)
             {
                 NavigationService.Navigate(new Uri("/Views/CategoryDetail.xaml?status=add&caller=mainwindow", UriKind.Relative));
@@ -388,6 +393,9 @@ namespace FinancialManagerPhoneProject.Views
         {
             switch (StaticValues.AppStatus)
             {
+                case StaticValues.AppStatusOptions.Incomes:
+                    NavigationService.Navigate(new Uri("/Views/help.xaml?caller=mainwindow&object=income", UriKind.Relative));
+                    break;
                 case StaticValues.AppStatusOptions.Expenses:
                     NavigationService.Navigate(new Uri("/Views/help.xaml?caller=mainwindow&object=expense", UriKind.Relative));
                     break;
@@ -397,6 +405,39 @@ namespace FinancialManagerPhoneProject.Views
                 case StaticValues.AppStatusOptions.Report:
                     NavigationService.Navigate(new Uri("/Views/help.xaml?caller=mainwindow&object=report", UriKind.Relative));
                     break;
+            }
+        }
+        #endregion
+
+        private void __btReportDetail_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/Views/ReportDetail.xaml?", UriKind.Relative));
+        }
+
+        private async Task<bool> IsUserValid()
+        {
+            if (StaticValues.DB.IsValidToSave())
+            {
+                // continue
+                return true;
+            }
+            else
+            {
+                // load buy from store
+                MessageBoxResult result = MessageBox.Show("With your free account, you can only add 10 expense records. \n\nDo you want to get the full access?",
+                                                           "Buy Full Access", MessageBoxButton.OKCancel);
+
+                if (result == MessageBoxResult.OK)
+                {
+                    if (await StaticValues.DB.BuyUltimateUser())
+                    {
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+                else
+                    return false;
             }
         }
     }

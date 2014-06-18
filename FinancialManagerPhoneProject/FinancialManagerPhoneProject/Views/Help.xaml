@@ -43,12 +43,37 @@
                       VerticalAlignment="Stretch">
             <StackPanel >
 
-                <StackPanel Name="__MainExpense"
+                <StackPanel Name="__MainIncome"
                         Visibility="Collapsed"
                         Margin="25,30,25,0">
                     <RichTextBox  Style="{StaticResource TextBlockStyle}">
                         <Paragraph>
-                            You can see all the expenses you have made in this page.
+                            You have a different income list for each month.
+                        </Paragraph>
+                    </RichTextBox>
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            As you earn more money each month you can add it here.
+                        </Paragraph>
+                    </RichTextBox>                   
+                </StackPanel>
+
+            <StackPanel Name="__DetailIncome"
+                        Visibility="Collapsed"
+                        Margin="25,30,25,0">
+                <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                    <Paragraph>
+                        You can create a new income record or update an existing one. 
+                    </Paragraph>
+                </RichTextBox>               
+            </StackPanel>
+
+            <StackPanel Name="__MainExpense"
+                        Visibility="Collapsed"
+                        Margin="25,30,25,0">
+                    <RichTextBox  Style="{StaticResource TextBlockStyle}">
+                        <Paragraph>
+                            You have a different expense list for each month.
                         </Paragraph>
                     </RichTextBox>
                     <RichTextBox  Style="{StaticResource TextBlockStyle}">
@@ -76,7 +101,6 @@
                         </Paragraph>
                     </RichTextBox>
                 </StackPanel>
-
 
                 <StackPanel Name="__MainCategory"
                         Visibility="Collapsed"

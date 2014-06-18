@@ -555,3 +555,5 @@ C:\Users\abtin\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\
 C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MockIAPLib.dll
 C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MockIAPLib.pdb
 C:\Users\abtin\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MockIAPLib.pdb
+C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Debug\Views\UserControls\IncomeItem.g.cs
+C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\obj\Debug\Views\IncomeDetail.g.cs

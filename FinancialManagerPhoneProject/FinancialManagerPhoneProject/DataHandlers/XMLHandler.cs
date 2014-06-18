@@ -39,6 +39,18 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                                            new XAttribute("CurrentYear", DateTime.Today.Year),
                                                            new XAttribute("Version", StaticValues.CurrentVersion),
                                                            new XAttribute("IsDefaultData", "1")),
+                              new XElement("Incomes", new XElement("Income", new XAttribute("ID", 1),
+                                                                           new XAttribute("Description", "Monthly Income"),
+                                                                           new XAttribute("Date", StaticMethods.DefaultRandomDate()),
+                                                                           3500),
+                                                    new XElement("Income", new XAttribute("ID", 22),
+                                                                           new XAttribute("Description", "Painting Project"),
+                                                                           new XAttribute("Date", StaticMethods.DefaultRandomDate()),
+                                                                           850),
+                                                    new XElement("Income", new XAttribute("ID", 23),
+                                                                           new XAttribute("Description", "Garage Sale"),
+                                                                           new XAttribute("Date", StaticMethods.DefaultRandomDate()),
+                                                                           120)),
                               new XElement("Expenses", new XElement("Expense", new XAttribute("ID", 1),
                                                                               new XAttribute("Category", "Mortgage"),
                                                                               new XAttribute("RecieptName", ""),
@@ -439,10 +451,9 @@ namespace FinancialManagerPhoneProject.DataHandlers
             return temp == "1" ? true : false;
         }
 
-        public void UpdateSettings(string income, string symbol, string month, string year) 
+        public void UpdateSettings(string symbol, string month, string year) 
         {
             FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Currency").SetValue(symbol);
-            FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Income").SetValue(income);
             FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("CurrentMonth").SetValue(month);
             FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("CurrentYear").SetValue(year);
 
@@ -623,14 +634,22 @@ namespace FinancialManagerPhoneProject.DataHandlers
                 node.Attribute("TotalExpenses").SetValue("0");
             }
             DeleteAllStorage();
+            UpdateTileValues();
+        }
+        public void DeleteAllIncomes()
+        {
+            FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("IsDefaultData").SetValue("0");
+            FINANCIALMANAGER_XML.Root.Element("Incomes").DescendantNodes().Remove();
+            UpdateTileValues();
+            SaveXmlToFileAsync();
         }
         public void DeleteAll()
         {
             FINANCIALMANAGER_XML.Root.Element("Expenses").DescendantNodes().Remove();
+            FINANCIALMANAGER_XML.Root.Element("Incomes").DescendantNodes().Remove();
             FINANCIALMANAGER_XML.Root.Element("Categories").DescendantNodes().Remove();
             FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("IsDefaultData").SetValue("0");
             FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Currency").SetValue("$");
-            FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Income").SetValue("3000");
             FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("CurrentMonth").SetValue(DateTime.Today.Month.ToString());
             FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("CurrentYear").SetValue(DateTime.Today.Year.ToString());            
 
@@ -661,6 +680,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                                                                          ));
 
             DeleteAllStorage();
+            UpdateTileValues();
         }
         public void DeleteAllStorage()
         {
@@ -669,6 +689,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                 await DeleteReceiptsFolderAsync();
                 SaveXmlToFileAsync();
             });
+            UpdateTileValues();
         }
 
         #region Store Manager
@@ -804,6 +825,20 @@ namespace FinancialManagerPhoneProject.DataHandlers
                 SaveXmlToFileAsync();
                 return 0;                
             }
+        }
+
+        public Income GetIncome(string ID)
+        {
+            var xmlIncome = (from x in FINANCIALMANAGER_XML.Root.Element("Incomes").Elements()
+                             where x.Attribute("ID").Value == ID
+                             select x).FirstOrDefault();
+            return new Income()
+            {
+                Date = Convert.ToDateTime(xmlIncome.Attribute("Date").Value.ToString()),
+                Description = xmlIncome.Attribute("Description").Value,
+                ID = ID,
+                Value = Convert.ToDouble(xmlIncome.Value.ToString())
+            };
         }
 
         public void AddIncome(Income income)

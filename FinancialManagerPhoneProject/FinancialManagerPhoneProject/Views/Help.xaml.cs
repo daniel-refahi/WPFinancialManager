@@ -40,6 +40,9 @@ namespace FinancialManagerPhoneProject.Views
                 case "reportdetail":
                     NavigationService.Navigate(new Uri("/Views/ReportDetail.xaml?caller=help", UriKind.Relative));
                     break;
+                case "incomedetail":
+                    NavigationService.Navigate(new Uri("/Views/IncomeDetail.xaml?caller=help", UriKind.Relative));
+                    break;
             }
         }
 
@@ -60,7 +63,11 @@ namespace FinancialManagerPhoneProject.Views
             {
                 case "mainwindow":
                     switch (_Object)
-                    { 
+                    {
+                        case "income":
+                            __title.Text = "Income List Help";
+                            __MainIncome.Visibility = System.Windows.Visibility.Visible;
+                            break;
                         case "expense":
                             __title.Text = "Expenses List Help";
                             __MainExpense.Visibility = System.Windows.Visibility.Visible;
@@ -86,6 +93,19 @@ namespace FinancialManagerPhoneProject.Views
                     {
                         __title.Text = "Edit Expense Help";
                         __AddExpense.Visibility = System.Windows.Visibility.Visible;
+                    }
+                    break;
+                case "incomedetail":
+                    __title.Text = "Income Detail Help";
+                    if (_status == "add")
+                    {
+                        __title.Text = "Add Income Help";
+                        __DetailIncome.Visibility = System.Windows.Visibility.Visible;
+                    }
+                    else
+                    {
+                        __title.Text = "Edit Income Help";
+                        __DetailIncome.Visibility = System.Windows.Visibility.Visible;
                     }
                     break;
                 case "categorydetail":

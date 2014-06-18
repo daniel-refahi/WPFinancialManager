@@ -94,7 +94,8 @@
                                HorizontalAlignment="Right"
                                Foreground="Maroon"
                                Style="{StaticResource PhoneTextLargeStyle}"
-                               Margin="0,3,10,0"/>
+                               Margin="0,3,10,0"
+                               MouseLeftButtonUp="ApplicationBarMenuItem_Click"/>
 
                     <ListBox Name="__liExpensesList" 
                              animations:TiltEffect.IsTiltEnabled="True"
@@ -175,7 +176,7 @@
                                Foreground="{StaticResource FirstForeground}"
                                Style="{StaticResource PhoneTextLargeStyle}"/>
 
-                    <TextBlock Text="{Binding Income}"
+                        <TextBlock Text="{Binding TotalIncome}"
                                Grid.Row="3"
                                Grid.Column="1"
                                Style="{StaticResource PhoneTextSmallStyle}"
@@ -250,7 +251,7 @@
                                Style="{StaticResource PhoneTextSmallStyle}"
                                Foreground="{StaticResource SecondForeground}"
                                FontSize="30"
-                               Margin="130,8,0,20"/>
+                               Margin="100,8,0,20"/>
 
                     <TextBlock Text="{Binding MonthYear}"
                                Grid.Row="0"
@@ -258,7 +259,9 @@
                                HorizontalAlignment="Right"
                                Foreground="Maroon"
                                Style="{StaticResource PhoneTextLargeStyle}"
-                               Margin="0,3,10,0"/>
+                               Margin="0,3,10,0" 
+                               MouseLeftButtonUp="ApplicationBarMenuItem_Click"
+                               />
 
                     <ListBox Name="__liIncomesList" 
                              animations:TiltEffect.IsTiltEnabled="True"
