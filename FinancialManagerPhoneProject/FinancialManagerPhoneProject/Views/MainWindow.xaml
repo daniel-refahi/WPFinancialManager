@@ -46,6 +46,47 @@
             <ImageBrush ImageSource="../Assets/Patterns/White.jpg"/>
         </Grid.Background>
 
+        <Canvas Name="__PasswordLayer"
+                Grid.Column="0"
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+                Grid.RowSpan="11"
+                Background="#151515"
+                Canvas.ZIndex="4"
+                Visibility="Collapsed"
+                Opacity="1">
+            <Grid Name="__grPassword"
+                  Canvas.Left="0"
+                  Background="#151515"  
+                  Height="1000"
+                  Width="680"
+                  Canvas.Top="0">
+                <TextBlock Text="Please Enter your Password:"
+                       Foreground="White"
+                       TextWrapping="Wrap"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       FontSize="25"
+                       Width="340"
+                       Margin="50,100,50,130"/>
+                <PasswordBox Name="__tbPassword"
+                         Width="350"
+                         Height="80"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Margin="40,130,50,130"/>
+                <Button Name="__btPasswordEnter"
+                        Width="200"
+                        Height="80"
+                        Content="Enter"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Margin="40,200,50,130"
+                        Click="PasswordEnter_Click"/>
+            </Grid>
+        </Canvas>
+        
+
         <ProgressBar Name="__LoadingBar" 
                      IsEnabled="True"
                      Opacity="0"

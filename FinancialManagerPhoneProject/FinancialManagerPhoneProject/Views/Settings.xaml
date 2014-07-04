@@ -207,13 +207,70 @@
             <RowDefinition Height="8*"/>
             <RowDefinition Height="6*"/>
             <RowDefinition Height="9*"/>
-            <RowDefinition Height="12*"/>
-            <RowDefinition Height="11*"/>
             <RowDefinition Height="10*"/>
-            <RowDefinition Height="10*"/>
-            <RowDefinition Height="10*"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="8*"/>
         </Grid.RowDefinitions>
+
+        <Canvas Name="__PasswordLayer"
+                Grid.Column="0"
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+                Grid.RowSpan="11"
+                Background="#151515"
+                Canvas.ZIndex="4"
+                Visibility="Collapsed"
+                Opacity="1">
+            <Grid Name="__grPassword"
+                  Canvas.Left="0"
+                  Background="#151515"  
+                  Height="1000"
+                  Width="680"
+                  Canvas.Top="0">
+                <TextBlock Text="Please Enter your Password:"
+                       Foreground="White"
+                       TextWrapping="Wrap"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       FontSize="25"
+                       Width="340"
+                       Margin="50,100,50,130"/>
+                <TextBox Name="__tbPassword"
+                         Width="400"
+                         Height="80"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top"
+                         Margin="40,130,50,130"/>
+                <Button Name="__btPasswordEnter"
+                        Width="200"
+                        Height="80"
+                        Content="Save"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Margin="40,200,50,130"
+                        Click="__btPasswordEnter_Click"/>
+                <Button Name="__btCancel"
+                        Width="200"
+                        Height="80"
+                        Content="Cancel"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Margin="240,200,50,130"
+                        Click="__btCancel_Click"/>
+                <TextBlock Text="If you lose your password, you lose ALL YOUR DATA !"
+                       Foreground="White"
+                       TextWrapping="Wrap"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       FontSize="20"
+                       Width="320"
+                       Margin="50,300,50,130"/>
+            </Grid>
+        </Canvas>
 
         <Grid Name="__LoadingLayer"
                 Grid.Column="0"
@@ -331,7 +388,7 @@
 
         <Button x:Name="___btSave"
             	VerticalAlignment="Top"
-            	Margin="10,15,5,0" 
+            	Margin="10,05,5,0" 
             	Grid.Column="0"
                 Grid.Row="5" 
                 Grid.ColumnSpan="2"
@@ -342,7 +399,7 @@
 
         <Rectangle VerticalAlignment="Top"
                    HorizontalAlignment="Stretch"
-            	Margin="20,30,20,0" 
+            	Margin="20,10,20,0" 
             	Grid.Column="0"
                 Grid.Row="6"                    
                 Grid.ColumnSpan="2"
@@ -350,18 +407,37 @@
                 Fill="Black"/>
         <Rectangle VerticalAlignment="Top"
                    HorizontalAlignment="Stretch"
-            	Margin="20,35,20,0" 
+            	Margin="20,15,20,0" 
             	Grid.Column="0"
                 Grid.Row="6"                    
                 Grid.ColumnSpan="2"
                 Height="3"
                 Fill="Black"/>
-        
+
+        <Button Name="__btCreatePassword"
+                VerticalAlignment="Top"
+                Margin="10,0,-7,0" 
+                Grid.Column="0"
+                Grid.Row="7" 
+                BorderBrush="#FF2C2C2C" 
+                Foreground="#FF303030" 
+                Content="Set Password"                
+                Click="__btCreatePassword_Click"/>
+        <Button Name="__btRemovePassword"
+                VerticalAlignment="Top"
+                Margin="-5,0,10,0" 
+                Grid.Column="1"
+                Grid.Row="7" 
+                BorderBrush="#FF2C2C2C" 
+                Foreground="#FF303030" 
+                Content="Remove Password"                
+                Click="__btRemovePassword_Click"/>
+
         <Button Name="__btCreateTile"
                 VerticalAlignment="Top"
                 Margin="10,0" 
                 Grid.Column="0"
-                Grid.Row="7" 
+                Grid.Row="8" 
                 Grid.ColumnSpan="2"
                 BorderBrush="#FF2C2C2C" 
                 Foreground="#FF303030" 
@@ -372,7 +448,7 @@
                 VerticalAlignment="Top"
                 Margin="10,0" 
                 Grid.Column="0"
-                Grid.Row="8" 
+                Grid.Row="9" 
                 Grid.ColumnSpan="2"
             	BorderBrush="#FF2C2C2C" 
             	Foreground="#FF303030" 
@@ -383,7 +459,7 @@
                 VerticalAlignment="Top"
                 Margin="10,0" 
                 Grid.Column="0"
-                Grid.Row="9" 
+                Grid.Row="10" 
                 Grid.ColumnSpan="2"
             	BorderBrush="#FF2C2C2C" 
             	Foreground="#FF303030" 
@@ -394,7 +470,7 @@
                 VerticalAlignment="Top"
                 Margin="10,0" 
                 Grid.Column="0"
-                Grid.Row="10" 
+                Grid.Row="11" 
                 Grid.ColumnSpan="2"
             	BorderBrush="#FF2C2C2C" 
             	Foreground="#FF303030" 

@@ -140,6 +140,7 @@
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Center"
                  Grid.Column="0"
+                 InputScope="Text"
                  Margin="100,0,0,0"
                  Grid.ColumnSpan="2"
                  Text="{Binding Name}"

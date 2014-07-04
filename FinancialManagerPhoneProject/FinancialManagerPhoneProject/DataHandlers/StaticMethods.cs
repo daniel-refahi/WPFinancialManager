@@ -81,5 +81,13 @@ namespace FinancialManagerPhoneProject.DataHandlers
         {
             return rd.Next(1, 29) + "/" + DateTime.Today.Month + "/" + DateTime.Today.Year;
         }
+
+        public static string CleanNumber(string number)
+        {
+            string cleanNumber = number;
+            cleanNumber = cleanNumber.Replace(',', '.');
+            cleanNumber = cleanNumber.Replace('\'', '.');  
+            return cleanNumber;
+        }
     }
 }

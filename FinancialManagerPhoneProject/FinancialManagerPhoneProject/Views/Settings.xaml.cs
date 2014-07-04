@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using FinancialManagerPhoneProject.DataHandlers;
 using System.Windows.Media;
 using System.Threading.Tasks;
+using System.Windows.Media.Animation;
 
 namespace FinancialManagerPhoneProject.Views
 {
@@ -260,5 +261,93 @@ namespace FinancialManagerPhoneProject.Views
             }
         }
 
+
+        #region Password
+
+        bool IsPasswordSaved = false; 
+        private void __btCancel_Click(object sender, RoutedEventArgs e)
+        {
+            IsPasswordSaved = false; 
+            ClosePasswordLayer();
+        }
+
+        private void __btPasswordEnter_Click(object sender, RoutedEventArgs e)
+        {
+            IsPasswordSaved = true;
+            ClosePasswordLayer();
+            StaticValues.DB.SetPassword(__tbPassword.Text.ToString());
+        }
+
+        private void ClosePasswordLayer()
+        {
+            __PasswordLayer.Background = new SolidColorBrush(Colors.Transparent);
+            Duration duration = new Duration(TimeSpan.FromSeconds(0.8));
+            Storyboard passwordUp = new Storyboard();
+            passwordUp.Completed += passwordOUT_Completed;
+            DoubleAnimation passwordUpAnimation = new DoubleAnimation();
+
+            BackEase easing = new BackEase();
+            easing.EasingMode = EasingMode.EaseIn;
+            easing.Amplitude = 0.4;
+            passwordUpAnimation.EasingFunction = easing;
+
+            passwordUpAnimation.Duration = duration;
+            passwordUp.Children.Add(passwordUpAnimation);
+            Storyboard.SetTarget(passwordUpAnimation, __grPassword);
+
+            Storyboard.SetTargetProperty(passwordUpAnimation, new PropertyPath("(Canvas.top)"));
+
+            passwordUpAnimation.To = -1200;
+
+            passwordUp.Begin();
+        }
+
+        private void __btCreatePassword_Click(object sender, RoutedEventArgs e)
+        {
+            __tbPassword.Text = string.Empty;
+            Canvas.SetTop(__grPassword, 1200);
+            __PasswordLayer.Visibility = System.Windows.Visibility.Visible;
+            __PasswordLayer.Background = new SolidColorBrush(Colors.Transparent);
+            Duration duration = new Duration(TimeSpan.FromSeconds(0.8));
+            Storyboard passwordUp = new Storyboard();
+            passwordUp.Completed += passwordUp_Completed;
+            DoubleAnimation passwordUpAnimation = new DoubleAnimation();
+
+            BackEase easing = new BackEase();
+            easing.EasingMode = EasingMode.EaseOut;
+            easing.Amplitude = 0.4;
+            passwordUpAnimation.EasingFunction = easing;
+
+            passwordUpAnimation.Duration = duration;
+            passwordUp.Children.Add(passwordUpAnimation);
+            Storyboard.SetTarget(passwordUpAnimation, __grPassword);
+
+            Storyboard.SetTargetProperty(passwordUpAnimation, new PropertyPath("(Canvas.top)"));
+
+            passwordUpAnimation.To = 0;
+
+            passwordUp.Begin();
+        }       
+
+        void passwordUp_Completed(object sender, EventArgs e)
+        {
+               
+        }
+
+        void passwordOUT_Completed(object sender, EventArgs e)
+        {
+            if(IsPasswordSaved)
+                MessageBox.Show("Your New Password Has Been Saved. Try Not To Lose It !");         
+            __PasswordLayer.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void __btRemovePassword_Click(object sender, RoutedEventArgs e)
+        {
+            StaticValues.DB.RemovePassword();
+            MessageBox.Show("No More Password! I Promise!");
+        }
+        #endregion
+
+        
     }
 }

@@ -11,6 +11,7 @@ using Microsoft.Phone.Shell;
 
 #if DEBUG
     using MockIAPLib;
+using System.Globalization;
 #else
     using Windows.ApplicationModel.Store;
 #endif
@@ -22,6 +23,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
     public class XMLHandler
     {
         public static double DEIVCE_WIDTH;
+        public static double DEIVCE_HEIGHT;
         public static XDocument FINANCIALMANAGER_XML;
 
         public async Task LoadDefaultXmlAsync()
@@ -467,10 +469,11 @@ namespace FinancialManagerPhoneProject.DataHandlers
             // we need to update the total expenses attribute in each category node. 
             var categoriesXml = from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
                                 select x;
+            CultureInfo culture = CultureInfo.CurrentCulture;
             foreach (XElement category in categoriesXml)
             {
                 List<Expense> expenses = GetAllExpenses(category.Attribute("Name").Value.ToString());
-                double totalExpenses = expenses.Sum(e => Convert.ToDouble(e.Value.ToString()));
+                double totalExpenses = expenses.Sum(e => Convert.ToDouble(e.Value.ToString(),culture));
                 category.Attribute("TotalExpenses").SetValue(totalExpenses);
             }
             SaveXmlToFileAsync();
@@ -692,6 +695,64 @@ namespace FinancialManagerPhoneProject.DataHandlers
             UpdateTileValues();
         }
 
+        #region Password
+        public bool IsUsePassword()
+        {
+            string userPassword = string.Empty;
+            try
+            {
+                userPassword = FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("UsePassword").Value.ToString();                
+            }
+            catch
+            {
+                FINANCIALMANAGER_XML.Root.Element("StaticValues").Add(new XAttribute("Password", ""));
+                FINANCIALMANAGER_XML.Root.Element("StaticValues").Add(new XAttribute("UsePassword", "0"));
+                SaveXmlToFileAsync();
+            }
+            if (userPassword == "1")
+                return true;
+            else
+                return false;
+        }
+
+        public bool CheckPassword(string password)        
+        {
+            if (password == FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Password").Value.ToString())
+                return true;
+            else
+                return false;
+        }
+
+        public void SetPassword(string password)
+        {
+            try
+            {
+                FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("Password").SetValue(password);
+                FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("UsePassword").SetValue("1");
+            }
+            catch
+            {
+                FINANCIALMANAGER_XML.Root.Element("StaticValues").Add(new XAttribute("Password", password));
+                FINANCIALMANAGER_XML.Root.Element("StaticValues").Add(new XAttribute("UsePassword", "1"));                
+            }
+            SaveXmlToFileAsync();
+        }
+
+        public void RemovePassword()
+        {
+            try
+            {
+                FINANCIALMANAGER_XML.Root.Element("StaticValues").Attribute("UsePassword").SetValue("0");
+            }
+            catch
+            {
+                FINANCIALMANAGER_XML.Root.Element("StaticValues").Add(new XAttribute("UsePassword", "0"));
+            }
+            SaveXmlToFileAsync();
+        }
+
+        #endregion
+
         #region Store Manager
 
         public bool IsValidToSave()
@@ -788,13 +849,13 @@ namespace FinancialManagerPhoneProject.DataHandlers
             foreach (var node in incomesXml)
             {
                 DateTime date = Convert.ToDateTime(node.Attribute("Date").Value.ToString());
-
+                CultureInfo culture = CultureInfo.CurrentCulture;
                 incomes.Add(new Income()
                 {
                     ID = node.Attribute("ID").Value,
                     Date = date,
                     Description = node.Attribute("Description").Value,
-                    Value = Convert.ToDouble(node.Value.ToString()),                   
+                    Value = Convert.ToDouble(node.Value.ToString(),culture),                   
                 });
             }
             return incomes.OrderByDescending(e => e.Date).ToList();
@@ -814,8 +875,8 @@ namespace FinancialManagerPhoneProject.DataHandlers
 
                 if (incomesXml == null)
                     return 0;
-
-                return (incomesXml).Sum(e => Convert.ToDouble(e.Value));
+                CultureInfo culture = CultureInfo.CurrentCulture;
+                return (incomesXml).Sum(e => Convert.ToDouble(e.Value,culture));
             }
             catch
             {
@@ -832,12 +893,13 @@ namespace FinancialManagerPhoneProject.DataHandlers
             var xmlIncome = (from x in FINANCIALMANAGER_XML.Root.Element("Incomes").Elements()
                              where x.Attribute("ID").Value == ID
                              select x).FirstOrDefault();
+            CultureInfo culture = CultureInfo.CurrentCulture;
             return new Income()
             {
                 Date = Convert.ToDateTime(xmlIncome.Attribute("Date").Value.ToString()),
                 Description = xmlIncome.Attribute("Description").Value,
                 ID = ID,
-                Value = Convert.ToDouble(xmlIncome.Value.ToString())
+                Value = Convert.ToDouble(xmlIncome.Value.ToString(),culture)
             };
         }
 
@@ -901,7 +963,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
             foreach (var node in expensesXml)
             {
                 DateTime date = Convert.ToDateTime(node.Attribute("Date").Value.ToString());
-
+                CultureInfo culture = new CultureInfo("en-us");
                 expenses.Add(new Expense()
                              {
                                  ID = node.Attribute("ID").Value,
@@ -911,7 +973,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                  Longtitude = node.Attribute("Longtitude").Value,
                                  Latitude = node.Attribute("Latitude").Value,
                                  Description = node.Attribute("Description").Value,
-                                 Value = Convert.ToDouble(node.Value.ToString()),
+                                 Value = Convert.ToDouble(node.Value.ToString(),culture),
                                  Icon = categoriesXml
                                             .Where(c => c.Attribute("Name").Value == node.Attribute("Category").Value)
                                             .FirstOrDefault()
@@ -942,7 +1004,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
             foreach (var node in expensesXml)
             {
                 DateTime date = Convert.ToDateTime(node.Attribute("Date").Value.ToString());
-
+                CultureInfo culture = CultureInfo.CurrentCulture;
                 expenses.Add(new Expense()
                 {
                     ID = node.Attribute("ID").Value,
@@ -952,7 +1014,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                     Longtitude = node.Attribute("Longtitude").Value,
                     Latitude = node.Attribute("Latitude").Value,
                     Description = node.Attribute("Description").Value,
-                    Value = Convert.ToDouble(node.Value.ToString()),
+                    Value = Convert.ToDouble(node.Value.ToString(),culture),
                     Icon = categoryXml.Attribute("Icon").Value
                 });
             }
@@ -968,8 +1030,8 @@ namespace FinancialManagerPhoneProject.DataHandlers
                               where Convert.ToDateTime(x.Attribute("Date").Value.ToString()).Month == currentMonth &&
                                     Convert.ToDateTime(x.Attribute("Date").Value.ToString()).Year == currentYear
                               select x;
-
-            return (expensesXml).Sum(e => Convert.ToDouble(e.Value));
+            CultureInfo culture = CultureInfo.CurrentCulture;
+            return (expensesXml).Sum(e => Convert.ToDouble(e.Value,culture));
         }
 
         public double GetTotalExpenses(string CategoryName)
@@ -977,12 +1039,12 @@ namespace FinancialManagerPhoneProject.DataHandlers
 
             int currentMonth = GetCurrentMonth();
             int currentYear = GetCurrentYear();
-
+            CultureInfo culture = CultureInfo.CurrentCulture;
             return (from x in FINANCIALMANAGER_XML.Root.Element("Expenses").Elements()
                     where x.Attribute("Category").Value == CategoryName &&
                           Convert.ToDateTime(x.Attribute("Date").Value.ToString()).Month == currentMonth &&
                           Convert.ToDateTime(x.Attribute("Date").Value.ToString()).Year == currentYear
-                    select x).Sum(e => Convert.ToDouble(e.Value));
+                    select x).Sum(e => Convert.ToDouble(e.Value,culture));
         }
 
         public void AddExpense(Expense expense)
@@ -1001,10 +1063,11 @@ namespace FinancialManagerPhoneProject.DataHandlers
             //updating TotalExpenses on the related category
             if (StaticValues.DB.GetCurrentMonth() == expense.Date.Month && StaticValues.DB.GetCurrentYear() == expense.Date.Year)
             {
+                CultureInfo culture = CultureInfo.CurrentCulture;
                 var attribute = FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
                                     .Where(c => c.Attribute("Name").Value == expense.Category)
                                     .FirstOrDefault().Attribute("TotalExpenses");
-                attribute.Value = (Convert.ToDouble(attribute.Value) + expense.Value).ToString();
+                attribute.Value = (Convert.ToDouble(attribute.Value,culture) + expense.Value).ToString();
 
             }
             UpdateTileValues();
@@ -1019,12 +1082,12 @@ namespace FinancialManagerPhoneProject.DataHandlers
                               where x.Attribute("ID").Value == ID
                               select x).FirstOrDefault();
             expenseXML.Remove();
-
+            CultureInfo culture = CultureInfo.CurrentCulture;
             var xmlCategory = (from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
                                where x.Attribute("Name").Value == expenseXML.Attribute("Category").Value
                                select x).FirstOrDefault();
-            double totalExpense = Convert.ToDouble(xmlCategory.Attribute("TotalExpenses").Value);
-            totalExpense -= Convert.ToDouble(expenseXML.Value);
+            double totalExpense = Convert.ToDouble(xmlCategory.Attribute("TotalExpenses").Value,culture);
+            totalExpense -= Convert.ToDouble(expenseXML.Value,culture);
             xmlCategory.Attribute("TotalExpenses").SetValue(totalExpense);
 
             // deleting reciept if exists
@@ -1056,14 +1119,15 @@ namespace FinancialManagerPhoneProject.DataHandlers
                               where x.Attribute("ID").Value == expense.ID
                               select x).FirstOrDefault();
 
-            if (expense.Value.ToString() != xmlExpense.Value)
+            if (expense.Value.ToString() != xmlExpense.Value.ToString())
             {
                 var xmlCategory = (from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
                                    where x.Attribute("Name").Value == expense.Category
                                    select x).FirstOrDefault();
 
-                double totalExpense = Convert.ToDouble(xmlCategory.Attribute("TotalExpenses").Value);
-                double oldExpense = Convert.ToDouble(xmlExpense.Value);
+                CultureInfo culture = CultureInfo.CurrentCulture;
+                double totalExpense = Convert.ToDouble(xmlCategory.Attribute("TotalExpenses").Value,culture);
+                double oldExpense = Convert.ToDouble(xmlExpense.Value,culture);
                 double newExpense = expense.Value;
                 totalExpense -= oldExpense;
                 totalExpense += newExpense;
@@ -1087,6 +1151,8 @@ namespace FinancialManagerPhoneProject.DataHandlers
             var xmlExpense = (from x in FINANCIALMANAGER_XML.Root.Element("Expenses").Elements()
                               where x.Attribute("ID").Value == ID
                               select x).FirstOrDefault();
+
+            CultureInfo culture = CultureInfo.CurrentCulture;
             return new Expense()
             {
                 Category = xmlExpense.Attribute("Category").Value,
@@ -1096,7 +1162,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                 Latitude = xmlExpense.Attribute("Latitude").Value,
                 Longtitude = xmlExpense.Attribute("Longtitude").Value,
                 ID = ID,
-                Value = Convert.ToDouble(xmlExpense.Value.ToString())
+                Value = Convert.ToDouble(xmlExpense.Value.ToString(),culture)
             };
         }
 
@@ -1117,15 +1183,15 @@ namespace FinancialManagerPhoneProject.DataHandlers
             List<Category> categories = new List<Category>();
             var categoriesXml = from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
                                 select x;
-
+            CultureInfo culture = CultureInfo.CurrentCulture;
             foreach (var node in categoriesXml)
             {
                 categories.Add(new Category()
                 {
                     Icon = node.Attribute("Icon").Value.ToString(),
                     Name = node.Attribute("Name").Value.ToString(),
-                    Plan = Convert.ToDouble(node.Attribute("Plan").Value.ToString()),
-                    TotalExpenses = Convert.ToDouble(node.Attribute("TotalExpenses").Value.ToString())
+                    Plan = Convert.ToDouble(node.Attribute("Plan").Value.ToString(),culture),
+                    TotalExpenses = Convert.ToDouble(node.Attribute("TotalExpenses").Value.ToString(),culture)
                 });
             }
             return categories;
@@ -1136,15 +1202,15 @@ namespace FinancialManagerPhoneProject.DataHandlers
             List<Category> categories = new List<Category>();
             var categoriesXml = from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
                                 select x;
-
+            CultureInfo culture = CultureInfo.CurrentCulture;
             foreach (var node in categoriesXml)
             {
                 categories.Add(new Category()
                 {
                     Icon = node.Attribute("Icon").Value.ToString(),
                     Name = node.Attribute("Name").Value.ToString(),
-                    Plan = Convert.ToDouble(node.Attribute("Plan").Value.ToString()),
-                    TotalExpenses = Convert.ToDouble(node.Attribute("TotalExpenses").Value.ToString())
+                    Plan = Convert.ToDouble(node.Attribute("Plan").Value.ToString(),culture),
+                    TotalExpenses = Convert.ToDouble(node.Attribute("TotalExpenses").Value.ToString(),culture)
                 });
             }
             return categories.OrderByDescending(c => c.TotalExpenses).Take(5).ToList();
@@ -1152,8 +1218,9 @@ namespace FinancialManagerPhoneProject.DataHandlers
 
         public double GetTotalPlan()
         {
+            CultureInfo culture = CultureInfo.CurrentCulture;
             return (from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
-                    select x).Sum(c => Convert.ToDouble(c.Attribute("Plan").Value));
+                    select x).Sum(c => Convert.ToDouble(c.Attribute("Plan").Value,culture));
         }
 
         public bool AddCategory(Category category)
@@ -1244,7 +1311,8 @@ namespace FinancialManagerPhoneProject.DataHandlers
                 xmlCategory.SetAttributeValue("Icon", category.Icon);
             }
 
-            if (category.Plan != Convert.ToDouble(xmlCategory.Attribute("Plan").Value.ToString()))
+            CultureInfo culture = CultureInfo.CurrentCulture;
+            if (category.Plan != Convert.ToDouble(xmlCategory.Attribute("Plan").Value.ToString(),culture))
             {
                 xmlCategory.SetAttributeValue("Plan", category.Plan);
             }
@@ -1257,12 +1325,13 @@ namespace FinancialManagerPhoneProject.DataHandlers
             var xmlCategory = (from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
                                where x.Attribute("Name").Value == CategoryName
                                select x).FirstOrDefault();
+            CultureInfo culture = CultureInfo.CurrentCulture;
             return new Category()
             {
                 Icon = xmlCategory.Attribute("Icon").Value.ToString(),
                 Name = xmlCategory.Attribute("Name").Value.ToString(),
-                Plan = Convert.ToDouble(xmlCategory.Attribute("Plan").Value.ToString()),
-                TotalExpenses = Convert.ToDouble(xmlCategory.Attribute("TotalExpenses").Value.ToString())
+                Plan = Convert.ToDouble(xmlCategory.Attribute("Plan").Value.ToString(),culture),
+                TotalExpenses = Convert.ToDouble(xmlCategory.Attribute("TotalExpenses").Value.ToString(),culture)
             };
         }
 

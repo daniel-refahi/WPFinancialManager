@@ -207,6 +207,7 @@
                  HorizontalAlignment="Stretch"
                  VerticalAlignment="Center"
                  Grid.Column="1"
+                 InputScope="Text"
                  Foreground="{StaticResource FirstForeground}"
                  Text="{Binding Description}"
                  TextWrapping="Wrap"                

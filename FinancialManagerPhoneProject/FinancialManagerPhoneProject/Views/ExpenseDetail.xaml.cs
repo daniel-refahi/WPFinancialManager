@@ -17,6 +17,7 @@ using System.IO;
 using System.Windows.Media;
 using Windows.Devices.Geolocation;
 using System.Device.Location;
+using System.Globalization;
 
 namespace FinancialManagerPhoneProject.Views
 {
@@ -174,9 +175,9 @@ namespace FinancialManagerPhoneProject.Views
             _Longtitude = expense.Longtitude;
             _Date = expense.Date.ToShortDateString();
             _Category = StaticValues.DB.GetCategoryName(_ID);
-            
 
-            _PageModel.Amount = Convert.ToDouble(_Amount);
+            CultureInfo culture = CultureInfo.CurrentCulture;
+            _PageModel.Amount = Convert.ToDouble(_Amount,culture);
             _PageModel.Date = Convert.ToDateTime(_Date);
             _PageModel.Description = _Description;
             _PageModel.ID = _ID;
@@ -227,7 +228,8 @@ namespace FinancialManagerPhoneProject.Views
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("longtitude", out _Longtitude);
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("latitude", out _Latitude);
 
-            _PageModel.Amount = Convert.ToDouble(_Amount);
+            CultureInfo culture = CultureInfo.CurrentCulture;
+            _PageModel.Amount = Convert.ToDouble(_Amount,culture);
             _PageModel.Date = Convert.ToDateTime(_Date);
             _PageModel.Description = _Description;
             _PageModel.ID = _ID;
@@ -281,7 +283,8 @@ namespace FinancialManagerPhoneProject.Views
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("latitude", out _Latitude);
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("longtitude", out _Longtitude);
 
-            _PageModel.Amount = Convert.ToDouble(_Amount);
+            CultureInfo culture = CultureInfo.CurrentCulture;
+            _PageModel.Amount = Convert.ToDouble(_Amount,culture);
             _PageModel.Date = Convert.ToDateTime(_Date);
             _PageModel.Description = _Description;
             _PageModel.ID = _ID;
@@ -484,10 +487,14 @@ namespace FinancialManagerPhoneProject.Views
             }
         }
         private void ApplicationBarSaveIcon_Click(object sender, EventArgs e)
-        {
-
+        {            
             double amount = 0;
-            bool isNum = double.TryParse(__tbAmount.Text.ToString(), out amount);
+            string amountString = __tbAmount.Text.ToString();
+            
+            NumberStyles stlye = NumberStyles.Number;
+            CultureInfo culture = CultureInfo.CurrentCulture;
+
+            bool isNum = double.TryParse(__tbAmount.Text.ToString(), stlye, culture, out amount);
             if (!isNum)
                 MessageBox.Show("Please Enter a Valid Amount!");
             else if (__dpDatepicker.Value == null)

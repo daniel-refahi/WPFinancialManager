@@ -11,6 +11,7 @@ using FinancialManagerPhoneProject.Models;
 using System.Windows.Media;
 using Visifire.Charts;
 using Microsoft.Phone.Tasks;
+using System.Windows.Media.Animation;
 
 namespace FinancialManagerPhoneProject.Views
 {
@@ -27,7 +28,6 @@ namespace FinancialManagerPhoneProject.Views
         {
             InitializeComponent();
             this.Loaded += MainWindow_Loaded;
-
         }
 
         async void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -36,8 +36,16 @@ namespace FinancialManagerPhoneProject.Views
 
             __LoadingBar.Opacity = 1;
 
-            if(XMLHandler.FINANCIALMANAGER_XML == null)
-                await StaticValues.DB.LoadXmlFromFileAsync();            
+            if (XMLHandler.FINANCIALMANAGER_XML == null)
+            {
+                await StaticValues.DB.LoadXmlFromFileAsync();
+                if (StaticValues.DB.IsUsePassword())
+                {
+                    __PasswordLayer.Visibility = System.Windows.Visibility.Visible;
+                    this.ApplicationBar.IsVisible = false;
+                }
+            }
+            
                 
             Task t_LoadPageModel = Task.Factory.StartNew(() =>
             {                
@@ -96,7 +104,9 @@ namespace FinancialManagerPhoneProject.Views
         private MainPageModel LoadPageModel()
         {
             MainPageModel mainPageModel = new MainPageModel();
-            string symbol = StaticValues.DB.GetCurrencySymbol();            
+            string symbol = StaticValues.DB.GetCurrencySymbol();
+            mainPageModel.ScreenHeight = XMLHandler.DEIVCE_HEIGHT;
+            mainPageModel.ScreenWidth = XMLHandler.DEIVCE_WIDTH;
 
             // Getting all the expenses
             foreach (Expense expense in StaticValues.DB.GetAllExpenses())
@@ -319,7 +329,8 @@ namespace FinancialManagerPhoneProject.Views
         
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            __grPassword.Width = XMLHandler.DEIVCE_WIDTH;
+            __grPassword.Height = XMLHandler.DEIVCE_HEIGHT;
         }
         #endregion
 
@@ -439,6 +450,47 @@ namespace FinancialManagerPhoneProject.Views
                 else
                     return false;
             }
+        }
+
+        private void PasswordEnter_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (StaticValues.DB.CheckPassword(__tbPassword.Password))
+            {
+                __PasswordLayer.Background = new SolidColorBrush(Colors.Transparent);
+                Duration duration = new Duration(TimeSpan.FromSeconds(0.8));
+                Storyboard passwordUp = new Storyboard();
+                passwordUp.Completed += passwordUp_Completed;
+                DoubleAnimation passwordUpAnimation = new DoubleAnimation();
+
+                BackEase easing = new BackEase();
+                easing.EasingMode = EasingMode.EaseIn;
+                easing.Amplitude = 0.4;
+                passwordUpAnimation.EasingFunction = easing;
+
+                passwordUpAnimation.Duration = duration;
+                passwordUp.Children.Add(passwordUpAnimation);
+                Storyboard.SetTarget(passwordUpAnimation, __grPassword);
+
+                Storyboard.SetTargetProperty(passwordUpAnimation, new PropertyPath("(Canvas.top)"));
+
+                passwordUpAnimation.To = -1200;
+
+                passwordUp.Begin();
+            }
+            else
+            {
+                
+                MessageBox.Show("It is Not Your Password! Try Again.");
+                __tbPassword.Password = string.Empty;
+            }
+
+        }
+
+        void passwordUp_Completed(object sender, EventArgs e)
+        {
+            __PasswordLayer.Visibility = System.Windows.Visibility.Collapsed;
+            this.ApplicationBar.IsVisible = true;
         }
     }
 }

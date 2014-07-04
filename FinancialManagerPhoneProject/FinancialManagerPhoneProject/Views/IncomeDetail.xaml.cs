@@ -231,7 +231,7 @@ namespace FinancialManagerPhoneProject.Views
         {
 
             double amount = 0;
-            bool isNum = double.TryParse(__tbAmount.Text.ToString(), out amount);
+            bool isNum = double.TryParse(StaticMethods.CleanNumber(__tbAmount.Text.ToString()), out amount);
             if (!isNum)
                 MessageBox.Show("Please Enter a Valid Amount!");
             else if (__dpDatepicker.Value == null)

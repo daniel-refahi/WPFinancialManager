@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.IO.IsolatedStorage;
 #if DEBUG
 using MockIAPLib;
+using System.Globalization;
 #endif
 
 namespace FinancialManagerPhoneProject
@@ -105,6 +106,7 @@ namespace FinancialManagerPhoneProject
 
             DateTime beginTime = DateTime.Now;
             XMLHandler.DEIVCE_WIDTH = Application.Current.Host.Content.ActualWidth;
+            XMLHandler.DEIVCE_HEIGHT = Application.Current.Host.Content.ActualHeight;
             StaticValues.DB = new XMLHandler();
             Thread.Sleep(500);
 

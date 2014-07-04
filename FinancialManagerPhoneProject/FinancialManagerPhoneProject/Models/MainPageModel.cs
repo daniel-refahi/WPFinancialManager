@@ -22,6 +22,7 @@ namespace FinancialManagerPhoneProject.Models
         public List<CategoryItemModel> CategoryListModel { get; set; }
 
         public double ScreenWidth { get; set; }
+        public double ScreenHeight { get; set; }
         public string TotalExpenses { get; set; }
         public string Saving { get; set; }
         public string TotalIncome { get; set; }
