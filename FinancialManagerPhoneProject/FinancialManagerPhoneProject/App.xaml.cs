@@ -44,8 +44,6 @@ namespace FinancialManagerPhoneProject
             // Language display initialization
             InitializeLanguage();
 
-            
-
             // Show graphics profiling information while debugging.
             if (Debugger.IsAttached)
             {

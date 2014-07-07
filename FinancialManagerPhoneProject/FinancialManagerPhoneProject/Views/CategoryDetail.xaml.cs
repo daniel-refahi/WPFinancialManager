@@ -139,7 +139,7 @@ namespace FinancialManagerPhoneProject.Views
         private void ApplicationBarSaveIcon_Click(object sender, EventArgs e)
         {
             double plan = 0;
-            bool isNum = double.TryParse(StaticMethods.CleanNumber(__tbPlan.Text.ToString()), out plan);
+            bool isNum = double.TryParse(__tbPlan.Text.ToString(), out plan);
             if (!isNum || plan <= 0)
                 MessageBox.Show("Please Enter a Valid Plan!");
             else if(string.IsNullOrEmpty(__tbName.Text) || string.IsNullOrWhiteSpace(__tbName.Text))

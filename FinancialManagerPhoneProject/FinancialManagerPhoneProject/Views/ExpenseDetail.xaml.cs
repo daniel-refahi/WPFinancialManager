@@ -176,8 +176,7 @@ namespace FinancialManagerPhoneProject.Views
             _Date = expense.Date.ToShortDateString();
             _Category = StaticValues.DB.GetCategoryName(_ID);
 
-            CultureInfo culture = CultureInfo.CurrentCulture;
-            _PageModel.Amount = Convert.ToDouble(_Amount,culture);
+            _PageModel.Amount = StaticMethods.CleanNumber(_Amount);
             _PageModel.Date = Convert.ToDateTime(_Date);
             _PageModel.Description = _Description;
             _PageModel.ID = _ID;
@@ -227,9 +226,8 @@ namespace FinancialManagerPhoneProject.Views
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("helperpage", out _HelperPage);
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("longtitude", out _Longtitude);
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("latitude", out _Latitude);
-
-            CultureInfo culture = CultureInfo.CurrentCulture;
-            _PageModel.Amount = Convert.ToDouble(_Amount,culture);
+            
+            _PageModel.Amount = StaticMethods.CleanNumber(_Amount);
             _PageModel.Date = Convert.ToDateTime(_Date);
             _PageModel.Description = _Description;
             _PageModel.ID = _ID;
@@ -283,8 +281,8 @@ namespace FinancialManagerPhoneProject.Views
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("latitude", out _Latitude);
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("longtitude", out _Longtitude);
 
-            CultureInfo culture = CultureInfo.CurrentCulture;
-            _PageModel.Amount = Convert.ToDouble(_Amount,culture);
+            
+            _PageModel.Amount = StaticMethods.CleanNumber(_Amount);
             _PageModel.Date = Convert.ToDateTime(_Date);
             _PageModel.Description = _Description;
             _PageModel.ID = _ID;
@@ -454,7 +452,7 @@ namespace FinancialManagerPhoneProject.Views
                     __btLocationContent.Foreground = new SolidColorBrush(Color.FromArgb(255, 102, 99, 98));
 
                 }
-                catch (Exception ex)
+                catch
                 {
                     MessageBox.Show("Couldn't get you location info!");
                     __btLocation.IsEnabled = true;
@@ -487,17 +485,11 @@ namespace FinancialManagerPhoneProject.Views
             }
         }
         private void ApplicationBarSaveIcon_Click(object sender, EventArgs e)
-        {            
+        {
             double amount = 0;
-            string amountString = __tbAmount.Text.ToString();
-            
-            NumberStyles stlye = NumberStyles.Number;
-            CultureInfo culture = CultureInfo.CurrentCulture;
+            amount = StaticMethods.CleanNumber(__tbAmount.Text.ToString());
 
-            bool isNum = double.TryParse(__tbAmount.Text.ToString(), stlye, culture, out amount);
-            if (!isNum)
-                MessageBox.Show("Please Enter a Valid Amount!");
-            else if (__dpDatepicker.Value == null)
+            if (__dpDatepicker.Value == null)
                 MessageBox.Show("Please Select Date!");
             else if (__tbAmount.Text.ToString() == null || amount <= 0)
                 MessageBox.Show("Please Enter a Valid Amount!");
@@ -512,7 +504,7 @@ namespace FinancialManagerPhoneProject.Views
                         ID = _ID,
                         Category = ((Category)__liCategoryList.SelectedItem).Name,
                         RecieptName = _Receipt,
-                        Latitude = (string.IsNullOrEmpty(_Latitude))? string.Empty : _Latitude,
+                        Latitude = (string.IsNullOrEmpty(_Latitude)) ? string.Empty : _Latitude,
                         Longtitude = (string.IsNullOrEmpty(_Longtitude)) ? string.Empty : _Longtitude,
                         Date = (DateTime)__dpDatepicker.Value,
                         Description = __tbDescription.Text.ToString(),
@@ -521,6 +513,8 @@ namespace FinancialManagerPhoneProject.Views
                 }
                 else
                 {
+                    DateTime t = (DateTime)__dpDatepicker.Value;
+
                     StaticValues.DB.AddExpense(new Expense()
                     {
                         Category = ((Category)__liCategoryList.SelectedItem).Name,
@@ -532,12 +526,14 @@ namespace FinancialManagerPhoneProject.Views
                         Value = amount
                     });
                 }
-                if(!string.IsNullOrEmpty(_Receipt))
+                if (!string.IsNullOrEmpty(_Receipt))
                     StaticValues.DB.SaveImageAsync(_ImageAsByte, _Receipt);
 
                 NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=expensedetail", UriKind.Relative));
             }
+            
         }
+
         private void ApplicationBarHelpIcon_Click(object sender, EventArgs e)
         {            
             SaveAppSettings();

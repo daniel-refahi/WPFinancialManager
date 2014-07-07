@@ -1,6 +1,7 @@
 ﻿using Microsoft.Phone.Shell;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -82,12 +83,26 @@ namespace FinancialManagerPhoneProject.DataHandlers
             return rd.Next(1, 29) + "/" + DateTime.Today.Month + "/" + DateTime.Today.Year;
         }
 
-        public static string CleanNumber(string number)
+        public static double CleanNumber(string number)
         {
             string cleanNumber = number;
-            cleanNumber = cleanNumber.Replace(',', '.');
-            cleanNumber = cleanNumber.Replace('\'', '.');  
-            return cleanNumber;
+            cleanNumber = cleanNumber.Replace(',', '&');
+            cleanNumber = cleanNumber.Replace('\'', '&');
+            cleanNumber = cleanNumber.Replace('.', '&');
+            cleanNumber = cleanNumber.Replace('\\', '&');
+            cleanNumber = cleanNumber.Replace('/', '&');
+
+            string temp = cleanNumber.Replace('&','.');
+            try
+            {
+                double value = Convert.ToDouble(temp, new CultureInfo("en-us"));
+
+                return value;
+            }
+            catch 
+            {
+                return 0;
+            }
         }
     }
 }
