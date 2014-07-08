@@ -11,7 +11,6 @@ using Microsoft.Phone.Shell;
 
 #if DEBUG
     using MockIAPLib;
-using System.Globalization;
 #else
     using Windows.ApplicationModel.Store;
 #endif
@@ -37,6 +36,8 @@ namespace FinancialManagerPhoneProject.DataHandlers
 
                               new XElement("StaticValues", new XAttribute("Income", "3600"),
                                                            new XAttribute("Currency", "$"),
+                                                           new XAttribute("Password", "password"),
+                                                           new XAttribute("UsePassword", "0"),
                                                            new XAttribute("CurrentMonth", DateTime.Today.Month),
                                                            new XAttribute("CurrentYear", DateTime.Today.Year),
                                                            new XAttribute("Version", StaticValues.CurrentVersion),
@@ -329,18 +330,18 @@ namespace FinancialManagerPhoneProject.DataHandlers
             Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
             var xmlFile = await localFolder.CreateFileAsync("FinancialManagerXML.xml", CreationCollisionOption.ReplaceExisting);
 
-            var ReceiptFolder = await localFolder.GetFolderAsync("Receipts");
-            if (ReceiptFolder == null)
-            {
-                await localFolder.CreateFolderAsync("Receipts");
-            }
-
             using (var stream = await xmlFile.OpenStreamForWriteAsync())
             {
                 using (var writer = new StreamWriter(stream))
                 {
-                    FINANCIALMANAGER_XML.Save(writer);
+                    XMLHandler.FINANCIALMANAGER_XML.Save(writer);
                 }
+            }
+
+            var ReceiptFolder = await localFolder.GetFolderAsync("Receipts");
+            if (ReceiptFolder == null)
+            {
+                await localFolder.CreateFolderAsync("Receipts");
             }
         }
         public async Task LoadXmlFromFileAsync()
@@ -963,7 +964,6 @@ namespace FinancialManagerPhoneProject.DataHandlers
             foreach (var node in expensesXml)
             {
                 DateTime date = Convert.ToDateTime(node.Attribute("Date").Value.ToString());
-                CultureInfo culture = new CultureInfo("en-us");
                 expenses.Add(new Expense()
                              {
                                  ID = node.Attribute("ID").Value,
@@ -973,7 +973,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
                                  Longtitude = node.Attribute("Longtitude").Value,
                                  Latitude = node.Attribute("Latitude").Value,
                                  Description = node.Attribute("Description").Value,
-                                 Value = Convert.ToDouble(node.Value.ToString(),culture),
+                                 Value = StaticMethods.CleanNumber(node.Value.ToString()),
                                  Icon = categoriesXml
                                             .Where(c => c.Attribute("Name").Value == node.Attribute("Category").Value)
                                             .FirstOrDefault()
