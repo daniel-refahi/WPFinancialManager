@@ -8,8 +8,8 @@ namespace FinancialManagerPhoneProject.DataHandlers
 {
     public class StaticValues
     {
-        public static string CurrentVersion = "4";
-        public static string NewFeatures = "New features:\n1. Fixing the decimal point issue in expense, income value and category plan value.\n2. You can set password for Financial Manager now. ";
+        public static string CurrentVersion = "4.1";
+        public static string NewFeatures = "New features:\n1. Fixing Edit Category Bugs.";
 
         public static XMLHandler DB;
         public static AppStatusOptions AppStatus;

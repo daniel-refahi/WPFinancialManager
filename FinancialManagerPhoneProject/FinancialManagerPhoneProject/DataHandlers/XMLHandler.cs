@@ -1235,19 +1235,24 @@ namespace FinancialManagerPhoneProject.DataHandlers
                     select x).Sum(c => StaticMethods.CleanNumber(c.Attribute("Plan").Value));
         }
 
-        public bool AddCategory(Category category)
+        public bool IsCategoryExist(string Name, IEnumerable<XElement> xmlCategories) 
         {
-            var xmlCategories = FINANCIALMANAGER_XML.Root.Element("Categories").Elements();
-
             bool IsExisted = false;
             foreach (var xmlCategory in xmlCategories)
             {
-                if (xmlCategory.Attribute("Name").Value.ToString() == category.Name)
+                if (xmlCategory.Attribute("Name").Value.ToString() == Name)
                 {
                     IsExisted = true;
                 }
             }
-            if (IsExisted)
+            return IsExisted;
+        }
+
+        public bool AddCategory(Category category)
+        {
+            var xmlCategories = FINANCIALMANAGER_XML.Root.Element("Categories").Elements();
+
+            if (IsCategoryExist(category.Name, xmlCategories))
                 return false;
 
             XElement newCategory = new XElement("Category",
@@ -1299,11 +1304,15 @@ namespace FinancialManagerPhoneProject.DataHandlers
             }
         }
 
-        public void UpdateCategory(Category category)
+        public bool UpdateCategory(Category category)
         {
-            var xmlCategory = (from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
-                               where x.Attribute("Name").Value == category.Name
-                               select x).FirstOrDefault();
+            var xmlCategories =  from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()                               
+                                 select x;
+
+            var xmlCategory = xmlCategories.Where(c=>c.Attribute("Name").Value == category.Name).FirstOrDefault();                               
+
+            if (IsCategoryExist(category.NewName, xmlCategories))
+                return false;
 
             if (category.NewName != xmlCategory.Attribute("Name").Value.ToString())
             {
@@ -1329,6 +1338,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
             }
 
             SaveXmlToFileAsync();
+            return true;
         }
 
         public Category GetCategoryObject(string CategoryName)

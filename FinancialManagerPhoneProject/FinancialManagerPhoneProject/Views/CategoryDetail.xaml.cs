@@ -93,11 +93,18 @@ namespace FinancialManagerPhoneProject.Views
         {
             _Status = "edit";
             __tbTitle.Text = "Edit Category";
-            Category category = StaticValues.DB.GetCategoryObject(_Name);
-            _Plan = category.Plan.ToString();
-            _IconSource = "../Assets/Icons/" + category.Icon + ".png";
+            try
+            {
+                Category category = StaticValues.DB.GetCategoryObject(_Name);
+                _Plan = category.Plan.ToString();
+                _IconSource = "../Assets/Icons/" + category.Icon + ".png";
 
-            UpdatingAppBar();
+                UpdatingAppBar();
+            }
+            catch 
+            {
+                NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=categorydetail", UriKind.Relative));
+            }
         }        
         private void LoadPageFromAdd()
         {
@@ -138,9 +145,8 @@ namespace FinancialManagerPhoneProject.Views
         }
         private void ApplicationBarSaveIcon_Click(object sender, EventArgs e)
         {
-            double plan = 0;
-            bool isNum = double.TryParse(__tbPlan.Text.ToString(), out plan);
-            if (!isNum || plan <= 0)
+            double plan = StaticMethods.CleanNumber(__tbPlan.Text.ToString());
+            if (plan <= 0)
                 MessageBox.Show("Please Enter a Valid Plan!");
             else if(string.IsNullOrEmpty(__tbName.Text) || string.IsNullOrWhiteSpace(__tbName.Text))
             {
@@ -168,15 +174,19 @@ namespace FinancialManagerPhoneProject.Views
                 }
                 if (_Status == "edit")
                 {
-                    StaticValues.DB.UpdateCategory(new Category()
+                    if (StaticValues.DB.UpdateCategory(new Category()
                     {
                         Icon = icon,
                         Name = _OldName,
                         NewName = __tbName.Text.ToString(),
                         Plan = plan,
                         TotalExpenses = 0
-                    });
-                    NavigationService.Navigate(new Uri("/Views/CategoryChart.xaml?caller=categorydetail&categoryname=" + __tbName.Text.ToString(), UriKind.Relative));
+                    }))
+                    {
+                        NavigationService.Navigate(new Uri("/Views/CategoryChart.xaml?caller=categorydetail&categoryname=" + __tbName.Text.ToString(), UriKind.Relative));
+                    }
+                    else
+                        MessageBox.Show("The Category Name Already Exists!");
                 }
             }
 
@@ -241,16 +251,15 @@ namespace FinancialManagerPhoneProject.Views
 
         private void __tbPlan_TextChanged(object sender, TextChangedEventArgs e)
         {
-            double plan = 0;
-            bool isNum = double.TryParse(__tbPlan.Text.ToString(), out plan);
+            double plan = StaticMethods.CleanNumber(__tbPlan.Text.ToString());
+            
             if (__tbPlan.Text == "")
-            {
-                isNum = true;
+            {                
                 plan = 0;
             }
-            if (!isNum)
+            if (plan == 0)
             {
-                MessageBox.Show("Please Enter a Valid Amount!");
+                MessageBox.Show("Plan Amount Must Be a Number Bigger Than Zero!");
             }
             else
             {

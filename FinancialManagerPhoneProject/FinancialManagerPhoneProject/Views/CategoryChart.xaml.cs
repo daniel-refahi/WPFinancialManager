@@ -25,26 +25,33 @@ namespace FinancialManagerPhoneProject.Views
 
         void CategoryChart_Loaded(object sender, RoutedEventArgs e)
         {
-            Category category = StaticValues.DB.GetCategoryObject(_CategoryName);
-            CategoryChartModel model = new CategoryChartModel();
-            model.CategoryName = _CategoryName;
-            model.Icon = "../Assets/Icons/" + category.Icon + ".png";
-            model.TotalCategoryText = StaticValues.DB.GetCurrencySymbol() + category.TotalExpenses;
-            model.TotalCategory = category.TotalExpenses;
-            model.TotalAll = StaticValues.DB.GetTotalExpenses() - category.TotalExpenses;
-            model.ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40;
-            List<Expense> expenses = StaticValues.DB.GetAllExpenses(_CategoryName);
-            
-            foreach (Expense expense in expenses)
+            try
             {
-                CategoryChartExpenseModel expenseModel = new CategoryChartExpenseModel();
-                expenseModel.Amount = StaticValues.DB.GetCurrencySymbol() + expense.Value.ToString();
-                expenseModel.Description = expense.Description;
-                expenseModel.Date = expense.Date.ToString("MMM") + "/" + expense.Date.Day;
-                model.Expenses.Add(expenseModel);
-            }
+                Category category = StaticValues.DB.GetCategoryObject(_CategoryName);
+                CategoryChartModel model = new CategoryChartModel();
+                model.CategoryName = _CategoryName;
+                model.Icon = "../Assets/Icons/" + category.Icon + ".png";
+                model.TotalCategoryText = StaticValues.DB.GetCurrencySymbol() + category.TotalExpenses;
+                model.TotalCategory = category.TotalExpenses;
+                model.TotalAll = StaticValues.DB.GetTotalExpenses() - category.TotalExpenses;
+                model.ScreenWidth = XMLHandler.DEIVCE_WIDTH - 40;
+                List<Expense> expenses = StaticValues.DB.GetAllExpenses(_CategoryName);
 
-            this.DataContext = model;
+                foreach (Expense expense in expenses)
+                {
+                    CategoryChartExpenseModel expenseModel = new CategoryChartExpenseModel();
+                    expenseModel.Amount = StaticValues.DB.GetCurrencySymbol() + expense.Value.ToString();
+                    expenseModel.Description = expense.Description;
+                    expenseModel.Date = expense.Date.ToString("MMM") + "/" + expense.Date.Day;
+                    model.Expenses.Add(expenseModel);
+                }
+
+                this.DataContext = model;
+            }
+            catch 
+            {
+                NavigationService.Navigate(new Uri("/Views/MainWindow.xaml?caller=categorychart", UriKind.Relative));
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
