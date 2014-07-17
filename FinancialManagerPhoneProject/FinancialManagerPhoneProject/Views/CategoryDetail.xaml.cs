@@ -257,10 +257,7 @@ namespace FinancialManagerPhoneProject.Views
             {                
                 plan = 0;
             }
-            if (plan == 0)
-            {
-                MessageBox.Show("Plan Amount Must Be a Number Bigger Than Zero!");
-            }
+            
             else
             {
                 _TotalPlanned = StaticValues.DB.GetCurrencySymbol() + " " + (plan + StaticValues.DB.GetTotalPlan()).ToString();

@@ -327,21 +327,24 @@ namespace FinancialManagerPhoneProject.DataHandlers
         }
         public async Task SaveXmlToFileAsync()
         {
-            Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-            var xmlFile = await localFolder.CreateFileAsync("FinancialManagerXML.xml", CreationCollisionOption.ReplaceExisting);
-
-            using (var stream = await xmlFile.OpenStreamForWriteAsync())
+            if (XMLHandler.FINANCIALMANAGER_XML.Root != null)
             {
-                using (var writer = new StreamWriter(stream))
+                Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+                var xmlFile = await localFolder.CreateFileAsync("FinancialManagerXML.xml", CreationCollisionOption.ReplaceExisting);
+
+                using (var stream = await xmlFile.OpenStreamForWriteAsync())
                 {
-                    XMLHandler.FINANCIALMANAGER_XML.Save(writer);
+                    using (var writer = new StreamWriter(stream))
+                    {
+                        XMLHandler.FINANCIALMANAGER_XML.Save(writer);
+                    }
                 }
-            }
 
-            var ReceiptFolder = await localFolder.GetFolderAsync("Receipts");
-            if (ReceiptFolder == null)
-            {
-                await localFolder.CreateFolderAsync("Receipts");
+                var ReceiptFolder = await localFolder.GetFolderAsync("Receipts");
+                if (ReceiptFolder == null)
+                {
+                    await localFolder.CreateFolderAsync("Receipts");
+                }
             }
         }
         public async Task LoadXmlFromFileAsync()
@@ -1049,6 +1052,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
 
         public void AddExpense(Expense expense)
         {
+
             XElement newExpense = new XElement("Expense",
                                                 new XAttribute("ID", StaticMethods.GenerateID()),
                                                 new XAttribute("Category", expense.Category),
@@ -1063,7 +1067,7 @@ namespace FinancialManagerPhoneProject.DataHandlers
             //updating TotalExpenses on the related category
             if (StaticValues.DB.GetCurrentMonth() == expense.Date.Month && StaticValues.DB.GetCurrentYear() == expense.Date.Year)
             {
-                
+
                 var attribute = FINANCIALMANAGER_XML.Root.Element("Categories").Elements()
                                     .Where(c => c.Attribute("Name").Value == expense.Category)
                                     .FirstOrDefault().Attribute("TotalExpenses");
@@ -1309,10 +1313,13 @@ namespace FinancialManagerPhoneProject.DataHandlers
             var xmlCategories =  from x in FINANCIALMANAGER_XML.Root.Element("Categories").Elements()                               
                                  select x;
 
-            var xmlCategory = xmlCategories.Where(c=>c.Attribute("Name").Value == category.Name).FirstOrDefault();                               
+            var xmlCategory = xmlCategories.Where(c=>c.Attribute("Name").Value == category.Name).FirstOrDefault();
 
-            if (IsCategoryExist(category.NewName, xmlCategories))
-                return false;
+            if (category.NewName != category.Name)
+            {
+                if (IsCategoryExist(category.NewName, xmlCategories))
+                    return false;
+            }
 
             if (category.NewName != xmlCategory.Attribute("Name").Value.ToString())
             {

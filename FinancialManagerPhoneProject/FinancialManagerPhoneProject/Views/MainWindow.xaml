@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:UserControls ="clr-namespace:FinancialManagerPhoneProject.Views.UserControls"
     xmlns:animations="clr-namespace:FinancialManagerPhoneProject.AnimationClasses"
-    xmlns:vc="clr-namespace:Visifire.Charts;assembly=SLWpVisifire.Charts"
+    xmlns:vc="clr-namespace:Visifire.Charts;assembly=SLWpVisifire.Charts"    
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -85,7 +85,6 @@
                         Click="PasswordEnter_Click"/>
             </Grid>
         </Canvas>
-        
 
         <ProgressBar Name="__LoadingBar" 
                      IsEnabled="True"

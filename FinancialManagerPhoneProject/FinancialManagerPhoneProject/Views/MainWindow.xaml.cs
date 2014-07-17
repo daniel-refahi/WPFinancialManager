@@ -12,6 +12,7 @@ using System.Windows.Media;
 using Visifire.Charts;
 using Microsoft.Phone.Tasks;
 using System.Windows.Media.Animation;
+using System.Collections.Generic;
 
 namespace FinancialManagerPhoneProject.Views
 {
@@ -492,5 +493,6 @@ namespace FinancialManagerPhoneProject.Views
             __PasswordLayer.Visibility = System.Windows.Visibility.Collapsed;
             this.ApplicationBar.IsVisible = true;
         }
+
     }
 }

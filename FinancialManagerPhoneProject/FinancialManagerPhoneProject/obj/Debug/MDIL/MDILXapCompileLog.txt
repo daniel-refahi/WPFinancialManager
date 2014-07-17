@@ -20,6 +20,10 @@ Processing file: C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\Finan
 File C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\Microsoft.Expression.Drawing.dll is not in the compile filter. Skipping.
 Processing file: C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\Microsoft.Expression.Interactions.dll
 File C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\Microsoft.Expression.Interactions.dll is not in the compile filter. Skipping.
+Processing file: C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\Microsoft.Live.Controls.dll
+File C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\Microsoft.Live.Controls.dll is not in the compile filter. Skipping.
+Processing file: C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\Microsoft.Live.dll
+File C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\Microsoft.Live.dll is not in the compile filter. Skipping.
 Processing file: C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\Microsoft.Phone.Controls.dll
 File C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\Microsoft.Phone.Controls.dll is not in the compile filter. Skipping.
 Processing file: C:\Users\abtin refahi\Documents\GitHub\WPFinancialManager\FinancialManagerPhoneProject\FinancialManagerPhoneProject\Bin\Debug\MDIL\Microsoft.Phone.Controls.Maps.dll
