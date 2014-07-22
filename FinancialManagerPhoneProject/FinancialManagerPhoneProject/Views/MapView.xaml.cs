@@ -12,6 +12,7 @@ using Windows.Devices.Geolocation;
 using Microsoft.Phone.Maps.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using FinancialManagerPhoneProject.DataHandlers;
 
 namespace FinancialManagerPhoneProject.Views
 {
@@ -93,7 +94,7 @@ namespace FinancialManagerPhoneProject.Views
             NavigationContext.QueryString.TryGetValue("latitude", out _Latitude);
             NavigationContext.QueryString.TryGetValue("longtitude", out _Longtitude);
 
-            GeoCoordinate myLocation = new GeoCoordinate(Convert.ToDouble(_Latitude), Convert.ToDouble(_Longtitude));
+            GeoCoordinate myLocation = new GeoCoordinate(StaticMethods.CleanNumber(_Latitude), StaticMethods.CleanNumber(_Longtitude));
 
             Ellipse myCircle = new Ellipse();
             myCircle.Fill = new SolidColorBrush(Colors.Red);

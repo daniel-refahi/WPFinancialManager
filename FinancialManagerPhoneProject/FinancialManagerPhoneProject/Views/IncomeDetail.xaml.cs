@@ -114,7 +114,7 @@ namespace FinancialManagerPhoneProject.Views
             _Value = Income.Value.ToString();
             _Description = Income.Description;
             _Date = Income.Date.ToShortDateString();
-            _PageModel.Value = Convert.ToDouble(_Value);
+            _PageModel.Value = StaticMethods.CleanNumber(_Value);
             _PageModel.Date = Convert.ToDateTime(_Date);
             _PageModel.Description = _Description;
             _PageModel.ID = _ID;
@@ -145,7 +145,7 @@ namespace FinancialManagerPhoneProject.Views
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("id", out _ID);        
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("helperpage", out _HelperPage);
 
-            _PageModel.Value = Convert.ToDouble(_Value);
+            _PageModel.Value = StaticMethods.CleanNumber(_Value);
             _PageModel.Date = Convert.ToDateTime(_Date);
             _PageModel.Description = _Description;
             _PageModel.ID = _ID;
@@ -164,9 +164,9 @@ namespace FinancialManagerPhoneProject.Views
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("description", out _Description);
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("date", out _Date);
             IsolatedStorageSettings.ApplicationSettings.TryGetValue("status", out _Status);
-            IsolatedStorageSettings.ApplicationSettings.TryGetValue("id", out _ID);            
+            IsolatedStorageSettings.ApplicationSettings.TryGetValue("id", out _ID);
 
-            _PageModel.Value = Convert.ToDouble(_Value);
+            _PageModel.Value = StaticMethods.CleanNumber(_Value);
             _PageModel.Date = Convert.ToDateTime(_Date);
             _PageModel.Description = _Description;
             _PageModel.ID = _ID;

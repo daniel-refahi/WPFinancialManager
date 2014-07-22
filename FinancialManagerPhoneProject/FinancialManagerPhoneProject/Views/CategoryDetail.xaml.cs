@@ -74,7 +74,7 @@ namespace FinancialManagerPhoneProject.Views
             _PageModel.Name = _Name;
             _PageModel.Income = StaticValues.DB.GetCurrencySymbol() + " " + StaticValues.DB.GetIncome().ToString();
             _PageModel.Icon = _IconSource;
-            _PageModel.Plan = (_Plan == string.Empty) ? 0 : Convert.ToDouble(_Plan);
+            _PageModel.Plan = (_Plan == string.Empty) ? 0 : StaticMethods.CleanNumber(_Plan);
             if (string.IsNullOrEmpty(_TotalPlanned))
             {
                 _TotalPlanned = StaticValues.DB.GetCurrencySymbol() + " " + StaticValues.DB.GetTotalPlan().ToString();                
@@ -163,7 +163,7 @@ namespace FinancialManagerPhoneProject.Views
                     {
                         Icon = icon,
                         Name = __tbName.Text.ToString(),
-                        Plan = Convert.ToDouble(__tbPlan.Text.ToString()),
+                        Plan = StaticMethods.CleanNumber(__tbPlan.Text.ToString()),
                         TotalExpenses = 0
                     }))
                     {

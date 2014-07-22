@@ -446,8 +446,8 @@ namespace FinancialManagerPhoneProject.Views
                         maximumAge: TimeSpan.FromMinutes(5),
                         timeout: TimeSpan.FromSeconds(10)
                         );
-                    _Latitude = geoposition.Coordinate.Latitude.ToString("0.00");
-                    _Longtitude = geoposition.Coordinate.Longitude.ToString("0.00");
+                    _Latitude = geoposition.Coordinate.Latitude.ToString();
+                    _Longtitude = geoposition.Coordinate.Longitude.ToString();
                     __btLocationContent.Text = "Location Added";
                     __btLocationContent.Foreground = new SolidColorBrush(Color.FromArgb(255, 102, 99, 98));
 
